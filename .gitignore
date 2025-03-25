@@ -1,0 +1,47 @@
+# Ignore IDE and OS-specific files
+.idea/
+.vscode/
+*.log
+*.swp
+.DS_Store
+Thumbs.db
+
+# Ignore Java build files
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore Maven and Gradle files
+.mvn/
+!mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+dependency-reduced-pom.xml
+build/
+logs/
+hs_err_pid*
+
+# Ignore Node.js files (if frontend uses Node.js)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Ignore environment configuration
+.env
+*.env
+
+# Ignore temporary and system files
+*.tmp
+*.bak
+*.old
+
+# Ignore compiled Python files (if any)
+*.pyc
+__pycache__/
+
+# Ignore docs build files
+docs/_build/
+docs/.venv/
