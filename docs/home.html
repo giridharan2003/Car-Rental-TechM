@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUXORA - Elevated Luxury Mobility</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --deep-midnight: #1A2238;
+            --platinum-silver: #E6E6E6;
+            --golden-champagne: #D4AF37;
+            --soft-charcoal: #36454F;
+            --luxury-shadow: rgba(0,0,0,0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--deep-midnight);
+            color: var(--platinum-silver);
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+        }
+
+        /* Luxurious Navbar */
+        .navbar {
+            background: linear-gradient(135deg, rgba(26, 34, 56, 0.9) 0%, rgba(26, 34, 56, 0.7) 100%);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 15px var(--luxury-shadow);
+        }
+
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--golden-champagne) !important;
+            letter-spacing: 2px;
+        }
+
+        /* Hero Section with Elegance */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--deep-midnight), #0c1120);
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 34, 56, 0.7), rgba(12, 17, 32, 0.9));
+            z-index: 1;
+        }
+
+        .booking-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px var(--luxury-shadow);
+        }
+
+        /* Premium Card Styling */
+        .luxury-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            transform: perspective(1000px) rotateX(0deg);
+            margin-bottom: 30px;
+        }
+
+        .luxury-card:hover {
+            transform: perspective(1000px) rotateX(-5deg);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .luxury-card img {
+            transition: transform 0.5s ease;
+        }
+
+        .luxury-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Features Section */
+        .features-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 80px 0;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.4s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Testimonial Section */
+        .testimonial-section {
+            background: linear-gradient(135deg, #0c1120, var(--deep-midnight));
+            padding: 80px 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--golden-champagne);
+            color: var(--deep-midnight);
+            padding: 80px 0;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(26, 34, 56, 0.9);
+            color: var(--platinum-silver);
+            padding: 50px 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section, .features-section, .testimonial-section {
+                padding: 50px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">LUXORA</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#fleet">Fleet</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experiences">Experiences</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item">
+                        <a href="#booking" class="btn btn-outline-light">Book Your Journey</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section position-relative">
+        <div class="hero-overlay"></div>
+        <div class="container position-relative z-3">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-white">
+                    <h1 class="display-4 mb-4 text-white" style="font-family: 'Playfair Display', serif;">
+                        Elevate Your Journey
+                    </h1>
+                    <p class="lead mb-5">
+                        Curated luxury experiences tailored to your most discerning travels.
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <div class="booking-panel">
+                        <h3 class="text-center mb-4 text-white">Design Your Experience</h3>
+                        <form id="luxuryBookingForm">
+                            <div class="mb-3">
+                                <select class="form-select" required>
+                                    <option value="">Select Destination</option>
+                                    <option>New York</option>
+                                    <option>Los Angeles</option>
+                                    <option>Miami</option>
+                                </select>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <input type="date" class="form-control" placeholder="Departure" required>
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" placeholder="Return" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100" style="background-color: var(--golden-champagne); border: none;">
+                                Explore Possibilities
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Luxury Fleet Section -->
+    <section id="fleet" class="container py-5">
+        <h2 class="text-center mb-5 text-white" style="font-family: 'Playfair Display', serif;">Our Luxury Fleet</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="luxury-card card">
+                    <img src="https://via.placeholder.com/450x300?text=Luxury+Sedan" class="card-img-top" alt="Luxury Sedan">
+                    <div class="card-body bg-dark text-white">
+                        <h5 class="card-title">Premium Sedan</h5>
+                        <p class="card-text">Sophistication in motion</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$299/day</span>
+                            <a href="#" class="btn btn-outline-light">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="luxury-card card">
+                    <img src="https://via.placeholder.com/450x300?text=Luxury+SUV" class="card-img-top" alt="Luxury SUV">
+                    <div class="card-body bg-dark text-white">
+                        <h5 class="card-title">Executive SUV</h5>
+                        <p class="card-text">Power meets elegance</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$399/day</span>
+                            <a href="#" class="btn btn-outline-light">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="luxury-card card">
+                    <img src="https://via.placeholder.com/450x300?text=Luxury+Convertible" class="card-img-top" alt="Luxury Convertible">
+                    <div class="card-body bg-dark text-white">
+                        <h5 class="card-title">Exotic Convertible</h5>
+                        <p class="card-text">Unleash your freedom</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 mb-0">$499/day</span>
+                            <a href="#" class="btn btn-outline-light">Reserve</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="experiences" class="features-section">
+        <div class="container">
+            <h2 class="text-center mb-5 text-white" style="font-family: 'Playfair Display', serif;">Why Choose LUXORA</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt fa-3x mb-3 text-light"></i>
+                        <h4 class="text-white">Total Protection</h4>
+                        <p>Comprehensive insurance and roadside assistance</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-item">
+                        <i class="fas fa-car fa-3x mb-3 text-light"></i>
+                        <h4 class="text-white">Curated Fleet</h4>
+                        <p>Meticulously maintained luxury vehicles</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="feature-item">
+                        <i class="fas fa-headset fa-3x mb-3 text-light"></i>
+                        <h4 class="text-white">Dedicated Support</h4>
+                        <p>24/7 concierge service for seamless experience</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="text-center mb-5 text-white" style="font-family: 'Playfair Display', serif;">What Our Clients Say</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <p class="mb-4">"LUXORA transformed my business trip into a luxurious experience. Impeccable service!"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Client">
+                            <div>
+                                <h5 class="mb-0">Michael Roberts</h5>
+                                <small>CEO, Tech Innovations</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <p class="mb-4">"The most luxurious and comfortable rental experience I've ever had."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Client">
+                            <div>
+                                <h5 class="mb-0">Sarah Thompson</h5>
+                                <small>Travel Blogger</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="testimonial-card">
+                        <p class="mb-4">"LUXORA's attention to detail is unmatched. Truly a premium service."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Client">
+                            <div>
+                                <h5 class="mb-0">David Chen</h5>
+                                <small>Luxury Travel Consultant</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section text-center">
+        <div class="container">
+            <h2 class="mb-4">Ready to Elevate Your Journey?</h2>
+            <p class="lead mb-4">Experience luxury, comfort, and unparalleled service</p>
+            <a href="#booking" class="btn btn-dark btn-lg">Start Your Luxury Experience</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="mb-3">LUXORA</h5>
+                    <p>Curating extraordinary mobility experiences for discerning travelers.</p>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#home" class="text-light">Home</a></li>
+                        <li><a href="#fleet" class="text-light">Our Fleet</a></li>
+                        <li><a href="#experiences" class="text-light">Experiences</a></li>
+                        <li><a href="#about" class="text-light">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <p>
+                        <i class="fas fa-phone me-2"></i> +1 (888) LUXORA-1<br>
+                        <i class="fas fa-envelope me-2"></i> concierge@luxora.com
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p>&copy; 2024 LUXORA. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Booking form submission
+        document.getElementById('luxuryBookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you! Our concierge will contact you shortly to customize your luxury experience.');
+        });
+    </script>
+</body>
+</html>
