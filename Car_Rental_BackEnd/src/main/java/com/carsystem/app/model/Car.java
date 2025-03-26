@@ -5,7 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-import org.hibernate.annotations.CurrentTimestamp;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.carsystem.app.model.enums.CarStatus;
@@ -42,7 +42,7 @@ public class Car {
     private Double hourlyRate;
     
     @Column(nullable = false, updatable = false)
-    @CurrentTimestamp
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Column(nullable = false)
