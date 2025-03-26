@@ -1,0 +1,258 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starcar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-blue-100">
+    <div class="flex flex-col lg:flex-row">
+        <!-- Sidebar -->
+        <div class="bg-white  pt-4 px-0 flex flex-col items-center">
+            <div class=" items-center mb-8">
+                <span class="text-2xl font-bold px-3">LUXORA</span>
+            </div>
+            <div class="flex flex-col space-y-6">
+                <a class="flex items-center justify-center text-gray-500 hover:text-black" href="#">
+                    <i class="fas fa-car-side text-2xl"></i>
+                </a>
+                <a class="flex items-center justify-center text-gray-500 hover:text-black" href="#">
+                    <i class="fas fa-calendar-alt text-2xl"></i>
+                </a>
+                <a class="flex items-center justify-center text-gray-500 hover:text-black" href="#">
+                    <i class="fas fa-heart text-2xl"></i>
+                </a>
+                <a class="flex items-center justify-center text-gray-500 hover:text-black" href="#">
+                    <i class="fas fa-cog text-2xl"></i>
+                </a>
+                <a class="flex items-center justify-center text-gray-500 hover:text-black" href="#">
+                    <i class="fas fa-bell text-2xl"></i>
+                </a>
+                <a class="flex items-center justify-center text-gray-500 hover:text-black" href="#">
+                    <i class="fas fa-sign-out-alt text-2xl"></i>
+                </a>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="flex-1 p-6">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-4">
+                    <button class="bg-gray-200 text-black px-4 py-2 rounded-full">Light mode</button>
+                    <button class="bg-black text-white px-4 py-2 rounded-full">Dark</button>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span></span>
+                    <img src="https://placehold.co/40x40" alt="User profile picture" class="rounded-full" width="40" height="40">
+                    <span>Gokul</span>
+                </div>
+            </div>
+            <div class="flex flex-col lg:flex-row">
+                <!-- Filters -->
+                <div class="bg-white p-6 rounded-lg shadow-lg w-full lg:w-1/4 mb-6 lg:mb-0 lg:mr-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-lg font-semibold">Filters</span>
+                        <a class="text-blue-500" href="#">Reset</a>
+                    </div>
+                    <div class="mb-4">
+                        <select class="w-full p-2 border rounded-lg mb-2">
+                            <option>Alfa Romeo</option>
+                        </select>
+                        <select class="w-full p-2 border rounded-lg">
+                            <option>Car model</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <span class="block mb-2">Price range per hour</span>
+                        <div class="flex items-center justify-between">
+                            <span>₹250</span>
+                            <span>₹3000</span>
+                        </div>
+                        <input type="range" min="22" max="80" class="w-full">
+                    </div>
+                    <div class="mb-4">
+                        <span class="block mb-2">Type</span>
+                        <div class="flex flex-wrap">
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2" checked>
+                                <span>Sedan</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Van</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Pickup</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Wagon</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Minivan</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Couple</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <span class="block mb-2">Color</span>
+                        <div class="flex flex-wrap">
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Black</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>White</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Silver</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Grey</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Dark blue</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Brown</span>
+                            </label>
+                        </div>
+                        <a class="text-blue-500" href="#">All colors &gt;</a>
+                    </div>
+                    <div class="mb-4">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="mr-2">
+                            <span>Available now only</span>
+                        </label>
+                    </div>
+                    <div class="mb-4">
+                        <span class="block mb-2">Rental type</span>
+                        <div class="flex">
+                            <button class="bg-gray-200 text-black px-4 py-2 rounded-full mr-2">Any</button>
+                            <button class="bg-gray-200 text-black px-4 py-2 rounded-full mr-2">Per day</button>
+                            <button class="bg-blue-500 text-white px-4 py-2 rounded-full">Per hour</button>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <span class="block mb-2">Car insurance</span>
+                        <div class="flex flex-wrap">
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Collision Damage Waiver</span>
+                            </label>
+                            <label class="flex items-center mr-4 mb-2">
+                                <input type="checkbox" class="mr-2">
+                                <span>Roadside Plus</span>
+                            </label>
+                        </div>
+                        <a class="text-blue-500" href="#">All insurance &gt;</a>
+                    </div>
+                </div>
+                <!-- Car Listings -->
+                <div class="flex-1">
+                    <div class="flex justify-between items-center mb-6">
+                        <span class="text-lg font-semibold">24 cars to rent</span>
+                        <a class="text-blue-500" href="#">View all</a>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Car Card 1 -->
+                        <div class="bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs">New</span>
+                                <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Available</span>
+                            </div>
+                            <img src="https://placehold.co/300x200" alt="Blue Alfa Romeo Giulia" class="w-full mb-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="block font-semibold">Alfa Romeo | Giulia</span>
+                                    <span class="block text-gray-500">Veloce, 2024</span>
+                                </div>
+                                <span class="font-semibold">750₹/hour</span>
+                            </div>
+                        </div>
+                        <!-- Car Card 2 -->
+                        <div class="bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-gray-500 text-white px-2 py-1 rounded-full text-xs">Booked till 10 PM</span>
+                            </div>
+                            <img src="https://placehold.co/300x200" alt="Silver Alfa Romeo Giulia" class="w-full mb-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="block font-semibold">Alfa Romeo | Giulia</span>
+                                    <span class="block text-gray-500">Competizione, 2024</span>
+                                </div>
+                                <span class="font-semibold">950₹/hour</span>
+                            </div>
+                        </div>
+                        <!-- Car Card 3 -->
+                        <div class="bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Available</span>
+                            </div>
+                            <img src="https://placehold.co/300x200" alt="Silver Alfa Romeo Giulia" class="w-full mb-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="block font-semibold">Alfa Romeo | Giulia</span>
+                                    <span class="block text-gray-500">Sprint, 2024</span>
+                                </div>
+                                <span class="font-semibold">550₹/hour</span>
+                            </div>
+                        </div>
+                        <!-- Car Card 4 -->
+                        <div class="bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-gray-500 text-white px-2 py-1 rounded-full text-xs">Booked till 5 PM</span>
+                            </div>
+                            <img src="https://placehold.co/300x200" alt="Red Alfa Romeo Giulia" class="w-full mb-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="block font-semibold">Alfa Romeo | Giulia</span>
+                                    <span class="block text-gray-500">Sprint, 2023</span>
+                                </div>
+                                <span class="font-semibold">450₹/hour</span>
+                            </div>
+                        </div>
+                        <!-- Car Card 5 -->
+                        <div class="bg-white p-4 rounded-lg shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Available</span>
+                            </div>
+                            <img src="https://placehold.co/300x200" alt="Black Alfa Romeo Giulia" class="w-full mb-4 rounded-lg">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="block font-semibold">Alfa Romeo | Giulia</span>
+                                    <span class="block text-gray-500">Sprint Rear Wheel Drive</span>
+                                </div>
+                                <span class="font-semibold">350₹/hour</span>
+                            </div>
+                        </div>
+                        <div class="bg-gradient-to-r from-blue-500 to-indigo-500 p-6 rounded-lg shadow-lg text-white flex flex-col justify-between">
+                            <div>
+                                <span class="block text-lg font-semibold mb-2">Time for Maintenance!</span>
+                                <span class="block mb-4">Check out your cars to make them drive good</span>
+                            </div>
+                            <a class="bg-white text-blue-500 px-4 py-2 rounded-full text-center" href="#">Read more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

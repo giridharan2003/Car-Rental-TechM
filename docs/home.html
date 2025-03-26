@@ -1,405 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUXORA - Elevated Luxury Mobility</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --deep-midnight: #1A2238;
-            --platinum-silver: #E6E6E6;
-            --golden-champagne: #D4AF37;
-            --soft-charcoal: #36454F;
-            --luxury-shadow: rgba(0,0,0,0.2);
-        }
-
-        * {
-            box-sizing: border-box;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        body {
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   LUXORA
+  </title>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--deep-midnight);
-            color: var(--platinum-silver);
-            line-height: 1.6;
-            letter-spacing: 0.5px;
         }
-
-        /* Luxurious Navbar */
-        .navbar {
-            background: linear-gradient(135deg, rgba(26, 34, 56, 0.9) 0%, rgba(26, 34, 56, 0.7) 100%);
-            backdrop-filter: blur(15px);
-            box-shadow: 0 4px 15px var(--luxury-shadow);
-        }
-
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            color: var(--golden-champagne) !important;
-            letter-spacing: 2px;
-        }
-
-        /* Hero Section with Elegance */
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background: linear-gradient(135deg, var(--deep-midnight), #0c1120);
-            overflow: hidden;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(26, 34, 56, 0.7), rgba(12, 17, 32, 0.9));
-            z-index: 1;
-        }
-
-        .booking-panel {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 15px 35px var(--luxury-shadow);
-        }
-
-        /* Premium Card Styling */
-        .luxury-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.5s ease;
-            transform: perspective(1000px) rotateX(0deg);
-            margin-bottom: 30px;
-        }
-
-        .luxury-card:hover {
-            transform: perspective(1000px) rotateX(-5deg);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
-
-        .luxury-card img {
-            transition: transform 0.5s ease;
-        }
-
-        .luxury-card:hover img {
-            transform: scale(1.1);
-        }
-
-        /* Features Section */
-        .features-section {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 80px 0;
-        }
-
-        .feature-item {
-            text-align: center;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            transition: all 0.4s ease;
-        }
-
-        .feature-item:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* Testimonial Section */
-        .testimonial-section {
-            background: linear-gradient(135deg, #0c1120, var(--deep-midnight));
-            padding: 80px 0;
-        }
-
-        .testimonial-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 30px;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: var(--golden-champagne);
-            color: var(--deep-midnight);
-            padding: 80px 0;
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(26, 34, 56, 0.9);
-            color: var(--platinum-silver);
-            padding: 50px 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-section, .features-section, .testimonial-section {
-                padding: 50px 0;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">LUXORA</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#fleet">Fleet</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#experiences">Experiences</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                    <li class="nav-item">
-                        <a href="#booking" class="btn btn-outline-light">Book Your Journey</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section id="home" class="hero-section position-relative">
-        <div class="hero-overlay"></div>
-        <div class="container position-relative z-3">
-            <div class="row align-items-center">
-                <div class="col-lg-6 text-white">
-                    <h1 class="display-4 mb-4 text-white" style="font-family: 'Playfair Display', serif;">
-                        Elevate Your Journey
-                    </h1>
-                    <p class="lead mb-5">
-                        Curated luxury experiences tailored to your most discerning travels.
-                    </p>
-                </div>
-                <div class="col-lg-6">
-                    <div class="booking-panel">
-                        <h3 class="text-center mb-4 text-white">Design Your Experience</h3>
-                        <form id="luxuryBookingForm">
-                            <div class="mb-3">
-                                <select class="form-select" required>
-                                    <option value="">Select Destination</option>
-                                    <option>New York</option>
-                                    <option>Los Angeles</option>
-                                    <option>Miami</option>
-                                </select>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col">
-                                    <input type="date" class="form-control" placeholder="Departure" required>
-                                </div>
-                                <div class="col">
-                                    <input type="date" class="form-control" placeholder="Return" required>
-                                </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary w-100" style="background-color: var(--golden-champagne); border: none;">
-                                Explore Possibilities
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Luxury Fleet Section -->
-    <section id="fleet" class="container py-5">
-        <h2 class="text-center mb-5 text-white" style="font-family: 'Playfair Display', serif;">Our Luxury Fleet</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="luxury-card card">
-                    <img src="https://via.placeholder.com/450x300?text=Luxury+Sedan" class="card-img-top" alt="Luxury Sedan">
-                    <div class="card-body bg-dark text-white">
-                        <h5 class="card-title">Premium Sedan</h5>
-                        <p class="card-text">Sophistication in motion</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">$299/day</span>
-                            <a href="#" class="btn btn-outline-light">Reserve</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="luxury-card card">
-                    <img src="https://via.placeholder.com/450x300?text=Luxury+SUV" class="card-img-top" alt="Luxury SUV">
-                    <div class="card-body bg-dark text-white">
-                        <h5 class="card-title">Executive SUV</h5>
-                        <p class="card-text">Power meets elegance</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">$399/day</span>
-                            <a href="#" class="btn btn-outline-light">Reserve</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="luxury-card card">
-                    <img src="https://via.placeholder.com/450x300?text=Luxury+Convertible" class="card-img-top" alt="Luxury Convertible">
-                    <div class="card-body bg-dark text-white">
-                        <h5 class="card-title">Exotic Convertible</h5>
-                        <p class="card-text">Unleash your freedom</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="h5 mb-0">$499/day</span>
-                            <a href="#" class="btn btn-outline-light">Reserve</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="experiences" class="features-section">
-        <div class="container">
-            <h2 class="text-center mb-5 text-white" style="font-family: 'Playfair Display', serif;">Why Choose LUXORA</h2>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="feature-item">
-                        <i class="fas fa-shield-alt fa-3x mb-3 text-light"></i>
-                        <h4 class="text-white">Total Protection</h4>
-                        <p>Comprehensive insurance and roadside assistance</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-item">
-                        <i class="fas fa-car fa-3x mb-3 text-light"></i>
-                        <h4 class="text-white">Curated Fleet</h4>
-                        <p>Meticulously maintained luxury vehicles</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-item">
-                        <i class="fas fa-headset fa-3x mb-3 text-light"></i>
-                        <h4 class="text-white">Dedicated Support</h4>
-                        <p>24/7 concierge service for seamless experience</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonial Section -->
-    <section class="testimonial-section">
-        <div class="container">
-            <h2 class="text-center mb-5 text-white" style="font-family: 'Playfair Display', serif;">What Our Clients Say</h2>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="testimonial-card">
-                        <p class="mb-4">"LUXORA transformed my business trip into a luxurious experience. Impeccable service!"</p>
-                        <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Client">
-                            <div>
-                                <h5 class="mb-0">Michael Roberts</h5>
-                                <small>CEO, Tech Innovations</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="testimonial-card">
-                        <p class="mb-4">"The most luxurious and comfortable rental experience I've ever had."</p>
-                        <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Client">
-                            <div>
-                                <h5 class="mb-0">Sarah Thompson</h5>
-                                <small>Travel Blogger</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="testimonial-card">
-                        <p class="mb-4">"LUXORA's attention to detail is unmatched. Truly a premium service."</p>
-                        <div class="d-flex align-items-center">
-                            <img src="https://via.placeholder.com/60" class="rounded-circle me-3" alt="Client">
-                            <div>
-                                <h5 class="mb-0">David Chen</h5>
-                                <small>Luxury Travel Consultant</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section text-center">
-        <div class="container">
-            <h2 class="mb-4">Ready to Elevate Your Journey?</h2>
-            <p class="lead mb-4">Experience luxury, comfort, and unparalleled service</p>
-            <a href="#booking" class="btn btn-dark btn-lg">Start Your Luxury Experience</a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5 class="mb-3">LUXORA</h5>
-                    <p>Curating extraordinary mobility experiences for discerning travelers.</p>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="mb-3">Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#home" class="text-light">Home</a></li>
-                        <li><a href="#fleet" class="text-light">Our Fleet</a></li>
-                        <li><a href="#experiences" class="text-light">Experiences</a></li>
-                        <li><a href="#about" class="text-light">About Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5 class="mb-3">Contact Us</h5>
-                    <p>
-                        <i class="fas fa-phone me-2"></i> +1 (888) LUXORA-1<br>
-                        <i class="fas fa-envelope me-2"></i> concierge@luxora.com
-                    </p>
-                    <div class="social-links">
-                        <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-light"><i class="fab fa-facebook"></i></a>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4">
-            <div class="text-center">
-                <p>&copy; 2024 LUXORA. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-
-
-    
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Booking form submission
-        document.getElementById('luxuryBookingForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you! Our concierge will contact you shortly to customize your luxury experience.');
-        });
-    </script>
-</body>
+  </style>
+ </head>
+ <body class="bg-gray-100">
+  <header class="bg-white shadow">
+   <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+        <a class="text-2xl font-bold text-gray-800" href="#">
+        LUXORA
+     <nav class="hidden md:flex space-x-4">
+      <a class="text-gray-700 hover:text-gray-900" href="#">
+       Hotel
+      </a>
+      <a class="text-gray-700 hover:text-gray-900" href="#">
+       Flight
+      </a>
+      <a class="text-gray-700 hover:text-gray-900" href="#">
+       Train
+      </a>
+      <a class="text-gray-700 hover:text-gray-900" href="#">
+       Travel
+      </a>
+      <a class="text-gray-700 hover:text-gray-900" href="#">
+       Car Rental
+      </a>
+     </nav>
+    </div>
+    <div class="flex items-center space-x-4">
+     <div class="relative">
+      <input class="border rounded-full py-2 px-4 pl-10" placeholder="Search destination..." type="text"/>
+      <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+      </i>
+     </div>
+     <div class="hidden md:flex items-center space-x-2">
+      <i class="fas fa-globe text-gray-700">
+      </i>
+      <span class="text-gray-700">
+       EN
+      </span>
+     </div>
+     <a class="text-gray-700 hover:text-gray-900" href="#">
+      Log In
+     </a>
+     <a class="bg-blue-600 text-white py-2 px-4 rounded-full" href="#">
+      Sign Up
+     </a>
+    </div>
+   </div>
+  </header>
+  <main>
+   <section class="relative">
+    <img alt="Car driving on road" class="w-full h-96 object-cover" height="600" src="https://storage.googleapis.com/a1aa/image/p01g8Z0iCYLfv9rJkWm31498QwbvId7CMdlhPCuTrcA.jpg" width="1920"/>
+    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-center items-center text-white">
+     <h1 class="text-4xl font-bold mb-4">
+      Rent a Car for Every Journey
+     </h1>
+     <div class="bg-white bg-opacity-90 p-4 rounded-lg shadow-lg w-full max-w-4xl">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+       <div>
+        <label class="block text-gray-700">
+         Departure
+        </label>
+        <input class="w-full border rounded py-2 px-3" placeholder="City, airport or station" type="text"/>
+       </div>
+       <div>
+        <label class="block text-gray-700">
+         Return Location
+        </label>
+        <input class="w-full border rounded py-2 px-3" placeholder="City, airport or station" type="text"/>
+       </div>
+       <div>
+        <label class="block text-gray-700">
+         Pick Up Date &amp; Time
+        </label>
+        <input class="w-full border rounded py-2 px-3" placeholder="14 Jan 2024" type="text"/>
+        <input class="w-full border rounded py-2 px-3 mt-2" placeholder="10:30 AM" type="text"/>
+       </div>
+       <div>
+        <label class="block text-gray-700">
+         Return Date &amp; Time
+        </label>
+        <input class="w-full border rounded py-2 px-3" placeholder="19 Jan 2024" type="text"/>
+        <input class="w-full border rounded py-2 px-3 mt-2" placeholder="04:30 PM" type="text"/>
+       </div>
+      </div>
+      <div class="flex items-center space-x-4 mt-4">
+       <span class="text-gray-700">
+        Filter:
+       </span>
+       <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        Without Driver
+       </button>
+       <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        With Driver
+       </button>
+       <button class="bg-black text-white py-2 px-4 rounded-full ml-auto">
+        Search
+       </button>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-2">
+     Top picks vehicle this month
+    </h2> 
+    <p class="text-gray-600 mb-6">
+     Experience the epitome of amazing journey with our top picks.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Toyota Yaris" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/TMmieSR2SmFwvKiObnIss0aGvuf6GEzqy1olSYbBlJA.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Toyota Yaris
+      </h3>
+      <p class="text-gray-600">
+       Automatic/Manual
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        5
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        3
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.7
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+       ₹900
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Alphard" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/zmhub7PpoKJipmqkBIZfQ-_8QJgYnqWROWZ0N-W34To.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Alphard
+      </h3>
+      <p class="text-gray-600">
+       Automatic | Petrol
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        6
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.8
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹560
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Lexus NX - 300" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/V9eqZoRboYiWP4wbpOy1-u8CpPBbFIpzp00oMzn1sT8.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Lexus NX - 300
+      </h3>
+      <p class="text-gray-600">
+       Automatic | Petrol
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        3
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.7
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹700
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Camry" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/RBZ8TPnWqQJCuejnTdXnzOYd-D1qX_36TP5CTwsujTM.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Camry
+      </h3>
+      <p class="text-gray-600">
+       Automatic | Petrol
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        5
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.9
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹1200
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Innova" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/x9jlpP76MXMnn122rKQBK1jMclfJM0PV6qYjJDkEGj8.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Innova
+      </h3>
+      <p class="text-gray-600">
+       Manual | Diesel
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        8
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.9
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹1500
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Toyota Fortuner" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/YROxvw1vcCWoHo5kEOWfJyD6wCd_S07HY5rwsqnxt4g.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Toyota Fortuner
+      </h3>
+      <p class="text-gray-600">
+       Automatic | Petrol
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        6
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.8
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹1700
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Innova Zenix" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/9h-7Qih5WiJEvmuiQTJYpUpogL7gqH99yEc3PX-lz_M.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Innova Zenix
+      </h3>
+      <p class="text-gray-600">
+       Automatic/Manual | Petrol
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        6
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.8
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹1900
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Terios" class="w-full h-40 object-cover mb-4" height="200" src="https://storage.googleapis.com/a1aa/image/RavyczVeAbuXbWHJTAaXAPJUHn0Q4N-SjDOEqUhISe0.jpg" width="300"/>
+      <h3 class="text-lg font-semibold">
+       Terios
+      </h3>
+      <p class="text-gray-600">
+       Automatic/Manual | Petrol
+      </p>
+      <div class="flex items-center space-x-2 mt-2">
+       <i class="fas fa-users text-gray-600">
+       </i>
+       <span>
+        5
+       </span>
+       <i class="fas fa-suitcase text-gray-600">
+       </i>
+       <span>
+        2
+       </span>
+       <i class="fas fa-star text-yellow-500">
+       </i>
+       <span>
+        4.6
+       </span>
+      </div>
+      <p class="text-gray-600 mt-2">
+       Start from
+      </p>
+      <p class="text-xl font-bold">
+        ₹700
+       <span class="text-gray-600 text-sm">
+        / day
+       </span>
+      </p>
+     </div>
+    </div>
+    <div class="text-center mt-6">
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+      See More
+     </button>
+    </div>
+   </section>
+   <section class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-2">
+     Discover our car rental centres in All over India!
+    </h2>
+    <p class="text-gray-600 mb-6">
+     Explore a diverse and extensive range of rental cars.
+    </p>
+    <div class="flex flex-wrap gap-2">
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+      LUXORA in Mumbai
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Delhi
+    </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Goa
+    </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Pune
+    </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Hyderabad
+    </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Kerala
+    </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Karnataka
+    </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Kochi
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Pondichery
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Chennai
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Bengaluru
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Andhra Pradesh
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Kolkata
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Jaipur
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Rajasthan
+     </button>
+     <button class="bg-gray-200 text-gray-700 py-2 px-4 rounded-full">
+        LUXORA in Udaipur
+     </button>
+    </div>
+   </section>
+   <section class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-2">
+     Enjoy extra miles with our best deal
+    </h2>
+    <p class="text-gray-600 mb-6">
+     Experience the epitome of amazing journey with our top picks.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+     <div class="bg-white p-4 rounded-lg shadow relative">
+      <img alt="Experience the Holidays with Our Festive Promotions" class="w-full h-40 object-cover mb-4" height="400" src="https://storage.googleapis.com/a1aa/image/0J-QgElpGMNrV6jkHiWThxXVX6Cix3C_haH-HzOn8MQ.jpg" width="600"/>
+      <div class="absolute top-4 left-4 bg-yellow-500 text-white py-1 px-2 rounded-full">
+       40%
+       <span class="text-xs">
+        with Terms and Condition
+       </span>
+      </div>
+      <h3 class="text-lg font-semibold">
+       Experience the Holidays with Our Festive Promotions
+      </h3>
+      <p class="text-gray-600">
+       Valid only on 12 Jan - 19 Jan 2024
+      </p>
+     </div>
+     <div class="bg-white p-4 rounded-lg shadow relative">
+      <img alt="Unlock Online-Only Discounts for a Seamless Booking Experience" class="w-full h-40 object-cover mb-4" height="400" src="https://storage.googleapis.com/a1aa/image/iF5kF1FrnGBPeZO2Ef_twT4VqECLKHxNB1PqFFz6xP4.jpg" width="600"/>
+      <div class="absolute top-4 left-4 bg-yellow-500 text-white py-1 px-2 rounded-full">
+       65%
+       <span class="text-xs">
+        with Terms and Condition
+       </span>
+      </div>
+      <h3 class="text-lg font-semibold">
+       Unlock Online-Only Discounts for a Seamless Booking Experience
+      </h3>
+      <p class="text-gray-600">
+       Valid only on 8 Jan - 22 Jan 2024
+      </p>
+     </div>
+    </div>
+   </section>
+   <section class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+     <div class="bg-white p-4 rounded-lg shadow">
+      <img alt="Explore more to get your comfort zone" class="w-full h-40 object-cover mb-4" height="400" src="https://storage.googleapis.com/a1aa/image/Liu391cjud_kf-n9wsPdghOQ7yp8hN2p4Ce9hrMEYXs.jpg" width="600"/>
+      &lt;h3 class
+     </div>
+    </div>
+   </section>
+  </main>
+ </body>
 </html>
