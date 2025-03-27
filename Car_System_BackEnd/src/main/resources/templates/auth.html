@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Luxury Car Rental - Authentication</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        :root {
+            --black-deep: #121212;
+            --black-soft: #1E1E1E;
+            --grey-dark: #2C2C2C;
+            --grey-medium: #404040;
+            --grey-light: #8C8C8C;
+            --white: #FFFFFF;
+            --gold-primary: #D4AF37;
+            --gold-secondary: #BF9B30;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--black-deep);
+            color: var(--white);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        .auth-container {
+            display: flex;
+            width: 1200px;
+            height: 800px;
+            background-color: var(--black-soft);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 50px 100px rgba(0,0,0,0.3),
+                0 15px 30px rgba(0,0,0,0.2);
+            transform-style: preserve-3d;
+        }
+
+        .auth-visual {
+            flex: 1;
+            position: relative;
+            background: linear-gradient(
+                135deg, 
+                var(--black-deep) 0%, 
+                var(--grey-dark) 100%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            transform: translateZ(50px);
+        }
+
+        .auth-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(
+                    45deg, 
+                    rgba(212, 175, 55, 0.1) 0%, 
+                    rgba(191, 155, 48, 0.05) 100%
+                ),
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0,
+                    transparent 10px,
+                    rgba(212, 175, 55, 0.05) 10px,
+                    rgba(212, 175, 55, 0.05) 20px
+                );
+            opacity: 0.5;
+        }
+
+        .auth-logo {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold-primary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .visual-content {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .visual-content h1 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .visual-content p {
+            color: var(--grey-light);
+            max-width: 350px;
+            line-height: 1.8;
+        }
+
+        .auth-form {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--grey-dark);
+            padding: 60px;
+            position: relative;
+            transform: translateZ(30px);
+        }
+
+        .form-wrapper {
+            width: 100%;
+            max-width: 450px;
+            background-color: var(--black-soft);
+            border-radius: 15px;
+            padding: 50px;
+            box-shadow: 
+                0 30px 60px rgba(0,0,0,0.2),
+                0 10px 20px rgba(0,0,0,0.1);
+            border: 1px solid var(--grey-medium);
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .form-title h2 {
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 40;
+            background: linear-gradient(
+                to right, 
+                var(--gold-primary), 
+                var(--gold-secondary)
+            );
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background-color: var(--black-deep);
+            border: 1px solid var(--grey-medium);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .icon-input {
+            position: relative;
+        }
+
+        .icon-input i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--grey-light);
+            transition: color 0.3s ease;
+        }
+
+        .form-control:focus + i {
+            color: var(--gold-primary);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(
+                to right, 
+                var(--gold-primary), 
+                var(--gold-secondary)
+            );
+            color: var(--black-deep);
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .form-footer a {
+            color: var(--gold-primary);
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .form-footer a:hover {
+            color: var(--white);
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .auth-container {
+                width: 95%;
+                max-width: 1200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .auth-visual, .auth-form {
+                flex: none;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-visual">
+            <div class="auth-logo">LUXORA</div>
+            <div class="visual-content">
+                <h1>Luxury On Wheels</h1>
+                <p>Experience the pinnacle of automotive excellence. Rent premium vehicles that redefine luxury and performance.</p>
+            </div>
+        </div>
+        <div class="auth-form">
+            <div class="form-wrapper" id="authForm">
+                <div class="form-title">
+                    <h2 th:text="${formType == 'register' ? 'Create Account' : formType == 'forgot' ? 'Forgot Password' : 'Welcome Back'}">Welcome Back</h2>
+                </div>
+                
+                <!-- Error/Success Messages -->
+                <div th:if="${errorMessage}" style="color: #ff4444; text-align: center; margin-bottom: 20px;" th:text="${errorMessage}"></div>
+                <div th:if="${successMessage}" style="color: #44ff44; text-align: center; margin-bottom: 20px;" th:text="${successMessage}"></div>
+
+                <!-- Login Form -->
+                <form th:action="@{/auth/login}" method="post" th:if="${formType == null || formType == 'login'}" id="loginFormContent">
+                    <div class="form-group icon-input">
+                        <input type="email" name="email" class="form-control" placeholder="Email Address" required="required"/>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group icon-input">
+                        <input type="password" name="password" class="form-control" placeholder="Password" required="required"/>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign In</button>
+                    <div class="form-footer">
+                        <a th:href="@{/auth/forgot}" id="forgotPasswordLink">Forgot Password</a>
+                        <a th:href="@{/auth/register}" id="registerLink">Register</a>
+                    </div>
+                </form>
+                
+                <!-- Registration Form -->
+                <form th:action="@{/auth/register}" method="post" th:if="${formType == 'register'}" id="registrationFormContent">
+                    <div class="form-group icon-input">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="firstName" class="form-control" placeholder="First Name" required="required"/>
+                    </div>
+                    <div class="form-group icon-input">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="lastName" class="form-control" placeholder="Last Name" required="required"/>
+                    </div>
+                    <div class="form-group icon-input">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" class="form-control" placeholder="Email Address" required="required"/>
+                    </div>
+                    <div class="form-group icon-input">
+                        <i class="fas fa-phone"></i>
+                        <input type="tel" name="phone" class="form-control" placeholder="Phone Number" required="required"/>
+                    </div>
+                    <div class="form-group icon-input">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" class="form-control" placeholder="Password" required="required"/>
+                    </div>
+                    <button type="submit" class="btn-primary">Register</button>
+                    <div class="form-footer">
+                        Already have an account? <a th:href="@{/auth/login}" id="loginLink">Login</a>
+                    </div>
+                </form>
+                
+                <!-- Forgot Password Form (Note: No controller endpoint exists) -->
+                <form th:action="@{/auth/forgot-password}" method="post" th:if="${formType == 'forgot'}" id="forgotPasswordFormContent">
+                    <div class="form-group icon-input">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required="required"/>
+                    </div>
+                    <button type="submit" class="btn-primary">Send OTP</button>
+                    <div class="form-footer">
+                        <a th:href="@{/auth/login}" id="backToLoginLink">Back to Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
