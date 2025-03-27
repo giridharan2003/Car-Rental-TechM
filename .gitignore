@@ -8,3 +8,4 @@ HELP.md
 mvnw
 mvnw.cmd
 Car_Rental_BackEnd/src/main/resources/application.properties
+/.metadata/
