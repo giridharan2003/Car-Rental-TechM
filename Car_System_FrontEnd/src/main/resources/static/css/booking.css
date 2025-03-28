@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+:root {
+	--bg-primary: #f4f7fa;
+	--bg-secondary: #ffffff;
+	--text-primary: #1a202c;
+	--text-secondary: #4a5568;
+	--gold-primary: #D4AF37;
+}
+
+.dark-mode {
+	--bg-primary: #1a202c;
+	--bg-secondary: #2d3748;
+	--text-primary: #ffffff;
+	--text-secondary: #e2e8f0;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar {
+	background-color: var(--bg-secondary);
+	transition: background-color 0.3s;
+}
+
+.card {
+	background-color: var(--bg-secondary);
+	color: var(--text-primary);
+	transition: background-color 0.3s, color 0.3s;
+}
+
+.gold-gradient {
+	background: linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #DAA520 100%);
+}
+
+.premium-shadow {
+	box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+}

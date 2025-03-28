@@ -30,7 +30,10 @@ public class Car {
     private String location;
     private int luggage;
     private int mileage;
+    
+    @Enumerated(EnumType.STRING)
     private CarStatus status;
+    
     private String imageUrl;
     private BigDecimal dailyRate;
     private BigDecimal hourlyRate;
