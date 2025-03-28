@@ -7,5 +7,6 @@ target/
 HELP.md
 mvnw
 mvnw.cmd
-src/main/resources/application.properties
+Car_System_BackEnd/src/main/resources/application.properties
+Car_System_FrontEnd/src/main/resources/application.properties
 /.metadata/
