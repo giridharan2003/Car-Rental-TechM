@@ -16,5 +16,4 @@ public class CarCategory {
     private Long categoryId;
 
     private String name;
-    private String description;
 }

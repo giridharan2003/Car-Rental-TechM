@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 
 import com.carsystem.app.model.enums.CarStatus;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,18 +23,27 @@ public class Car {
     private String model;
     private int year;
     private int seats;
+    
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private CarCategory Category;
+        
     private String licensePlate;
-    private String vin;
+    private String insurence;
+    
     private String location;
+    
     private int luggage;
     private int mileage;
+    
+    private String imageUrl;
+    
+    private Double dailyRate; 
+    private Double hourlyRate;
     
     @Enumerated(EnumType.STRING)
     private CarStatus status;
     
-    private String imageUrl;
-    private BigDecimal dailyRate;
-    private BigDecimal hourlyRate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

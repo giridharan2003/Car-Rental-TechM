@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +17,6 @@ public class AdditionalService {
 
     private String name;
     private String description;
-    private BigDecimal price;
+    private Double price;
     private boolean isActive;
 }

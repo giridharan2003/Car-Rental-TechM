@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 
 import com.carsystem.app.model.enums.BookingStatus;
 
-import java.math.BigDecimal;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,8 +26,11 @@ public class Booking {
     private int packageId;
     private LocalDateTime startDatetime;
     private LocalDateTime endDatetime;
-    private BigDecimal totalPrice;
+    private Double totalPrice;
+    
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
+    
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
