@@ -10,7 +10,7 @@ import java.util.Map;
 public class AuthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String backendUrl = "http://localhost:8081/api/auth";
+    private final String backendUrl = "http://localhost:2004/api/auth";
 
     public Map<String, Object> login(Map<String, String> loginData) {
         return restTemplate.postForObject(backendUrl + "/login", loginData, Map.class);

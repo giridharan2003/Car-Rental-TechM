@@ -1,0 +1,194 @@
+:root {
+    --gold-primary: #D4AF37;
+    --gold-secondary: #FFD700;
+    --dark-background: #0F1020;
+    --modern-black: #121212;
+    --modern-white: #FCFCFC;
+}
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--modern-white);
+    color: #1A1A2E;
+    position: relative;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+.gold-gradient {
+    background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+}
+.gold-text {
+    color: var(--gold-primary);
+}
+.premium-shadow {
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+}
+.card-hover {
+    transition: all 0.3s ease-in-out;
+}
+.card-hover:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+.montage-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+}
+.montage-image {
+    transition: transform 0.7s ease;
+    filter: brightness(0.9);
+}
+.montage-container:hover .montage-image {
+    transform: scale(1.1);
+    filter: brightness(1);
+}
+.overlay-text {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    padding: 10px 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(20px);
+}
+.montage-container:hover .overlay-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+.floating-shape {
+    position: absolute;
+    opacity: 0.3;
+    z-index: -1;
+    animation: float 10s infinite ease-in-out;
+}
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-50px); }
+}
+.floating-circle {
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.1);
+}
+.floating-triangle {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid rgba(212, 175, 55, 0.1);
+}
+
+/* Modern Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--gold-primary);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold-secondary);
+}
+
+/* Glass morphism */
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Car slider */
+.car-slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+.car-slide-track {
+    display: flex;
+    animation: scroll 25s linear infinite;
+    width: calc(250px * 14);
+}
+.car-slide {
+    width: 250px;
+    padding: 15px;
+    transition: transform 0.3s;
+}
+.car-slide:hover {
+    transform: scale(1.05);
+}
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-250px * 7)); }
+}
+
+/* 3D Card effect */
+.card-3d {
+    transition: transform 0.5s ease;
+    transform-style: preserve-3d;
+}
+.card-3d:hover {
+    transform: rotateY(10deg) rotateX(10deg);
+}
+
+/* Counting animation */
+.count-animation {
+    display: inline-block;
+}
+
+/* Parallax effect */
+.parallax-section {
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.parallax-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+/* Mobile menu */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100vh;
+    background: var(--modern-black);
+    z-index: 100;
+    transition: right 0.3s ease;
+    padding: 60px 30px;
+}
+.mobile-menu.active {
+    right: 0;
+}
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+}
+.menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}

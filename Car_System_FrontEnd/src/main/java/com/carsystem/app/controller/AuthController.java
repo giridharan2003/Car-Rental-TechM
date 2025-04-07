@@ -47,4 +47,9 @@ public class AuthController {
     public Map<String, Object> resetPassword(@RequestBody Map<String, String> resetData) {
         return authService.resetPassword(resetData);
     }
+    
+    @GetMapping("/home")
+    public String home() {
+        return "home";  // Returns home.html from the resources/static folder
+    }
 }

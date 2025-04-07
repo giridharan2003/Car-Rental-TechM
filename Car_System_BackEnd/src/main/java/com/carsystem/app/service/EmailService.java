@@ -19,7 +19,7 @@ public class EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
-            helper.setFrom("mobiservice000@gmail.com");
+            helper.setFrom("luxorarentalservice@gmail.com");
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setText(htmlBody.toString(), true);
