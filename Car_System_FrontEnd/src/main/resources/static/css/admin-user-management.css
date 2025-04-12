@@ -1,0 +1,154 @@
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Dark mode styles */
+.dark {
+    background-color: #1d0a2f;
+    color: #ffffff;
+}
+
+.dark .flex-1 {
+    background-color: #1d0a2f;
+}
+
+.dark .bg-white {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+.dark .text-gray-800,
+.dark .text-gray-900 {
+    color: #ffffff;
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-gray-700 {
+    color: #b0b0b0;
+}
+
+.dark .border-gray-200,
+.dark .divide-gray-200 {
+    border-color: #3d3d3d;
+}
+
+.dark .bg-gray-50 {
+    background-color: #2d2d2d;
+}
+
+.dark .bg-purple-50 {
+    background-color: #2d1a42;
+}
+
+.dark .hover\:bg-gray-100:hover {
+    background-color: #3d3d3d;
+}
+
+.dark .modal {
+    background-color: rgba(0,0,0,0.7);
+}
+
+.dark .modal-content {
+    background-color: #1e1e1e;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.dark .table-row:hover {
+    background-color: #3d3d3d;
+}
+
+/* Search bar dark mode */
+.dark #searchUsers {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: #ffffff;
+}
+
+/* Select dropdowns dark mode */
+.dark #statusFilter,
+.dark #carTypeFilter,
+.dark #tripCountFilter {
+    background-color: #2d2d2d;
+    border-color: #3d3d3d;
+    color: #ffffff;
+}
+
+/* Reset button dark mode */
+.dark #resetFilters {
+    background-color: #3d3d3d;
+    color: #ffffff;
+}
+
+/* Modal content dark mode */
+.dark .modal-content {
+    background-color: #1e1e1e;
+    color: #ffffff;
+}
+
+/* Original styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 50;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(2px);
+    transition: opacity 0.3s ease;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 24px;
+    border: none;
+    width: 60%;
+    max-width: 800px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+.modal.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+.table-row {
+    transition: all 0.2s ease;
+}
+.table-row:hover {
+    background-color: #f9fafb;
+    transform: translateY(-1px);
+}
+.delete-btn {
+    transition: all 0.2s ease;
+}
+.delete-btn:hover {
+    transform: scale(1.1);
+}
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.status-active {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+.status-completed {
+    background-color: #dcfce7;
+    color: #166534;
+}
+.status-cancelled {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+.status-upcoming {
+    background-color: #fef3c7;
+    color: #92400e;
+}

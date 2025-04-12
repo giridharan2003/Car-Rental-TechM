@@ -1,34 +1,34 @@
 package com.carsystem.app.service;
 
+import com.carsystem.app.dto.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import java.util.Map;
 
 @Service
-
 @SuppressWarnings("unchecked")
 public class AuthService {
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final String backendUrl = "http://localhost:2004/api/auth";
 
-    public Map<String, Object> login(Map<String, String> loginData) {
-        return restTemplate.postForObject(backendUrl + "/login", loginData, Map.class);
+    
+    public ApiResponse<String> login(LoginRequest loginData) {
+        return restTemplate.postForObject(backendUrl + "/login", loginData, ApiResponse.class);
     }
 
-    public Map<String, Object> register(Map<String, String> registrationData) {
-        return restTemplate.postForObject(backendUrl + "/register", registrationData, Map.class);
+    public ApiResponse<String> register(RegisterRequest registrationData) {
+        return restTemplate.postForObject(backendUrl + "/register", registrationData, ApiResponse.class);
     }
 
-    public Map<String, Object> sendOTP(Map<String, String> otpData) {
-        return restTemplate.postForObject(backendUrl + "/send-otp", otpData, Map.class);
+    public ApiResponse<String> sendOTP(OtpRequest otpData) {
+        return restTemplate.postForObject(backendUrl + "/send-otp", otpData, ApiResponse.class);
     }
 
-    public Map<String, Object> verifyOTP(Map<String, String> otpData) {
-        return restTemplate.postForObject(backendUrl + "/verify-otp", otpData, Map.class);
+    public ApiResponse<String> verifyOTP(OtpRequest otpData) {
+        return restTemplate.postForObject(backendUrl + "/verify-otp", otpData, ApiResponse.class);
     }
-   
-	public Map<String, Object> resetPassword(Map<String, String> resetData) {
-        return restTemplate.postForObject(backendUrl + "/reset-password", resetData, Map.class);
+
+    public ApiResponse<String> resetPassword(ResetPasswordRequest resetData) {
+        return restTemplate.postForObject(backendUrl + "/reset-password", resetData, ApiResponse.class);
     }
 }

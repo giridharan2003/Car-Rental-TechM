@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental System - Car Listings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .auth-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .login-btn {
+            background-color: transparent;
+            border: 1px solid #D4AF37; /* Gold color */
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .register-btn {
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+        }
+        
+        .login-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1); /* Gold color with opacity */
+        }
+        
+        .register-btn:hover {
+            background-color: #BF9B30; /* Darker gold for hover */
+        }
+        
+        /* Tab Slider Styles */
+        .tab-slider {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .tab-header {
+            display: flex;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .tab-btn {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .tab-btn.active {
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #D4AF37; /* Gold color */
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .tab-btn.active::after {
+            transform: scaleX(1);
+        }
+        
+        .tab-content {
+            padding: 20px;
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Packages Section Styles */
+        .packages-container {
+            display: flex;
+            overflow-x: auto;
+            gap: 20px;
+            padding: 10px 0;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #D4AF37 #f1f1f1; /* Gold scrollbar */
+        }
+        
+        .packages-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .packages-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .packages-container::-webkit-scrollbar-thumb {
+            background: #D4AF37; /* Gold color */
+            border-radius: 10px;
+        }
+        
+        .package-card {
+            min-width: 300px;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .package-badge {
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+            padding: 5px 30px;
+            font-size: 12px;
+            transform: rotate(45deg);
+            font-weight: bold;
+        }
+        
+        .package-icon {
+            background-color: rgba(212, 175, 55, 0.1); /* Gold with opacity */
+            color: #D4AF37; /* Gold color */
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .package-name {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .package-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #D4AF37; /* Gold color */
+            margin-bottom: 15px;
+        }
+        
+        .package-price span {
+            font-size: 14px;
+            color: #777;
+            font-weight: normal;
+        }
+        
+        .package-features {
+            margin: 15px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .feature-item i {
+            color: #4CAF50;
+            margin-right: 8px;
+        }
+        
+        .package-btn {
+            display: block;
+            width: 100%;
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .package-btn:hover {
+            background-color: #BF9B30; /* Darker gold for hover */
+        }
+        
+        /* Scroll Controls */
+        .scroll-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .scroll-btn {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .scroll-btn:hover {
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+            border-color: #D4AF37; /* Gold color */
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .filter-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .filter-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .form-group select, .form-group input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .price-range input {
+            flex: 1;
+        }
+        
+        .search-btn {
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            grid-column: 1 / -1;
+            margin-top: 10px;
+        }
+        
+        .search-btn:hover {
+            background-color: #BF9B30; /* Darker gold for hover */
+        }
+        
+        /* Car Listings */
+        .car-listings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .car-card {
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .car-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .car-details {
+            padding: 15px;
+        }
+        
+        .car-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .car-category {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .car-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .feature {
+            background-color: #f5f5f5;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .feature i {
+            font-size: 14px;
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .car-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #D4AF37; /* Gold color */
+            margin-bottom: 15px;
+        }
+        
+        .car-price span {
+            font-size: 14px;
+            color: #777;
+            font-weight: normal;
+        }
+        
+        .car-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .book-btn {
+            flex: 1;
+            padding: 10px;
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .book-btn:hover {
+            background-color: #BF9B30; /* Darker gold for hover */
+        }
+        
+        .details-btn {
+            padding: 10px;
+            background-color: transparent;
+            border: 1px solid #D4AF37; /* Gold color */
+            color: #D4AF37; /* Gold color */
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .details-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1); /* Gold with opacity */
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+            gap: 5px;
+        }
+        
+        .page-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .page-item.active {
+            background-color: #D4AF37; /* Gold color */
+            color: white;
+            border-color: #D4AF37; /* Gold color */
+        }
+        
+        .page-item:hover:not(.active) {
+            background-color: #f1f1f1;
+        }
+        
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: space-around;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .car-listings {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #222;
+            color: #fff;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+        }
+        
+        .footer-logo p {
+            margin-top: 15px;
+            color: #aaa;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .footer-column h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 30px;
+            height: 2px;
+            background-color: #D4AF37; /* Gold color */
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .footer-column ul li i {
+            margin-right: 10px;
+            color: #D4AF37; /* Gold color */
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: #D4AF37; /* Gold color */
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .footer-links {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .footer-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">LUXORA</div>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Cars</a>
+                    <a href="#">Packages</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="login-btn">Login</button>
+                    <button class="register-btn">Register</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Tab Slider -->
+        <div class="tab-slider">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="cars">Cars</button>
+                <button class="tab-btn" data-tab="packages">Rental Packages</button>
+            </div>
+            
+            <!-- Cars Tab Content (Default View) -->
+            <div class="tab-content active" id="cars-tab">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-title">Find Your Perfect Car</div>
+                    <form class="filter-form">
+                        <div class="form-group">
+                            <label for="location">Pickup Location</label>
+                            <select id="location">
+                                <option value="">Select Location</option>
+                                <option value="newyork">New York City</option>
+                                <option value="losangeles">Los Angeles</option>
+                                <option value="chicago">Chicago</option>
+                                <option value="miami">Miami</option>
+                                <option value="dallas">Dallas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-date">Pickup Date</label>
+                            <input type="date" id="pickup-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="return-date">Return Date</label>
+                            <input type="date" id="return-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="car-type">Car Type</label>
+                            <select id="car-type">
+                                <option value="">All Types</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="luxury">Luxury</option>
+                                <option value="sports">Sports</option>
+                                <option value="electric">Electric</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="price-range">Price Range ($)</label>
+                            <div class="price-range">
+                                <input type="number" placeholder="Min" min="0">
+                                <span>-</span>
+                                <input type="number" placeholder="Max" min="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i> Search Cars
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Car Listings -->
+                <div class="car-listings">
+                    <!-- Car Card 1 -->
+                    <div class="car-card">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <div class="car-name">Toyota Camry</div>
+                            <div class="car-category">Sedan</div>
+                            <div class="car-features">
+                                <div class="feature"><i class="fas fa-user"></i> 5 Seats</div>
+                                <div class="feature"><i class="fas fa-suitcase"></i> 4 Bags</div>
+                                <div class="feature"><i class="fas fa-gas-pump"></i> Gasoline</div>
+                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
+                            </div>
+                            <div class="car-price">$45 <span>/ day</span></div>
+                            <div class="car-buttons">
+                                <button class="book-btn">Book Now</button>
+                                <button class="details-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Car Card 2 -->
+                    <div class="car-card">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <div class="car-name">Honda CR-V</div>
+                            <div class="car-category">SUV</div>
+                            <div class="car-features">
+                                <div class="feature"><i class="fas fa-user"></i> 5 Seats</div>
+                                <div class="feature"><i class="fas fa-suitcase"></i> 6 Bags</div>
+                                <div class="feature"><i class="fas fa-gas-pump"></i> Gasoline</div>
+                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
+                            </div>
+                            <div class="car-price">$65 <span>/ day</span></div>
+                            <div class="car-buttons">
+                                <button class="book-btn">Book Now</button>
+                                <button class="details-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Car Card 3 -->
+                    <div class="car-card">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <div class="car-name">BMW 5 Series</div>
+                            <div class="car-category">Luxury</div>
+                            <div class="car-features">
+                                <div class="feature"><i class="fas fa-user"></i> 5 Seats</div>
+                                <div class="feature"><i class="fas fa-suitcase"></i> 4 Bags</div>
+                                <div class="feature"><i class="fas fa-gas-pump"></i> Gasoline</div>
+                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
+                            </div>
+                            <div class="car-price">$120 <span>/ day</span></div>
+                            <div class="car-buttons">
+                                <button class="book-btn">Book Now</button>
+                                <button class="details-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Car Card 4 -->
+                    <div class="car-card">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <div class="car-name">Tesla Model 3</div>
+                            <div class="car-category">Electric</div>
+                            <div class="car-features">
+                                <div class="feature"><i class="fas fa-user"></i> 5 Seats</div>
+                                <div class="feature"><i class="fas fa-suitcase"></i> 3 Bags</div>
+                                <div class="feature"><i class="fas fa-bolt"></i> Electric</div>
+                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
+                            </div>
+                            <div class="car-price">$95 <span>/ day</span></div>
+                            <div class="car-buttons">
+                                <button class="book-btn">Book Now</button>
+                                <button class="details-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Car Card 5 -->
+                    <div class="car-card">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <div class="car-name">Porsche 911</div>
+                            <div class="car-category">Sports</div>
+                            <div class="car-features">
+                                <div class="feature"><i class="fas fa-user"></i> 2 Seats</div>
+                                <div class="feature"><i class="fas fa-suitcase"></i> 2 Bags</div>
+                                <div class="feature"><i class="fas fa-gas-pump"></i> Petrol</div>
+                                <div class="feature"><i class="fas fa-cog"></i> Manual</div>
+                            </div>
+                            <div class="car-price">$250 <span>/ day</span></div>
+                            <div class="car-buttons">
+                                <button class="book-btn">Book Now</button>
+                                <button class="details-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Car Card 6 -->
+                    <div class="car-card">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp" alt="Car Image" class="car-image">
+                        <div class="car-details">
+                            <div class="car-name">Ford Mustang</div>
+                            <div class="car-category">Sports</div>
+                            <div class="car-features">
+                                <div class="feature"><i class="fas fa-user"></i> 4 Seats</div>
+                                <div class="feature"><i class="fas fa-suitcase"></i> 2 Bags</div>
+                                <div class="feature"><i class="fas fa-gas-pump"></i> Gasoline</div>
+                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
+                            </div>
+                            <div class="car-price">$180 <span>/ day</span></div>
+                            <div class="car-buttons">
+                                <button class="book-btn">Book Now</button>
+                                <button class="details-btn">Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination">
+                    <div class="page-item active">1</div>
+                    <div class="page-item">2</div>
+                    <div class="page-item">3</div>
+                    <div class="page-item">4</div>
+                    <div class="page-item">5</div>
+                    <div class="page-item"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            
+            <!-- Packages Tab Content -->
+            <div class="tab-content" id="packages-tab">
+                <div class="packages-container">
+                    <!-- Adventure Package -->
+                    <div class="package-card">
+                        <div class="package-badge">POPULAR</div>
+                        <div class="package-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div class="package-name">Adventure Package</div>
+                        <div class="package-price">$85 <span>/ day</span></div>
+                        <p>Perfect for outdoor enthusiasts and adventure seekers. Includes 4x4 vehicles with roof racks.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> 4x4 or SUV vehicle
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Roof rack included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> GPS navigation
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Unlimited mileage
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> 24/7 roadside assistance
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Family Package -->
+                    <div class="package-card">
+                        <div class="package-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="package-name">Family Package</div>
+                        <div class="package-price">$95 <span>/ day</span></div>
+                        <p>Comfortable and spacious vehicles perfect for family trips with extra amenities for children.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Minivan or large SUV
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Child seats included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Entertainment system
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Free cancellation
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Additional driver free
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Business Package -->
+                    <div class="package-card">
+                        <div class="package-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="package-name">Business Package</div>
+                        <div class="package-price">$120 <span>/ day</span></div>
+                        <p>Premium vehicles with professional service for business travelers and corporate clients.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Luxury sedan or executive car
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Airport pickup & drop-off
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Wi-Fi hotspot included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Priority customer service
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Corporate billing option
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Luxury Package -->
+                    <div class="package-card">
+                        <div class="package-badge">PREMIUM</div>
+                        <div class="package-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="package-name">Luxury Experience</div>
+                        <div class="package-price">$250 <span>/ day</span></div>
+                        <p>Experience ultimate luxury with our premium vehicles and exclusive services.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Premium luxury vehicle
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Chauffeur option available
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Concierge service
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> VIP airport treatment
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Complimentary upgrades
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Weekend Package -->
+                    <div class="package-card">
+                        <div class="package-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="package-name">Weekend Getaway</div>
+                        <div class="package-price">$75 <span>/ day</span></div>
+                        <p>Perfect for short weekend trips with special weekend rates and flexible hours.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Any category vehicle
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Friday to Monday special rate
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Late Sunday returns
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> 500 miles included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Free car upgrade (subject to availability)
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                </div>
+                
+                <!-- Scroll Controls for Packages -->
+                <div class="scroll-controls">
+                    <div class="scroll-btn scroll-left">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="scroll-btn scroll-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo">CarRent</div>
+                    <p>Premium car rental services with a wide range of vehicles to meet your needs. Experience comfort, style, and convenience on your journey.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Cars</a></li>
+                            <li><a href="#">Packages</a></li>
+                            <li><a href="#">Locations</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Our Services</h3>
+                        <ul>
+                            <li><a href="#">Car Rental</a></li>
+                            <li><a href="#">Chauffeur Services</a></li>
+                            <li><a href="#">Airport Transfers</a></li>
+                            <li><a href="#">Corporate Rentals</a></li>
+                            <li><a href="#">Long Term Rentals</a></li>
+                            <li><a href="#">Wedding Cars</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Contact Info</h3>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> 123 Street, New York, USA</li>
+                            <li><i class="fas fa-phone"></i> +1 234 567 8900</li>
+                            <li><i class="fas fa-envelope"></i> info@carrent.com</li>
+                            <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for updates and special offers.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 CarRent. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript for Tab Functionality -->
+    <script>
+        // Tab Functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.getAttribute('data-tab');
+                
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Add active class to current button and content
+                btn.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Package Scroll Functionality
+        const scrollLeftBtn = document.querySelector('.scroll-left');
+        const scrollRightBtn = document.querySelector('.scroll-right');
+        const packagesContainer = document.querySelector('.packages-container');
+        
+        if (scrollLeftBtn && scrollRightBtn) {
+            scrollLeftBtn.addEventListener('click', () => {
+                packagesContainer.scrollBy({ left: -330, behavior: 'smooth' });
+            });
+            
+            scrollRightBtn.addEventListener('click', () => {
+                packagesContainer.scrollBy({ left: 330, behavior: 'smooth' });
+            });
+        }
+        
+        // Form Validation for Dates
+        const pickupDateInput = document.getElementById('pickup-date');
+        const returnDateInput = document.getElementById('return-date');
+        
+        if (pickupDateInput && returnDateInput) {
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            pickupDateInput.setAttribute('min', today);
+            
+            pickupDateInput.addEventListener('change', () => {
+                // Set return date minimum to pickup date
+                returnDateInput.setAttribute('min', pickupDateInput.value);
+                
+                // If return date is before new pickup date, reset it
+                if (returnDateInput.value && returnDateInput.value < pickupDateInput.value) {
+                    returnDateInput.value = pickupDateInput.value;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

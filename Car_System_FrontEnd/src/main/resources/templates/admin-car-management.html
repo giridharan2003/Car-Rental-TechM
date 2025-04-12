@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Car & Package Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+    <link th:href="@{/css/admin-car-management.css}" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100">
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white border-r">
+        <div class="flex items-center justify-center h-16 border-b">
+            <div class="text-2xl font-bold text-purple-600">
+                Luxora
+            </div>
+        </div>
+        <nav class="mt-10">
+            <a class="flex items-center px-6 py-2 text-gray-600 hover:bg-gray-100" th:href="@{/dashboard}">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Dashboard
+            </a>
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-700 bg-gray-100" th:href="@{/car-management}">
+                <i class="fas fa-car mr-3"></i>
+                Car Management
+            </a>
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/transactions}">
+                <i class="fas fa-file-invoice-dollar mr-3"></i>
+                Transactions
+            </a>
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/users}">
+                <i class="fas fa-users mr-3"></i>
+                User Management
+            </a>
+            <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/analytics}">
+                <i class="fas fa-chart-line mr-3"></i>
+                Analytics
+            </a>
+            <div class="mt-10">
+                <a class="flex items-center px-6 py-2 mt-4 text-red-600 hover:bg-gray-100" th:href="@{/logout}">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-semibold dashboard-title mr-4">Car Management</h1>
+                <div class="tab-container">
+                    <div class="tab active" onclick="switchTab('cars')">Cars</div>
+                    <div class="tab" onclick="switchTab('packages')">Packages</div>
+                </div>
+            </div>
+            <div class="flex space-x-2">
+                <button id="addCarBtn" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all">
+                    <i class="fas fa-plus mr-2"></i>
+                    Add New Car
+                </button>
+                <button id="manageLocationsBtn" class="px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-all">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    Manage Locations
+                </button>
+                <button id="addPackageBtn" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all hidden">
+                    <i class="fas fa-plus mr-2"></i>
+                    Add New Package
+                </button>
+            </div>
+        </div>
+        
+        <!-- Car Management Section -->
+        <div id="cars-section">
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="filter" class="block text-gray-600 filter-label">Filter by Type:</label>
+                    <select id="filter" class="mt-2 mb-4 p-2 border rounded w-full filter-select" onchange="filterCars()">
+                        <option value="all">All Types</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="hatchback">Hatchback</option>
+                        <option value="premium">Premium</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="electric">Electric</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="locationFilter" class="block text-gray-600 filter-label">Filter by Location:</label>
+                    <select id="locationFilter" class="mt-2 mb-4 p-2 border rounded w-full filter-select" onchange="filterCars()">
+                        <option value="all">All Locations</option>
+                        <!-- Locations will be populated dynamically -->
+                    </select>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="cars-container">
+                <!-- Car cards will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <!-- Package Management Section -->
+        <div id="packages-section" class="hidden">
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label for="packageTypeFilter" class="block text-gray-600 filter-label">Filter by Package Type:</label>
+                    <select id="packageTypeFilter" class="mt-2 mb-4 p-2 border rounded w-full filter-select" onchange="filterPackages()">
+                        <option value="all">All Types</option>
+                        <option value="economy">Economy</option>
+                        <option value="premium">Premium</option>
+                        <option value="luxury">Luxury</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="packageDurationFilter" class="block text-gray-600 filter-label">Filter by Duration:</label>
+                    <select id="packageDurationFilter" class="mt-2 mb-4 p-2 border rounded w-full filter-select" onchange="filterPackages()">
+                        <option value="all">All Durations</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="packages-container">
+                <!-- Package cards will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Car Modal -->
+<div id="addCarModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300" onclick="closeModal('addCarModal')">×</span>
+        <h2 class="text-xl font-semibold mb-4">Add New Car</h2>
+        <form id="addCarForm">
+            <div class="modal-grid">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Basic Information</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Car Model</label>
+                        <input type="text" id="carModel" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Price (₹)</label>
+                        <input type="number" id="carPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Type</label>
+                        <select id="carType" class="w-full p-2 border rounded" required>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="hatchback">Hatchback</option>
+                            <option value="premium">Premium</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="electric">Electric</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Seats</label>
+                        <input type="number" id="carSeats" class="w-full p-2 border rounded" required min="2" max="10">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Mileage (km/l)</label>
+                        <input type="number" id="carMileage" class="w-full p-2 border rounded" required>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Additional Details</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Transmission</label>
+                        <select id="carTransmission" class="w-full p-2 border rounded" required>
+                            <option value="automatic">Automatic</option>
+                            <option value="manual">Manual</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">City</label>
+                        <select id="carCity" class="w-full p-2 border rounded" required>
+                            <!-- Cities will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Area</label>
+                        <input type="text" id="carArea" class="w-full p-2 border rounded" required placeholder="e.g., New Bus Stand">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Image URL</label>
+                        <input type="text" id="carImage" class="w-full p-2 border rounded" required>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button type="button" class="px-4 py-2 text-gray-600 mr-2 hover:bg-gray-100 rounded-lg transition-all" onclick="closeModal('addCarModal')">Cancel</button>
+                <button type="submit" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all">Add Car</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Car Modal -->
+<div id="editCarModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300" onclick="closeModal('editCarModal')">×</span>
+        <h2 class="text-xl font-semibold mb-4">Edit Car</h2>
+        <form id="editCarForm">
+            <input type="hidden" id="editCarId">
+            <div class="modal-grid">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Basic Information</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Car Model</label>
+                        <input type="text" id="editCarModel" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Price (₹)</label>
+                        <input type="number" id="editCarPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Type</label>
+                        <select id="editCarType" class="w-full p-2 border rounded" required>
+                            <option value="sedan">Sedan</option>
+                            <option value="suv">SUV</option>
+                            <option value="hatchback">Hatchback</option>
+                            <option value="premium">Premium</option>
+                            <option value="luxury">Luxury</option>
+                            <option value="electric">Electric</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Seats</label>
+                        <input type="number" id="editCarSeats" class="w-full p-2 border rounded" required min="2" max="10">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Mileage (km/l)</label>
+                        <input type="number" id="editCarMileage" class="w-full p-2 border rounded" required>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Additional Details</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Transmission</label>
+                        <select id="editCarTransmission" class="w-full p-2 border rounded" required>
+                            <option value="automatic">Automatic</option>
+                            <option value="manual">Manual</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">City</label>
+                        <select id="editCarCity" class="w-full p-2 border rounded" required>
+                            <!-- Cities will be populated dynamically -->
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Area</label>
+                        <input type="text" id="editCarArea" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Image URL</label>
+                        <input type="text" id="editCarImage" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Status</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="editCarHidden" class="mr-2">
+                            <label for="editCarHidden">Hide this car</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button type="button" class="px-4 py-2 text-gray-600 mr-2 hover:bg-gray-100 rounded-lg transition-all" onclick="closeModal('editCarModal')">Cancel</button>
+                <button type="submit" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Add Package Modal -->
+<div id="addPackageModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300" onclick="closeModal('addPackageModal')">×</span>
+        <h2 class="text-xl font-semibold mb-4">Add New Package</h2>
+        <form id="addPackageForm">
+            <div class="modal-grid">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Package Information</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Package Name</label>
+                        <input type="text" id="packageName" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Package Type</label>
+                        <select id="packageType" class="w-full p-2 border rounded" required>
+                            <option value="economy">Economy</option>
+                            <option value="premium">Premium</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Description</label>
+                        <textarea id="packageDescription" class="w-full p-2 border rounded" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Image URL</label>
+                        <input type="text" id="packageImage" class="w-full p-2 border rounded" required>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Pricing & Duration</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Daily Price (₹)</label>
+                        <input type="number" id="packageDailyPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Weekly Price (₹)</label>
+                        <input type="number" id="packageWeeklyPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Monthly Price (₹)</label>
+                        <input type="number" id="packageMonthlyPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Included Cars</label>
+                        <select id="packageCars" class="w-full p-2 border rounded" multiple>
+                            <!-- Cars will be populated here -->
+                        </select>
+                        <p class="text-sm text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple cars</p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Features</label>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="featureInsurance" class="mr-2">
+                                <label for="featureInsurance">Insurance Included</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="featureMaintenance" class="mr-2">
+                                <label for="featureMaintenance">Free Maintenance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="featureRoadside" class="mr-2">
+                                <label for="featureRoadside">24/7 Roadside Assistance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="featureDelivery" class="mr-2">
+                                <label for="featureDelivery">Free Delivery</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button type="button" class="px-4 py-2 text-gray-600 mr-2 hover:bg-gray-100 rounded-lg transition-all" onclick="closeModal('addPackageModal')">Cancel</button>
+                <button type="submit" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all">Add Package</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Package Modal -->
+<div id="editPackageModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300" onclick="closeModal('editPackageModal')">×</span>
+        <h2 class="text-xl font-semibold mb-4">Edit Package</h2>
+        <form id="editPackageForm">
+            <input type="hidden" id="editPackageId">
+            <div class="modal-grid">
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Package Information</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Package Name</label>
+                        <input type="text" id="editPackageName" class="w-full p-2 border rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Package Type</label>
+                        <select id="editPackageType" class="w-full p-2 border rounded" required>
+                            <option value="economy">Economy</option>
+                            <option value="premium">Premium</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Description</label>
+                        <textarea id="editPackageDescription" class="w-full p-2 border rounded" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Image URL</label>
+                        <input type="text" id="editPackageImage" class="w-full p-2 border rounded" required>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Pricing & Duration</h3>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Daily Price (₹)</label>
+                        <input type="number" id="editPackageDailyPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Weekly Price (₹)</label>
+                        <input type="number" id="editPackageWeeklyPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Monthly Price (₹)</label>
+                        <input type="number" id="editPackageMonthlyPrice" class="w-full p-2 border rounded" required min="0">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Included Cars</label>
+                        <select id="editPackageCars" class="w-full p-2 border rounded" multiple>
+                            <!-- Cars will be populated here -->
+                        </select>
+                        <p class="text-sm text-gray-500 mt-1">Hold Ctrl/Cmd to select multiple cars</p>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Features</label>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="editFeatureInsurance" class="mr-2">
+                                <label for="editFeatureInsurance">Insurance Included</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="editFeatureMaintenance" class="mr-2">
+                                <label for="editFeatureMaintenance">Free Maintenance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="editFeatureRoadside" class="mr-2">
+                                <label for="editFeatureRoadside">24/7 Roadside Assistance</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="editFeatureDelivery" class="mr-2">
+                                <label for="editFeatureDelivery">Free Delivery</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Status</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="editPackageHidden" class="mr-2">
+                            <label for="editPackageHidden">Hide this package</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button type="button" class="px-4 py-2 text-gray-600 mr-2 hover:bg-gray-100 rounded-lg transition-all" onclick="closeModal('editPackageModal')">Cancel</button>
+                <button type="submit" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Location Management Modal -->
+<div id="locationManagementModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer hover:text-gray-700 dark:hover:text-gray-300" onclick="closeModal('locationManagementModal')">×</span>
+        <h2 class="text-xl font-semibold mb-4">Manage Locations</h2>
+        <div class="mb-6">
+            <div class="flex items-center">
+                <input type="text" id="newCityInput" class="flex-1 p-2 border rounded" placeholder="Enter new city name">
+                <button onclick="addNewCity()" class="ml-2 px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-700 transition-all">
+                    <i class="fas fa-plus mr-2"></i>
+                    Add City
+                </button>
+            </div>
+        </div>
+        <div id="locationsContainer">
+            <!-- Locations will be populated here -->
+        </div>
+        <div class="flex justify-end mt-6">
+            <button type="button" class="px-4 py-2 text-gray-600 mr-2 hover:bg-gray-100 rounded-lg transition-all" onclick="closeModal('locationManagementModal')">Cancel</button>
+            <button type="button" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all" onclick="saveLocationChanges()">Save Changes</button>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/admin-car-management.js}"></script>
+</body>
+</html>

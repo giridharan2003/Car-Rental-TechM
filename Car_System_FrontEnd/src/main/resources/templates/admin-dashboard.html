@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Dashboard Overview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <link th:href="@{/css/admin-dashboard.css}" rel="stylesheet"/>
+</head>
+<body class="bg-gray-100">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white border-r">
+      <div class="flex items-center justify-center h-16 border-b">
+        <div class="text-2xl font-bold text-purple-600">
+          Luxora
+        </div>
+      </div>
+      <nav class="mt-10">
+        <a class="flex items-center px-6 py-2 text-gray-700 bg-gray-100" th:href="@{/dashboard}">
+          <i class="fas fa-tachometer-alt mr-3"></i>
+          Dashboard
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/car-management}">
+          <i class="fas fa-car mr-3"></i>
+          Car Management
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/transactions}">
+          <i class="fas fa-file-invoice-dollar mr-3"></i>
+          Transactions
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/users}">
+          <i class="fas fa-users mr-3"></i>
+          User Management
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/analytics}">
+          <i class="fas fa-chart-line mr-3"></i>
+          Analytics
+        </a>
+        <div class="mt-4">
+          <a class="flex items-center px-6 py-2 mt-4 text-red-600 hover:bg-gray-100" th:href="@{/admin/login}">
+            <i class="fas fa-sign-out-alt mr-3"></i>
+            Logout
+          </a>
+        </div>
+      </nav>
+    </div>
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-semibold dashboard-title">
+          Dashboard Overview
+        </h1>
+        <div class="flex items-center">
+          <button id="themeToggle" class="theme-toggle" title="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+          </button>
+          <i class="fas fa-bell text-gray-600 mr-6"></i>
+          <div class="user-icon">
+            <i class="fas fa-user text-gray-600"></i>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
+        <div class="lg:col-span-2">
+          <div class="bg-white p-6 rounded-lg shadow">
+            <h2 class="text-xl font-semibold">
+              Get where you need to go with our service
+            </h2>
+            <p class="mt-2 text-gray-600">
+              Budget-friendly car rentals for road trips, city visits, and more. Book now and start exploring
+            </p>
+            <button class="mt-4 px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition">
+              Start Exploring
+            </button>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow mt-6">
+            <h2 class="text-xl font-semibold">
+              Car Listings
+            </h2>
+            <table class="min-w-full mt-4">
+              <thead>
+                <tr>
+                  <th class="px-4 py-2 text-left text-gray-600">
+                    No
+                  </th>
+                  <th class="px-4 py-2 text-left text-gray-600">
+                    Client Name
+                  </th>
+                  <th class="px-4 py-2 text-left text-gray-600">
+                    Car Model
+                  </th>
+                  <th class="px-4 py-2 text-left text-gray-600">
+                    Phone Number
+                  </th>
+                  <th class="px-4 py-2 text-left text-gray-600">
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    1
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Arjun Reddy
+                  </td>
+                  <td class="px-4 py-2">
+                    Hyundai Creta
+                  </td>
+                  <td class="px-4 py-2">
+                    1234567890
+                  </td>
+                  <td class="px-4 py-2 text-blue-600">
+                    Checked In
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    2
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Karthik Nair
+                  </td>
+                  <td class="px-4 py-2">
+                    Mahindra XUV700
+                  </td>
+                  <td class="px-4 py-2">
+                    9876543210
+                  </td>
+                  <td class="px-4 py-2 text-green-600">
+                    Checked Out
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    3
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Vishnu Iyer
+                  </td>
+                  <td class="px-4 py-2">
+                    Tata Nexon
+                  </td>
+                  <td class="px-4 py-2">
+                    8765432190
+                  </td>
+                  <td class="px-4 py-2 text-green-600">
+                    Checked Out
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    4
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Aditya Menon
+                  </td>
+                  <td class="px-4 py-2">
+                    Nissan GTr
+                  </td>
+                  <td class="px-4 py-2">
+                    2345678901
+                  </td>
+                  <td class="px-4 py-2 text-blue-600">
+                    Checked In
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    5
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Siddharth Pillai
+                  </td>
+                  <td class="px-4 py-2">
+                    Maruti Suzuki Brezza
+                  </td>
+                  <td class="px-4 py-2">
+                    5678901234
+                  </td>
+                  <td class="px-4 py-2 text-blue-600">
+                    Checked In
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    6
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Prakash Raj
+                  </td>
+                  <td class="px-4 py-2">
+                    Kia Seltos
+                  </td>
+                  <td class="px-4 py-2">
+                    6789012345
+                  </td>
+                  <td class="px-4 py-2 text-blue-600">
+                    Checked In
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="px-4 py-2">
+                    7
+                  </td>
+                  <td class="px-4 py-2 flex items-center">
+                    <div class="person-icon">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    Vijay Kumar
+                  </td>
+                  <td class="px-4 py-2">
+                    Toyota Fortuner
+                  </td>
+                  <td class="px-4 py-2">
+                    7890123456
+                  </td>
+                  <td class="px-4 py-2 text-blue-600">
+                    Checked In
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <div class="bg-white p-6 rounded-lg shadow">
+            <div class="flex items-center">
+              <div class="profile-icon">
+                <i class="fas fa-user text-2xl text-gray-600"></i>
+              </div>
+              <div class="ml-4">
+                <h2 class="text-xl font-semibold">
+                  Priya Sharma
+                </h2>
+                <p class="text-gray-600">
+                  priyasharma@luxora.com
+                </p>
+                <button class="mt-2 px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition">
+                  Edit Profile
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow mt-6">
+            <h2 class="text-xl font-semibold">
+              Turnover
+            </h2>
+            <p class="mt-2 text-gray-600">
+              ₹1,12,492.21
+            </p>
+            <p class="text-green-600">
+              +4.5 from last month
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow mt-6">
+            <h2 class="text-xl font-semibold">
+              Income
+            </h2>
+            <p class="mt-2 text-gray-600">
+              ₹5,43,432.53
+            </p>
+            <p class="text-green-600">
+              +72 from last month
+            </p>
+          </div>
+          <div class="bg-white p-6 rounded-lg shadow mt-6">
+            <h2 class="text-xl font-semibold">
+              Outcome
+            </h2>
+            <p class="mt-2 text-gray-600">
+              ₹3,59,592.84
+            </p>
+            <p class="text-red-600">
+              -12 from last month
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script th:src="@{/js/admin-dashboard.js}"></script>
+</body>
+</html>

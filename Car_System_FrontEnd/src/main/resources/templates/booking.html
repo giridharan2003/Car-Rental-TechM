@@ -1,186 +1,342 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luxora | Premium Car Rentals</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link
-	href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap"
-	rel="stylesheet">
-<link th:href="@{/css/booking.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Rental System - Car Listings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link th:href="@{/css/booking.css}" rel="stylesheet">
 </head>
 <body>
-	<div class="flex flex-col lg:flex-row min-h-screen">
-		<!-- Sidebar -->
-		<div class="sidebar w-20 py-6 flex flex-col items-center shadow-md">
-			<div class="mb-8">
-				<span
-					class="text-2xl font-bold text-gray-800 gold-gradient bg-clip-text text-transparent">LUXORA</span>
-			</div>
-			<div class="flex flex-col space-y-6">
-				<a
-					class="group flex items-center justify-center text-gray-500 hover:text-gold-500 transition"
-					href="#"> <i
-					class="fas fa-car-side text-2xl group-hover:text-yellow-500"></i>
-				</a> <a
-					class="group flex items-center justify-center text-gray-500 hover:text-gold-500 transition"
-					href="#"> <i
-					class="fas fa-calendar-alt text-2xl group-hover:text-yellow-500"></i>
-				</a> <a
-					class="group flex items-center justify-center text-gray-500 hover:text-gold-500 transition"
-					href="#"> <i
-					class="fas fa-heart text-2xl group-hover:text-yellow-500"></i>
-				</a> <a
-					class="group flex items-center justify-center text-gray-500 hover:text-gold-500 transition"
-					href="#"> <i
-					class="fas fa-cog text-2xl group-hover:text-yellow-500"></i>
-				</a> <a
-					class="group flex items-center justify-center text-gray-500 hover:text-gold-500 transition"
-					href="#"> <i
-					class="fas fa-bell text-2xl group-hover:text-yellow-500"></i>
-				</a> <a
-					class="group flex items-center justify-center text-gray-500 hover:text-gold-500 transition"
-					href="#"> <i
-					class="fas fa-sign-out-alt text-2xl group-hover:text-yellow-500"></i>
-				</a>
-			</div>
-		</div>
-
-		<!-- Main Content -->
-		<div class="flex-1 p-6">
-			<div class="flex justify-between items-center mb-8">
-				<div class="flex items-center space-x-4">
-					<h1 class="text-3xl font-bold">
-						Luxora <span class="text-yellow-500">Premium</span> Rentals
-					</h1>
-				</div>
-				<div class="flex items-center space-x-4">
-					<div
-						class="flex items-center bg-white rounded-full px-4 py-2 shadow-md">
-						<span class="mr-2 text-gray-600">Mode:</span>
-						<button id="lightModeBtn" class="px-3 py-1 rounded-full mr-2">Light</button>
-						<button id="darkModeBtn" class="px-3 py-1 rounded-full">Dark</button>
-					</div>
-					
-				</div>
-			</div>
-
-			<!-- Main Content Area -->
-			<div
-				class="flex flex-col lg:flex-row space-y-6 lg:space-y-0 lg:space-x-6">
-				<!-- Filters -->
-				<div
-					class="w-full lg:w-1/4 bg-white rounded-2xl shadow-lg p-6 border-l-4 border-yellow-500">
-					<form id="carFilterForm">
-						<div class="flex justify-between items-center mb-6">
-							<h2 class="text-xl font-semibold text-gray-800">Advanced
-								Filters</h2>
-							<button type="button"
-								class="text-yellow-600 hover:text-yellow-700"
-								onclick="resetFilters()">Reset</button>
-						</div>
-
-						<!-- Location & Dates -->
-						<div class="mb-6">
-							<label class="block text-sm font-medium text-gray-700 mb-2">Pickup
-								& Return</label> <input type="text" placeholder="Pickup Location"
-								class="w-full px-4 py-2 border rounded-lg mb-2 focus:ring-2 focus:ring-yellow-500">
-							<input type="text" placeholder="Return Location"
-								class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500">
-						</div>
-
-						<!-- Date Range -->
-						<div class="mb-6">
-							<label class="block text-sm font-medium text-gray-700 mb-2">Rental
-								Period</label> <input type="datetime-local"
-								class="w-full px-4 py-2 border rounded-lg mb-2 focus:ring-2 focus:ring-yellow-500">
-							<input type="datetime-local"
-								class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-500">
-						</div>
-
-						<!-- Price Range -->
-						<div class="mb-6">
-							<label class="block text-sm font-medium text-gray-700 mb-2">Daily
-								Price Range (₹)</label>
-							<div class="flex justify-between text-sm mb-2">
-								<span id="minPrice">250</span> <span id="maxPrice">5000</span>
-							</div>
-							<input type="range" id="priceRange" min="250" max="5000"
-								class="w-full" oninput="updatePriceLabels()">
-						</div>
-
-						<!-- Vehicle Types -->
-						<div class="mb-6">
-							<label class="block text-sm font-medium text-gray-700 mb-2">Vehicle
-								Type</label>
-							<div class="grid grid-cols-2 gap-2">
-								<label class="flex items-center"> <input type="checkbox"
-									class="mr-2" value="Sedan"> <span>Sedan</span>
-								</label> <label class="flex items-center"> <input
-									type="checkbox" class="mr-2" value="SUV"> <span>SUV</span>
-								</label> <label class="flex items-center"> <input
-									type="checkbox" class="mr-2" value="Hatchback"> <span>Hatchback</span>
-								</label> <label class="flex items-center"> <input
-									type="checkbox" class="mr-2" value="Luxury"> <span>Luxury</span>
-								</label>
-							</div>
-						</div>
-
-						<button type="button" onclick="filterCars()"
-							class="w-full gold-gradient text-white py-3 rounded-lg hover:opacity-90 transition">
-							Apply Filters</button>
-					</form>
-				</div>
-				
-
-				<div class="flex flex-wrap gap-5">
-					<div th:each="car : ${cars}"
-						class="card w-full md:w-72 lg:w-80 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl relative premium-shadow">
-
-						<!-- Car Status -->
-						<div class="absolute top-3 right-3">
-						    <span th:class="'text-white px-2 py-1 rounded-full text-xs ' + 
-						                    (${car.status == 'AVAILABLE'} ? 'bg-green-500' : 
-						                    (${car.status == 'RENTED'} ? 'bg-red-500' : 'bg-gray-500'))">
-						        <span th:text="${car.status}"></span>
-						    </span>
-						</div>
-
-						<!-- Car Image -->
-						<div
-							class="w-full h-40 bg-gray-200 flex items-center justify-center text-gray-600 text-lg font-semibold">
-							<img th:src="${car.imageUrl}"
-								th:alt="${car.make} + ' ' + ${car.model}"
-								class="w-full h-full object-cover"
-								onerror="this.onerror=null; this.parentNode.innerHTML = this.alt;">
-						</div>
-
-						<!-- Car Details -->
-						<div class="p-4 flex flex-col">
-							<div class="flex justify-between items-center mb-2">
-								<h3 class="text-lg font-semibold"
-									th:text="${car.make} + ' ' + ${car.model}"></h3>
-								<span class="text-yellow-600 font-bold"
-									th:text="'₹' + ${car.hourlyRate} + '/hr'"></span>
-							</div>
-
-							<!-- Details Grid -->
-							<span class="mb-2"><i class="fas fa-map-marker-alt mr-2"></i><span th:text="${car.location}"></span></span>
-							<div class="grid grid-cols-2 gap-2 text-sm">
-								<span><i class="fas fa-tachometer-alt mr-2"></i><span th:text="${car.mileage} + ' km'"></span></span>
-								<span><i class="fas fa-suitcase mr-2"></i><span th:text="${car.luggage} + ' luggage'"></span></span> 
-								<span><i class="fas fa-users mr-2"></i><span th:text="${car.seats} + ' seats'"></span></span>
-							</div>
-							<button class="mt-3 gold-gradient text-white py-2 rounded-lg hover:bg-blue-600 transition">Book Now</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script th:src="@{/js/booking.js}"></script>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">LUXORA</div>
+                <div class="nav-links">
+                    <a href="#">Home</a>
+                    <a href="#">Cars</a>
+                    <a href="#">Packages</a>
+                    <a href="#">About</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="auth-buttons">
+                    <button class="login-btn">Login</button>
+                    <button class="register-btn">Register</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Tab Slider -->
+        <div class="tab-slider">
+            <div class="tab-header">
+                <button class="tab-btn active" data-tab="cars">Cars</button>
+                <button class="tab-btn" data-tab="packages">Rental Packages</button>
+            </div>
+            
+            <!-- Cars Tab Content (Default View) -->
+            <div class="tab-content active" id="cars-tab">
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <div class="filter-title">Find Your Perfect Car</div>
+                    <form class="filter-form" id="filter-form">
+                        <div class="form-group">
+                            <label for="location">Pickup Location</label>
+                            <select id="location" name="location">
+                                <option value="">Select Location</option>
+                                <option value="chennai">Chennai</option>
+                                <option value="coimbatore">Coimbatore</option>
+                                <option value="madurai">Madurai</option>
+                                <option value="trichy">Tiruchirappalli (Trichy)</option>
+                                <option value="salem">Salem</option>
+                                <option value="erode">Erode</option>
+                                <option value="tirunelveli">Tirunelveli</option>
+                                <option value="vellore">Vellore</option>
+                                <option value="thoothukudi">Thoothukudi</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickup-date">Pickup Date</label>
+                            <input type="date" id="pickup-date" name="pickup-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="return-date">Return Date</label>
+                            <input type="date" id="return-date" name="return-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="car-type">Car Type</label>
+                            <select id="car-type" name="car-type">
+                                <option value="">All Types</option>
+                                <option value="sedan">Sedan</option>
+                                <option value="suv">SUV</option>
+                                <option value="luxury">Luxury</option>
+                                <option value="sports">Sports</option>
+                                <option value="electric">Electric</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="price-range">Price Range (₹)</label>
+                            <div class="price-range">
+                                <input type="number" id="price-min" name="price-min" placeholder="Min" min="0">
+                                <span>-</span>
+                                <input type="number" id="price-max" name="price-max" placeholder="Max" min="0">
+                            </div>
+                        </div>
+                        <button type="submit" class="search-btn">
+                            <i class="fas fa-search"></i> Search Cars
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Car Listings -->
+                <div class="car-listings" id="car-listings">
+                    <!-- Car cards will be dynamically inserted here via JavaScript -->
+                </div>
+                
+                <!-- Pagination -->
+                <div class="pagination" id="pagination">
+                    <!-- Pagination items will be dynamically inserted here -->
+                </div>
+            </div>
+            
+            <!-- Packages Tab Content -->
+            <div class="tab-content" id="packages-tab">
+                <div class="packages-container">
+                    <!-- Adventure Package -->
+                    <div class="package-card">
+                        <div class="package-badge">POPULAR</div>
+                        <div class="package-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <div class="package-name">Adventure Package</div>
+                        <div class="package-price">₹7055 <span>/ day</span></div>
+                        <p>Perfect for outdoor enthusiasts and adventure seekers. Includes 4x4 vehicles with roof racks.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> 4x4 or SUV vehicle
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Roof rack included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> GPS navigation
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Unlimited mileage
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> 24/7 roadside assistance
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Family Package -->
+                    <div class="package-card">
+                        <div class="package-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="package-name">Family Package</div>
+                        <div class="package-price">₹7885 <span>/ day</span></div>
+                        <p>Comfortable and spacious vehicles perfect for family trips with extra amenities for children.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Minivan or large SUV
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Child seats included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Entertainment system
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Free cancellation
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Additional driver free
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Business Package -->
+                    <div class="package-card">
+                        <div class="package-icon">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="package-name">Business Package</div>
+                        <div class="package-price">₹9960 <span>/ day</span></div>
+                        <p>Premium vehicles with professional service for business travelers and corporate clients.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Luxury sedan or executive car
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Airport pickup & drop-off
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Wi-Fi hotspot included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Priority customer service
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Corporate billing option
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Luxury Package -->
+                    <div class="package-card">
+                        <div class="package-badge">PREMIUM</div>
+                        <div class="package-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="package-name">Luxury Experience</div>
+                        <div class="package-price">₹20750 <span>/ day</span></div>
+                        <p>Experience ultimate luxury with our premium vehicles and exclusive services.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Premium luxury vehicle
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Chauffeur option available
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Concierge service
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> VIP airport treatment
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Complimentary upgrades
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                    
+                    <!-- Weekend Package -->
+                    <div class="package-card">
+                        <div class="package-icon">
+                            <i class="fas fa-calendar-week"></i>
+                        </div>
+                        <div class="package-name">Weekend Getaway</div>
+                        <div class="package-price">₹6225 <span>/ day</span></div>
+                        <p>Perfect for short weekend trips with special weekend rates and flexible hours.</p>
+                        <div class="package-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Any category vehicle
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Friday to Monday special rate
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Late Sunday returns
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> 500 miles included
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i> Free car upgrade (subject to availability)
+                            </div>
+                        </div>
+                        <button class="package-btn">Book Package</button>
+                    </div>
+                </div>
+                
+                <!-- Scroll Controls for Packages -->
+                <div class="scroll-controls">
+                    <div class="scroll-btn scroll-left">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="scroll-btn scroll-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo">CarRent</div>
+                    <p>Premium car rental services with a wide range of vehicles to meet your needs. Experience comfort, style, and convenience on your journey.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Cars</a></li>
+                            <li><a href="#">Packages</a></li>
+                            <li><a href="#">Locations</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Our Services</h3>
+                        <ul>
+                            <li><a href="#">Car Rental</a></li>
+                            <li><a href="#">Chauffeur Services</a></li>
+                            <li><a href="#">Airport Transfers</a></li>
+                            <li><a href="#">Corporate Rentals</a></li>
+                            <li><a href="#">Long Term Rentals</a></li>
+                            <li><a href="#">Wedding Cars</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Contact Info</h3>
+                        <ul>
+                            <li><i class="fas fa-map-marker-alt"></i> 123 Street, Chennai, Tamil Nadu, India</li>
+                            <li><i class="fas fa-phone"></i> +91 98765 43210</li>
+                            <li><i class="fas fa-envelope"></i> info@carrent.in</li>
+                            <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter for updates and special offers.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your Email" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2025 CarRent. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Modal -->
+    <div class="modal" id="car-details-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-header" id="modal-header"></div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+    
+    <script th:src="@{/js/booking.js}"></script>
 </body>
 </html>

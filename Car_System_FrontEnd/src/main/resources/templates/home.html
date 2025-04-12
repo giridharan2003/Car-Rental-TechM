@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,10 +49,10 @@
             <a href="#contact" class="text-xl hover:text-gold-500 transition-colors">Contact</a>
         </div>
         <div class="mt-12 flex flex-col space-y-4">
-            <a href="login.html" class="text-white hover:text-gold-500 transition-colors flex items-center">
+            <a th:href="login.html" class="text-white hover:text-gold-500 transition-colors flex items-center">
                 <i class="fas fa-sign-in-alt mr-2"></i> Login
             </a>
-            <a href="login.html" class="gold-gradient text-white px-6 py-2 rounded-full text-center">
+            <a th:href="login.html" class="gold-gradient text-white px-6 py-2 rounded-full text-center">
                 Sign Up
             </a>
         </div>
@@ -106,7 +106,7 @@
                     From compact city cars to luxury SUVs, we have the perfect vehicle for every journey and budget.
                 </p>
                 <div class="flex space-x-4">
-                    <a href="booking.html" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity flex items-center">
+                    <a href="" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity flex items-center">
                         <span>Browse Fleet</span>
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>

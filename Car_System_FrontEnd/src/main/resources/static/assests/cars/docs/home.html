@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxora - Your Ultimate Car Rental Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --gold-primary: #D4AF37;
+            --gold-secondary: #FFD700;
+            --dark-background: #0F1020;
+            --modern-black: #121212;
+            --modern-white: #FCFCFC;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--modern-white);
+            color: #1A1A2E;
+            position: relative;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+        }
+        .gold-text {
+            color: var(--gold-primary);
+        }
+        .premium-shadow {
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.15);
+        }
+        .card-hover {
+            transition: all 0.3s ease-in-out;
+        }
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+        .montage-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.5rem;
+        }
+        .montage-image {
+            transition: transform 0.7s ease;
+            filter: brightness(0.9);
+        }
+        .montage-container:hover .montage-image {
+            transform: scale(1.1);
+            filter: brightness(1);
+        }
+        .overlay-text {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            padding: 10px 20px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(20px);
+        }
+        .montage-container:hover .overlay-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .floating-shape {
+            position: absolute;
+            opacity: 0.3;
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-50px); }
+        }
+        .floating-circle {
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+        }
+        .floating-triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid rgba(212, 175, 55, 0.1);
+        }
+        
+        /* Modern Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-primary);
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-secondary);
+        }
+        
+        /* Glass morphism */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Car slider */
+        .car-slider {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .car-slide-track {
+            display: flex;
+            animation: scroll 25s linear infinite;
+            width: calc(250px * 14);
+        }
+        .car-slide {
+            width: 250px;
+            padding: 15px;
+            transition: transform 0.3s;
+        }
+        .car-slide:hover {
+            transform: scale(1.05);
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-250px * 7)); }
+        }
+        
+        /* 3D Card effect */
+        .card-3d {
+            transition: transform 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        .card-3d:hover {
+            transform: rotateY(10deg) rotateX(10deg);
+        }
+        
+        /* Counting animation */
+        .count-animation {
+            display: inline-block;
+        }
+        
+        /* Parallax effect */
+        .parallax-section {
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .parallax-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 120%;
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+        }
+        
+        /* Mobile menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--modern-black);
+            z-index: 100;
+            transition: right 0.3s ease;
+            padding: 60px 30px;
+        }
+        .mobile-menu.active {
+            right: 0;
+        }
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 relative">
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+        <div class="relative">
+            <svg class="animate-spin h-16 w-16 text-gold-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-xl font-bold gold-text">L</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Shapes -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
+        <div class="floating-shape floating-circle w-64 h-64 top-20 left-10"></div>
+        <div class="floating-shape floating-triangle absolute top-1/3 right-1/4 transform rotate-45"></div>
+        <div class="floating-shape floating-circle w-48 h-48 bottom-1/4 right-10"></div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <button id="closeMenu" class="absolute top-6 right-6 text-white">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <div class="flex flex-col space-y-6 text-white">
+            <a href="#" class="text-xl hover:text-gold-500 transition-colors">Home</a>
+            <a href="#fleet" class="text-xl hover:text-gold-500 transition-colors">Cars</a>
+            <a href="#services" class="text-xl hover:text-gold-500 transition-colors">Services</a>
+            <a href="#about" class="text-xl hover:text-gold-500 transition-colors">About</a>
+            <a href="#contact" class="text-xl hover:text-gold-500 transition-colors">Contact</a>
+        </div>
+        <div class="mt-12 flex flex-col space-y-4">
+            <a href="login.html" class="text-white hover:text-gold-500 transition-colors flex items-center">
+                <i class="fas fa-sign-in-alt mr-2"></i> Login
+            </a>
+            <a href="login.html" class="gold-gradient text-white px-6 py-2 rounded-full text-center">
+                Sign Up
+            </a>
+        </div>
+    </div>
+
+    <!-- Fixed Header -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-6">
+                <a href="#" class="text-3xl font-bold gold-text tracking-wider flex items-center">
+                    <i class="fas fa-car-side mr-2 text-4xl"></i>
+                    <span class="text-black">LUXORA</span>
+                </a>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="booking.html" class="text-gray-800 hover:text-blue-600 transition-colors">Cars</a>
+                    <a href="booking.html" class="text-gray-800 hover:text-blue-600 transition-colors">Packages</a>
+                    <a href="#services" class="text-gray-800 hover:text-blue-600 transition-colors">Services</a>
+                    <a href="#about" class="text-gray-800 hover:text-blue-600 transition-colors">About</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="login.html" class="hidden md:block text-gray-800 hover:gold-text transition-colors">Login</a>
+                <a href="login.html" class="hidden md:block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors">
+                    Sign Up
+                </a>
+                <button id="menuToggle" class="md:hidden text-gray-800">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section with Video Background -->
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="video-container">
+                <video autoplay loop muted playsinline class="w-full h-full object-cover opacity-70">
+                    <source src="/assests/cars/Hero_montage1.mp4" type="video/mp4">
+                </video>
+                <div class="absolute inset-0 bg-black opacity-50"></div>
+            </div>
+        </div>
+        
+        <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10">
+            <!-- Left Content -->
+            <div data-aos="fade-right" data-aos-duration="1000">
+                <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight text-white">
+                    Find Your Perfect <span class="gold-text">Ride</span> Anywhere
+                </h1>
+                <p class="text-xl text-gray-200 mb-10 max-w-md">
+                    From compact city cars to luxury SUVs, we have the perfect vehicle for every journey and budget.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="booking.html" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity flex items-center">
+                        <span>Browse Fleet</span>
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                    <a href="#services" class="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-black transition-colors">
+                        Our Services
+                    </a>
+                </div>
+            </div>
+
+            <!-- Advanced Booking Section -->
+            <div data-aos="fade-left" data-aos-duration="1000" class="glass-card rounded-3xl premium-shadow p-8">
+                <h2 class="text-2xl font-bold mb-6 text-center gold-text">Book Your Perfect Car</h2>
+                <form class="space-y-6">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Pickup Location</label>
+                            <select class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent">
+                                <option>Select City</option>
+                                <option>Chennai</option>
+                                <option>Bangalore</option>
+                                <option>Coimbatore</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Car Type</label>
+                            <select class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent">
+                                <option>Any Type</option>
+                                <option>Sedan</option>
+                                <option>SUV</option>
+                                <option>Luxury</option>
+                                <option>Compact</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Pickup Date</label>
+                            <input type="date" class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Return Date</label>
+                            <input type="date" class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent">
+                        </div>
+                    </div>
+                    <div class="flex space-x-4 mt-4">
+                        <button type="submit" class="w-full gold-gradient text-white py-4 rounded-full hover:opacity-90 transition-opacity flex items-center justify-center">
+                            <i class="fas fa-search mr-2"></i>
+                            <span>Search Cars</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Scroll Down Animation -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white text-center">
+            <p class="mb-2">Scroll Down</p>
+            <div class="animate-bounce">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Counter Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-4xl md:text-5xl font-bold gold-text mb-2">
+                        <span class="count-animation" data-count="15000">0</span>+
+                    </div>
+                    <p class="text-gray-600">Happy Customers</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-4xl md:text-5xl font-bold gold-text mb-2">
+                        <span class="count-animation" data-count="500">0</span>+
+                    </div>
+                    <p class="text-gray-600">Luxury Vehicles</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-4xl md:text-5xl font-bold gold-text mb-2">
+                        <span class="count-animation" data-count="15">0</span>
+                    </div>
+                    <p class="text-gray-600">Cities Covered</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-4xl md:text-5xl font-bold gold-text mb-2">
+                        <span class="count-animation" data-count="10">0</span>
+                    </div>
+                    <p class="text-gray-600">Years Experience</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Car Categories with Animated Icons -->
+    <section id="fleet" class="container mx-auto px-4 py-16">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <h2 class="text-4xl font-bold gold-text mb-4">Our Car Categories</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Explore our diverse range of vehicles designed to meet every need and preference.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div class="bg-white rounded-3xl premium-shadow overflow-hidden card-hover text-center p-6" data-aos="flip-left" data-aos-delay="100">
+                <div class="car-icon-container mb-4">
+                    <i class="fas fa-car text-5xl gold-text"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Economy</h3>
+                <p class="text-gray-600">Budget-friendly compact cars</p>
+                <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View Models <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+            <div class="bg-white rounded-3xl premium-shadow overflow-hidden card-hover text-center p-6" data-aos="flip-left" data-aos-delay="200">
+                <div class="car-icon-container mb-4">
+                    <i class="fas fa-truck-monster text-5xl gold-text"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">SUV</h3>
+                <p class="text-gray-600">Spacious and versatile vehicles</p>
+                <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View Models <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+            <div class="bg-white rounded-3xl premium-shadow overflow-hidden card-hover text-center p-6" data-aos="flip-left" data-aos-delay="300">
+                <div class="car-icon-container mb-4">
+                    <i class="fas fa-car-side text-5xl gold-text"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Luxury</h3>
+                <p class="text-gray-600">Premium comfort and style</p>
+                <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View Models <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+            <div class="bg-white rounded-3xl premium-shadow overflow-hidden card-hover text-center p-6" data-aos="flip-left" data-aos-delay="400">
+                <div class="car-icon-container mb-4">
+                    <i class="fas fa-shuttle-van text-5xl gold-text"></i>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Van/Minivan</h3>
+                <p class="text-gray-600">Perfect for groups and families</p>
+                <a href="#" class="mt-4 inline-block text-blue-600 hover:underline">View Models <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Continuous Car Showcase Slider -->
+    <section class="py-16 bg-gray-100 overflow-hidden"id="fleet">
+        <div class="container mx-auto px-4 mb-8 text-center" data-aos="fade-up">
+            <h2 class="text-4xl font-bold gold-text mb-4">Featured Vehicles</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">
+                Browse our selection of premium vehicles ready for your next adventure
+            </p>
+        </div>
+        
+        <div class="car-slider">
+            <div class="car-slide-track">
+                <!-- Duplicate these for continuous scrolling -->
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/cclass.webp" alt="Car 1" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Audi A4</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/3series.webp" alt="Car 2" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">BMW 3 Series</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/eclass.webp" alt="Car 3" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Mercedes C-Class</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/mpv/crysta.webp" alt="Car 4" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Toyota RAV4</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/sedan/city.webp" alt="Car 5" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Honda CR-V</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/rangerover.webp" alt="Car 6" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Range Rover Evoque</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/glc.webp" alt="Car 7" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Porsche Cayenne</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Duplicate for continuous scrolling -->
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/x3.webp" alt="Car 1" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Audi A4</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/3series.webp" alt="Car 2" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">BMW 3 Series</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/eclass.webp" alt="Car 3" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Mercedes C-Class</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/camry.webp" alt="Car 4" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Toyota RAV4</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/cooper.webp" alt="Car 5" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Honda CR-V</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="car-slide">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                        <img src="/assests/cars/luxury/rangerover.webp" alt="Car 6" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-semibold">Range Rover Evoque</h3>
+                            <p class="text-sm text-gray-600">₹1300/day</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parallax Section -->
+    <section class="parallax-section">
+        <div class="parallax-bg" style="background-image: url('/assests/cars/porshegt3.jpg')"></div>
+        <div class="container mx-auto px-4 text-center text-white">
+            <h2 class="text-4xl font-bold mb-6" data-aos="zoom-in">Experience Luxury Like Never Before</h2>
+            <a href="#" class="gold-gradient px-8 py-3 rounded-full inline-block" data-aos="fade-up" data-aos-delay="200">
+                Book Premium Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Luxury Fleet Montage Section with Hover Effects -->
+    <section class="container mx-auto px-4 py-16">
+        <div class="text-center mb-12" data-aos="fade-up">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl font-bold gold-text mb-4">Luxury Fleet Showcase</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Discover our collection of premium vehicles designed to elevate your journey
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Luxury Car 1 -->
+                <div class="montage-container" data-aos="fade-up" data-aos-delay="100">
+                    <img src="/assests/cars/luxury/cclass.webp" alt="Luxury Sedan" class="w-full montage-image">
+                    <div class="overlay-text">
+                        <h3 class="text-xl font-bold mb-1">Mercedes S-Class</h3>
+                        <p class="text-sm">Experience unparalleled luxury</p>
+                    </div>
+                </div>
+                <!-- Luxury Car 2 -->
+                <div class="montage-container" data-aos="fade-up" data-aos-delay="200">
+                    <img src="/assests/cars/luxury/x3.webp" alt="Luxury SUV" class="w-full montage-image">
+                    <div class="overlay-text">
+                        <h3 class="text-xl font-bold mb-1">BMW X7</h3>
+                        <p class="text-sm">Commanding presence, ultimate comfort</p>
+                    </div>
+                </div>
+                <!-- Luxury Car 3 -->
+                <div class="montage-container" data-aos="fade-up" data-aos-delay="300">
+                    <img src="/assests/cars/luxury/cooper.webp" alt="Sports Car" class="w-full montage-image">
+                    <div class="overlay-text">
+                        <h3 class="text-xl font-bold mb-1">Mini Cooper</h3>
+                        <p class="text-sm">Pure driving exhilaration</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="inline-block border-2 border-black px-8 py-3 rounded-full hover:bg-black hover:text-white transition-colors">
+                    View All Luxury Vehicles
+                </a>
+            </div>
+        </section>
+    
+        <!-- Services Section with Card Hover Effects -->
+        <section id="services" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold gold-text mb-4">Premium Services</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        Enhancing your rental experience with our exclusive services and benefits
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Service 1 -->
+                    <div class="bg-white rounded-3xl premium-shadow p-8 card-3d" data-aos="fade-up" data-aos-delay="100">
+                        <div class="text-4xl gold-text mb-6">
+                            <i class="fas fa-map-marked-alt"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Doorstep Delivery</h3>
+                        <p class="text-gray-600 mb-6">
+                            We deliver your chosen vehicle directly to your location, saving you time and hassle.
+                        </p>
+                        <a href="#" class="text-blue-600 hover:underline flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 2 -->
+                    <div class="bg-white rounded-3xl premium-shadow p-8 card-3d" data-aos="fade-up" data-aos-delay="200">
+                        <div class="text-4xl gold-text mb-6">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Chauffeur Service</h3>
+                        <p class="text-gray-600 mb-6">
+                            Professional drivers at your service for a truly luxurious and stress-free experience.
+                        </p>
+                        <a href="#" class="text-blue-600 hover:underline flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Service 3 -->
+                    <div class="bg-white rounded-3xl premium-shadow p-8 card-3d" data-aos="fade-up" data-aos-delay="300">
+                        <div class="text-4xl gold-text mb-6">
+                            <i class="fas fa-route"></i>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Customized Tours</h3>
+                        <p class="text-gray-600 mb-6">
+                            Bespoke travel itineraries tailored to your preferences for an unforgettable journey.
+                        </p>
+                        <a href="#" class="text-blue-600 hover:underline flex items-center">
+                            Learn More <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- Testimonials Section -->
+        <section class="container mx-auto px-4 py-16">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-4xl font-bold gold-text mb-4">What Our Customers Say</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">
+                    Read reviews from our satisfied customers who have experienced our premium service
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white rounded-3xl premium-shadow p-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex items-center mb-6">
+                        <div class="gold-text mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600">5.0</span>
+                    </div>
+                    <p class="text-gray-600 italic mb-6">
+                        "The service was impeccable from start to finish. The BMW 7 Series was delivered on time and in pristine condition. Will definitely rent again!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="/assests/cars/dp2.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Michael Thompson</h4>
+                            <p class="text-sm text-gray-600">CEO, TechGlobal</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white rounded-3xl premium-shadow p-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex items-center mb-6">
+                        <div class="gold-text mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-gray-600">5.0</span>
+                    </div>
+                    <p class="text-gray-600 italic mb-6">
+                        "Luxora made our anniversary trip special with their chauffeur service. The attention to detail and personalized service exceeded our expectations."
+                    </p>
+                    <div class="flex items-center">
+                        <img src="/assests/cars/dp1.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-600">Interior Designer</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white rounded-3xl premium-shadow p-8" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex items-center mb-6">
+                        <div class="gold-text mr-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-600">4.5</span>
+                    </div>
+                    <p class="text-gray-600 italic mb-6">
+                        "As a frequent business traveler, I've tried many rental services. Luxora stands out with their fleet quality and seamless booking process. Highly recommended!"
+                    </p>
+                    <div class="flex items-center">
+                        <img src="/assests/cars/dp3.jpg" alt="Customer" class="w-12 h-12 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">David Chen</h4>
+                            <p class="text-sm text-gray-600">Marketing Director</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- About Us Section -->
+        <section id="about" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div data-aos="fade-right">
+                        <div class="relative">
+                            <img src="/assests/cars/Car rental-g.png" alt="About Luxora" class="rounded-3xl shadow-xl">
+                            <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-xl premium-shadow">
+                                <p class="text-xl font-bold gold-text">10+ Years</p>
+                                <p class="text-gray-600">of Excellence</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos="fade-left">
+                        <h2 class="text-4xl font-bold gold-text mb-6">About Luxora</h2>
+                        <p class="text-gray-600 mb-6">
+                            Founded in 2013, Luxora has revolutionized the car rental industry with our commitment to luxury, convenience, and exceptional customer service. What began as a small fleet of premium vehicles has grown into a comprehensive mobility solution.
+                        </p>
+                        <p class="text-gray-600 mb-8">
+                            Our mission is to provide an unparalleled rental experience by combining top-tier vehicles with personalized service. We believe that every journey should be as enjoyable as the destination itself.
+                        </p>
+                        <div class="grid grid-cols-2 gap-6 mb-8">
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle gold-text text-xl mr-3"></i>
+                                <span>Premium Fleet</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle gold-text text-xl mr-3"></i>
+                                <span>24/7 Support</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle gold-text text-xl mr-3"></i>
+                                <span>Transparent Pricing</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check-circle gold-text text-xl mr-3"></i>
+                                <span>Flexible Booking</span>
+                            </div>
+                        </div>
+                        <a href="#" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity inline-block">
+                            Learn More About Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-12" data-aos="fade-up">
+                    <h2 class="text-4xl font-bold gold-text mb-4">Contact Us</h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto">
+                        Have questions or need assistance? Reach out to our dedicated support team
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Contact Info -->
+                    <div class="col-span-1" data-aos="fade-up" data-aos-delay="100">
+                        <div class="bg-white rounded-3xl premium-shadow p-8 h-full">
+                            <h3 class="text-2xl font-semibold mb-6">Get in Touch</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="gold-text text-xl mt-1 mr-4">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Our Location</h4>
+                                        <p class="text-gray-600">123 Luxury Lane, Prestige Heights, CA 90210</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="gold-text text-xl mt-1 mr-4">
+                                        <i class="fas fa-phone-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Phone Number</h4>
+                                        <p class="text-gray-600">+1 (800) LUXORA-1</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="gold-text text-xl mt-1 mr-4">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Email Address</h4>
+                                        <p class="text-gray-600">info@luxorarentals.com</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="gold-text text-xl mt-1 mr-4">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold mb-1">Working Hours</h4>
+                                        <p class="text-gray-600">Mon-Sat: 8AM - 8PM<br>Sunday: 10AM - 6PM</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Contact Form -->
+                    <div class="col-span-2" data-aos="fade-up" data-aos-delay="200">
+                        <div class="bg-white rounded-3xl premium-shadow p-8">
+                            <form class="space-y-6">
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Full Name</label>
+                                        <input type="text" class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent" placeholder="Your Name">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Email Address</label>
+                                        <input type="email" class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent" placeholder="Your Email">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Subject</label>
+                                    <input type="text" class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent" placeholder="Subject">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-2">Message</label>
+                                    <textarea rows="4" class="w-full border-b border-gray-300 py-3 focus:border-gold-text transition-colors bg-transparent" placeholder="Your Message"></textarea>
+                                </div>
+                                <button type="submit" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity">
+                                    Send Message
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    
+        <!-- Newsletter Section -->
+        <section class="py-16 bg-gray-800 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <div data-aos="fade-up">
+                    <h2 class="text-3xl font-bold mb-4">Stay Connected with <span class="gold-text">Luxora</span></h2>
+                    <p class="text-gray-300 max-w-2xl mx-auto mb-8">
+                        Subscribe to our newsletter for exclusive offers, new fleet additions, and travel inspiration
+                    </p>
+                    <form class="flex flex-col md:flex-row justify-center max-w-lg mx-auto">
+                        <input type="email" placeholder="Your Email Address" class="px-6 py-4 rounded-l-full w-full md:w-auto focus:outline-none text-black">
+                        <button type="submit" class="gold-gradient text-white px-8 py-4 rounded-r-full mt-4 md:mt-0">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    
+        <!-- Footer -->
+        <footer class="bg-black text-white py-16">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                    <div>
+                        <a href="#" class="text-3xl font-bold gold-text tracking-wider flex items-center mb-6">
+                            <i class="fas fa-car-side mr-2 text-4xl"></i>
+                            <span>LUXORA</span>
+                        </a>
+                        <p class="text-gray-400 mb-6">
+                            Redefining the luxury car rental experience with premium vehicles and exceptional service.
+                        </p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6">Quick Links</h3>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                            <li><a href="#fleet" class="text-gray-400 hover:text-white transition-colors">Cars</a></li>
+                            <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+                            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                            <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6">Our Services</h3>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Luxury Rentals</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Chauffeur Service</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Airport Transfers</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Wedding Packages</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Corporate Services</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6">Support</h3>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQs</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Terms & Conditions</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Cancellation Policy</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="border-t border-gray-800 pt-8">
+                    <p class="text-center text-gray-400">
+                        © 2025 Luxora. All rights reserved. Designed with <i class="fas fa-heart text-red-500"></i> for luxury car enthusiasts.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    
+        <!-- Back to Top Button -->
+        <a href="#" id="backToTop" class="fixed bottom-8 right-8 bg-black text-white p-4 rounded-full shadow-lg opacity-0 invisible transition-all duration-300">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    
+        <!-- JavaScript -->
+        <script>
+            // Initialize AOS
+            document.addEventListener('DOMContentLoaded', function() {
+                AOS.init({
+                    duration: 800,
+                    once: true
+                });
+                
+                // Preloader
+                setTimeout(function() {
+                    document.getElementById('preloader').style.opacity = 0;
+                    setTimeout(function() {
+                        document.getElementById('preloader').style.display = 'none';
+                    }, 500);
+                }, 1000);
+                
+                // Mobile Menu Toggle
+                const menuToggle = document.getElementById('menuToggle');
+                const mobileMenu = document.getElementById('mobileMenu');
+                const menuOverlay = document.getElementById('menuOverlay');
+                const closeMenu = document.getElementById('closeMenu');
+                
+                menuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.add('active');
+                    menuOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                function closeMenuFunction() {
+                    mobileMenu.classList.remove('active');
+                    menuOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                
+                closeMenu.addEventListener('click', closeMenuFunction);
+                menuOverlay.addEventListener('click', closeMenuFunction);
+                
+                // Back to Top Button
+                const backToTopButton = document.getElementById('backToTop');
+                
+                window.addEventListener('scroll', function() {
+                    if (window.pageYOffset > 300) {
+                        backToTopButton.classList.add('opacity-100', 'visible');
+                        backToTopButton.classList.remove('opacity-0', 'invisible');
+                    } else {
+                        backToTopButton.classList.remove('opacity-100', 'visible');
+                        backToTopButton.classList.add('opacity-0', 'invisible');
+                    }
+                });
+                
+                backToTopButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+                
+                // Counting Animation
+                const countElements = document.querySelectorAll('.count-animation');
+                
+                const animateValue = (element, start, end, duration) => {
+                    let startTimestamp = null;
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                        const value = Math.floor(progress * (end - start) + start);
+                        element.textContent = value;
+                        if (progress < 1) {
+                            window.requestAnimationFrame(step);
+                        }
+                    };
+                    window.requestAnimationFrame(step);
+                };
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const target = entry.target;
+                            const targetValue = parseInt(target.getAttribute('data-count'));
+                            animateValue(target, 0, targetValue, 2000);
+                            observer.unobserve(target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                countElements.forEach(element => {
+                    observer.observe(element);
+                });
+                
+                // Parallax Effect
+                const parallaxBg = document.querySelector('.parallax-bg');
+                if (parallaxBg) {
+                    window.addEventListener('scroll', function() {
+                        const parallaxSection = document.querySelector('.parallax-section');
+                        const sectionPosition = parallaxSection.getBoundingClientRect();
+                        
+                        // Only apply parallax if section is in viewport
+                        if (sectionPosition.top < window.innerHeight && sectionPosition.bottom > 0) {
+                            const scrollPosition = window.pageYOffset;
+                            const sectionOffset = parallaxSection.offsetTop;
+                            const scrollRelative = scrollPosition - sectionOffset + window.innerHeight;
+                            
+                            parallaxBg.style.transform = `translateY(${scrollRelative * 0.1}px)`;
+                        }
+                    });
+                }
+                
+                // GSAP Animations
+                gsap.registerPlugin(ScrollTrigger);
+                
+                // Car icons animation
+                gsap.from('.car-icon-container', {
+                    scrollTrigger: {
+                        trigger: '.car-icon-container',
+                        start: 'top bottom',
+                        end: 'bottom top',
+                        toggleActions: 'play none none reverse'
+                    },
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.2
+                });
+            });
+        </script>
+    </body>
+    </html>

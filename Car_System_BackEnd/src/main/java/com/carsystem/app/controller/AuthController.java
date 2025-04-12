@@ -1,10 +1,19 @@
 package com.carsystem.app.controller;
 
-import com.carsystem.app.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import com.carsystem.app.dto.ApiResponse;
+import com.carsystem.app.dto.LoginRequest;
+import com.carsystem.app.dto.OtpRequest;
+import com.carsystem.app.dto.RegisterRequest;
+import com.carsystem.app.dto.ResetPasswordRequest;
+import com.carsystem.app.service.AuthService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -14,27 +23,27 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Map<String, String> loginData) {
-        return authService.login(loginData);
+    public ApiResponse<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return authService.login(loginRequest);
     }
 
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody Map<String, String> registrationData) {
-        return authService.register(registrationData);
+    public ApiResponse<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
+        return authService.register(registerRequest);
     }
 
     @PostMapping("/send-otp")
-    public Map<String, Object> sendOTP(@RequestBody Map<String, String> otpData) {
-        return authService.sendOTP(otpData);
+    public ApiResponse<?> sendOTP(@Valid @RequestBody OtpRequest otpRequest) {
+        return authService.sendOTP(otpRequest);
     }
 
     @PostMapping("/verify-otp")
-    public Map<String, Object> verifyOTP(@RequestBody Map<String, String> otpData) {
-        return authService.verifyOTP(otpData);
+    public ApiResponse<?> verifyOTP(@Valid @RequestBody OtpRequest otpRequest) {
+        return authService.verifyOTP(otpRequest);
     }
 
     @PostMapping("/reset-password")
-    public Map<String, Object> resetPassword(@RequestBody Map<String, String> resetData) {
-        return authService.resetPassword(resetData);
+    public ApiResponse<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
+        return authService.resetPassword(resetPasswordRequest);
     }
 }

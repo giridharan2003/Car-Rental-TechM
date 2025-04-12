@@ -1,27 +1,43 @@
 package com.carsystem.app.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.carsystem.app.model.User;
-import com.carsystem.app.repository.UserRepository;
-
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.carsystem.app.dto.ApiResponse;
+import com.carsystem.app.dto.LoginRequest;
+import com.carsystem.app.dto.OtpRequest;
+import com.carsystem.app.dto.RegisterRequest;
+import com.carsystem.app.dto.ResetPasswordRequest;
+import com.carsystem.app.exception.InvalidCredentialsException;
+import com.carsystem.app.exception.InvalidOtpException;
+import com.carsystem.app.exception.UserAlreadyExistsException;
+import com.carsystem.app.exception.UserNotFoundException;
+import com.carsystem.app.model.Otp;
+import com.carsystem.app.model.User;
+import com.carsystem.app.repository.OtpRepository;
+import com.carsystem.app.repository.UserRepository;
+import com.carsystem.app.util.JwtUtil;
 
 @Service
 public class AuthService {
-	
-	@Autowired
-	private UserRepository userRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private OtpRepository otpRepository;
 
     @Autowired
     private EmailService emailService;
 
-    private Map<String, String> otpStore = new HashMap<>();
-    private Map<String, LocalDateTime> otpExpirationStore = new HashMap<>();
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private String generateOTP() {
         SecureRandom random = new SecureRandom();
@@ -29,10 +45,8 @@ public class AuthService {
         return String.format("%06d", otp);
     }
 
-    public Map<String, Object> sendOTP(Map<String, String> otpData) {
-        Map<String, Object> response = new HashMap<>();
-        String email = otpData.get("email");
-
+    public ApiResponse<String> sendOTP(OtpRequest otpRequest) {
+        String email = otpRequest.getEmail();
         String otp = generateOTP();
 
         StringBuilder htmlBody = new StringBuilder();
@@ -43,117 +57,84 @@ public class AuthService {
         htmlBody.append("</body></html>");
 
         try {
-            otpStore.put(email, otp);
-            otpExpirationStore.put(email, LocalDateTime.now().plusMinutes(5));
+            Otp otpEntity = otpRepository.findByEmail(email);
+            if (otpEntity == null) {
+                otpEntity = new Otp();
+                otpEntity.setEmail(email);
+            }
+            otpEntity.setOtp(otp);
+            otpEntity.setCreatedAt(LocalDateTime.now());
+            otpEntity.setExpiresAt(LocalDateTime.now().plusMinutes(5));
+            otpRepository.save(otpEntity);
 
             emailService.sendEmail(email, "Your OTP Code", htmlBody);
 
-            response.put("status", "success");
-            response.put("message", "OTP sent to your email");
+            return new ApiResponse<>(true, "OTP sent to your email", null);
         } catch (Exception e) {
-            response.put("status", "failure");
-            response.put("message", "Failed to send OTP: " + e.getMessage());
+            throw new RuntimeException("Failed to send OTP: " + e.getMessage());
         }
-
-        return response;
     }
 
-    public Map<String, Object> verifyOTP(Map<String, String> otpData) {
-        Map<String, Object> response = new HashMap<>();
-        String email = otpData.get("email");
-        String enteredOtp = otpData.get("otp");
+    public ApiResponse<String> verifyOTP(OtpRequest otpRequest) {
+        String email = otpRequest.getEmail();
+        String enteredOtp = otpRequest.getOtp();
 
-        String storedOtp = otpStore.get(email);
-        LocalDateTime expirationTime = otpExpirationStore.get(email);
-
-        if (storedOtp == null || expirationTime == null) {
-            response.put("status", "failure");
-            response.put("message", "OTP not found or expired");
-        } else if (expirationTime.isBefore(LocalDateTime.now())) {
-            otpStore.remove(email);
-            otpExpirationStore.remove(email);
-            response.put("status", "failure");
-            response.put("message", "OTP has expired");
-        } else if (storedOtp.equals(enteredOtp)) {
-            otpStore.remove(email);
-            otpExpirationStore.remove(email);
-            response.put("status", "success");
-            response.put("message", "OTP verified successfully");
-        } else {
-            response.put("status", "failure");
-            response.put("message", "Invalid OTP");
+        Otp otpEntity = otpRepository.findByEmail(email);
+        if (otpEntity == null) {
+            throw new InvalidOtpException("OTP not found");
+        }
+        if (otpEntity.getExpiresAt().isBefore(LocalDateTime.now())) {
+            otpRepository.delete(otpEntity);
+            throw new InvalidOtpException("OTP has expired");
+        }
+        if (!otpEntity.getOtp().equals(enteredOtp)) {
+            throw new InvalidOtpException("Invalid OTP");
         }
 
-        return response;
+        otpRepository.delete(otpEntity);
+        return new ApiResponse<>(true, "OTP verified successfully", null);
     }
 
-    public Map<String, Object> register(Map<String, String> registrationData) {
-        Map<String, Object> response = new HashMap<>();
-        String email = registrationData.get("email");
-        String password = registrationData.get("password");
-        String firstName = registrationData.get("firstName");
-        String lastName = registrationData.get("lastName");
-        String phone = registrationData.get("phone");
-        String address = registrationData.get("address");
-
-        if (userRepository.findByEmail(email) != null) {
-            response.put("status", "failure");
-            response.put("message", "Email already exists");
-        } else {
-            User user = new User();
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setFirstName(firstName);
-            user.setLastName(lastName);
-            user.setPhone(phone);
-            user.setAddress(address);
-            user.setAdmin(false);
-            user.setCreatedAt(LocalDateTime.now());
-            user.setUpdatedAt(LocalDateTime.now());
-
-            userRepository.save(user);
-
-            response.put("status", "success");
-            response.put("message", "Registration successful");
+    public ApiResponse<String> register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()) != null) {
+            throw new UserAlreadyExistsException("Email already exists");
         }
 
-        return response;
+        User user = new User();
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPhone(request.getPhone());
+        user.setAddress(request.getAddress());
+        user.setAdmin(false);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+
+        userRepository.save(user);
+        return new ApiResponse<>(true, "Registration successful", null);
     }
 
-    public Map<String, Object> login(Map<String, String> loginData) {
-        Map<String, Object> response = new HashMap<>();
-        String email = loginData.get("email");
-        String password = loginData.get("password");
-
-        User user = userRepository.findByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            response.put("status", "success");
-            response.put("message", "Login successful");
-        } else {
-            response.put("status", "failure");
-            response.put("message", "Invalid username or password");
+    public ApiResponse<String> login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail());
+        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException("Invalid email or password");
         }
-        return response;
+
+        String token = jwtUtil.generateToken(user.getEmail());
+        return new ApiResponse<>(true, "Login successful", token);
     }
 
-    public Map<String, Object> resetPassword(Map<String, String> resetData) {
-        Map<String, Object> response = new HashMap<>();
-        String email = resetData.get("email");
-        String newPassword = resetData.get("newPassword");
-
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            user.setPassword(newPassword);
-            user.setUpdatedAt(LocalDateTime.now());
-            userRepository.save(user);
-
-            response.put("status", "success");
-            response.put("message", "Password reset successful");
-        } else {
-            response.put("status", "failure");
-            response.put("message", "User not found");
+    public ApiResponse<String> resetPassword(ResetPasswordRequest request) {
+        User user = userRepository.findByEmail(request.getEmail());
+        if (user == null) {
+            throw new UserNotFoundException("User not found");
         }
 
-        return response;
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(user);
+
+        return new ApiResponse<>(true, "Password reset successful", null);
     }
 }

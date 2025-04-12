@@ -304,7 +304,7 @@ loginFormSubmit.addEventListener('submit', async function(e) {
         const data = await response.json();
 
         if (response.ok) {
-            window.location.href = "/dashboard"; // Redirect to dashboard page
+            window.location.href = "/home";
         } else {
             showError('loginEmailError', data.message || 'Invalid email or password');
         }

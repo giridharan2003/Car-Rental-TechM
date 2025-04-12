@@ -1,0 +1,872 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>User Management | Luxora</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Dark mode styles */
+        .dark {
+            background-color: #1d0a2f;
+            color: #ffffff;
+        }
+        
+        .dark .flex-1 {
+            background-color: #1d0a2f;
+        }
+        
+        .dark .bg-white {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        
+        .dark .text-gray-800,
+        .dark .text-gray-900 {
+            color: #ffffff;
+        }
+        
+        .dark .text-gray-600,
+        .dark .text-gray-500,
+        .dark .text-gray-700 {
+            color: #b0b0b0;
+        }
+        
+        .dark .border-gray-200,
+        .dark .divide-gray-200 {
+            border-color: #3d3d3d;
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: #2d2d2d;
+        }
+        
+        .dark .bg-purple-50 {
+            background-color: #2d1a42;
+        }
+        
+        .dark .hover\:bg-gray-100:hover {
+            background-color: #3d3d3d;
+        }
+        
+        .dark .modal {
+            background-color: rgba(0,0,0,0.7);
+        }
+        
+        .dark .modal-content {
+            background-color: #1e1e1e;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        .dark .table-row:hover {
+            background-color: #3d3d3d;
+        }
+        
+        /* Search bar dark mode */
+        .dark #searchUsers {
+            background-color: #2d2d2d;
+            border-color: #3d3d3d;
+            color: #ffffff;
+        }
+        
+        /* Select dropdowns dark mode */
+        .dark #statusFilter,
+        .dark #carTypeFilter,
+        .dark #tripCountFilter {
+            background-color: #2d2d2d;
+            border-color: #3d3d3d;
+            color: #ffffff;
+        }
+        
+        /* Reset button dark mode */
+        .dark #resetFilters {
+            background-color: #3d3d3d;
+            color: #ffffff;
+        }
+        
+        /* Modal content dark mode */
+        .dark .modal-content {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        
+        /* Original styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 24px;
+            border: none;
+            width: 60%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .table-row {
+            transition: all 0.2s ease;
+        }
+        .table-row:hover {
+            background-color: #f9fafb;
+            transform: translateY(-1px);
+        }
+        .delete-btn {
+            transition: all 0.2s ease;
+        }
+        .delete-btn:hover {
+            transform: scale(1.1);
+        }
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: capitalize;
+        }
+        .status-active {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+        .status-completed {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        .status-cancelled {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .status-upcoming {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white border-r border-gray-200 shadow-sm">
+        <div class="flex items-center justify-center h-16 border-b border-gray-200">
+            <div class="text-2xl font-bold text-purple-600">
+                Luxora
+            </div>
+        </div>
+        <nav class="mt-8">
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="dashboard.html">
+                <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
+                Dashboard
+            </a>
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="car-management.html">
+                <i class="fas fa-car mr-3 text-gray-500"></i>
+                Car Management
+            </a>
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="transactions.html">
+                <i class="fas fa-file-invoice-dollar mr-3 text-gray-500"></i>
+                Transactions
+            </a>
+            <a class="flex items-center px-6 py-3 text-gray-900 bg-purple-50 font-medium border-r-4 border-purple-600" href="users.html">
+                <i class="fas fa-users mr-3 text-purple-600"></i>
+                User Management
+            </a>
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="analytics.html">
+                <i class="fas fa-chart-line mr-3 text-gray-500"></i>
+                Analytics
+            </a>
+            <div class="mt-8">
+                <a class="flex items-center px-6 py-3 text-red-600 hover:bg-gray-100 transition-colors duration-200" href="#">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+    <!-- Main Content -->
+    <div class="flex-1 overflow-x-hidden overflow-y-auto">
+        <div class="p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">User Management</h1>
+                    <p class="text-gray-600 mt-1">Manage all registered users and their activities</p>
+                </div>
+                <div class="relative mt-4 md:mt-0 w-full md:w-auto">
+                    <input type="text" id="searchUsers" placeholder="Search users..." 
+                           class="pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent w-full md:w-64 transition-all duration-200">
+                    <i class="fas fa-search absolute left-3 top-3.5 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- Filters -->
+            <div class="bg-white rounded-xl shadow-sm p-4 mb-6 border border-gray-100">
+                <div class="flex flex-col md:flex-row md:items-center md:space-x-4 space-y-3 md:space-y-0">
+                    <div class="w-full md:w-auto">
+                        <label for="statusFilter" class="block text-sm font-medium text-gray-700 mb-1">Rental Status</label>
+                        <select id="statusFilter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                            <option value="all">All Statuses</option>
+                            <option value="active">Currently Renting</option>
+                            <option value="completed">Completed Trips</option>
+                            <option value="cancelled">Cancelled Trips</option>
+                            <option value="upcoming">Upcoming Trips</option>
+                            <option value="no-trips">No Trips</option>
+                        </select>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <label for="carTypeFilter" class="block text-sm font-medium text-gray-700 mb-1">Car Type</label>
+                        <select id="carTypeFilter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                            <option value="all">All Types</option>
+                            <option value="suv">SUV</option>
+                            <option value="sedan">Sedan</option>
+                            <option value="hatchback">Hatchback</option>
+                            <option value="luxury">Luxury</option>
+                        </select>
+                    </div>
+                    <div class="w-full md:w-auto">
+                        <label for="tripCountFilter" class="block text-sm font-medium text-gray-700 mb-1">Trip Count</label>
+                        <select id="tripCountFilter" class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm rounded-md">
+                            <option value="all">Any</option>
+                            <option value="0">0 trips</option>
+                            <option value="1-3">1-3 trips</option>
+                            <option value="4-6">4-6 trips</option>
+                            <option value="7+">7+ trips</option>
+                        </select>
+                    </div>
+                    <div class="w-full md:w-auto flex items-end">
+                        <button id="resetFilters" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-colors duration-200 text-sm">
+                            Reset Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Current Status</th>
+                                <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body" class="bg-white divide-y divide-gray-200">
+                            <!-- Users will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Details Modal -->
+<div id="userDetailsModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-400 hover:text-gray-600 cursor-pointer transition-colors duration-200" onclick="closeModal('userDetailsModal')">
+            <i class="fas fa-times text-xl"></i>
+        </span>
+        <h2 class="text-2xl font-bold text-gray-800 mb-2" id="modalUserName"></h2>
+        <div class="flex items-center text-gray-600 mb-6">
+            <i class="fas fa-id-card mr-2"></i>
+            <span id="modalUserId"></span>
+            <span class="mx-2">•</span>
+            <i class="fas fa-phone mr-2"></i>
+            <span id="modalUserPhone"></span>
+            <span class="mx-2">•</span>
+            <i class="fas fa-envelope mr-2"></i>
+            <span id="modalUserEmail"></span>
+        </div>
+        
+        <h3 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-2">Rental History</h3>
+        <div class="space-y-4" id="rentalHistoryContainer">
+            <!-- Rental history will be inserted here -->
+        </div>
+        
+        <div class="mt-8 flex justify-end">
+            <button type="button" class="px-6 py-2.5 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200 mr-3" onclick="closeModal('userDetailsModal')">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteUserModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-400 hover:text-gray-600 cursor-pointer transition-colors duration-200" onclick="closeModal('deleteUserModal')">
+            <i class="fas fa-times text-xl"></i>
+        </span>
+        <div class="flex flex-col items-center text-center py-4">
+            <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mb-4">
+                <i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i>
+            </div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Confirm Deletion</h2>
+            <p class="text-gray-600 mb-6">Are you sure you want to delete this user account? All associated data will be permanently removed.</p>
+            <div class="flex justify-center space-x-3">
+                <button type="button" class="px-6 py-2.5 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-200" onclick="closeModal('deleteUserModal')">
+                    Cancel
+                </button>
+                <button type="button" id="confirmDeleteBtn" class="px-6 py-2.5 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors duration-200">
+                    Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Theme handling - sync with dashboard
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for saved theme preference or use preferred color scheme
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        const currentTheme = localStorage.getItem('theme');
+        
+        if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+            document.body.classList.add('dark');
+        }
+        
+        // Listen for theme changes from other pages
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'theme') {
+                if (event.newValue === 'dark') {
+                    document.body.classList.add('dark');
+                } else {
+                    document.body.classList.remove('dark');
+                }
+            }
+        });
+        
+        // Rest of your existing initialization code...
+        renderUsers(users);
+        
+        // Search functionality
+        document.getElementById('searchUsers').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredUsers = applyFilters();
+            const searchedUsers = filteredUsers.filter(user => 
+                user.name.toLowerCase().includes(searchTerm) || 
+                user.email.toLowerCase().includes(searchTerm) ||
+                user.phone.toLowerCase().includes(searchTerm)
+            );
+            renderUsers(searchedUsers);
+        });
+        
+        // Filter functionality
+        document.getElementById('statusFilter').addEventListener('change', applyFiltersAndRender);
+        document.getElementById('carTypeFilter').addEventListener('change', applyFiltersAndRender);
+        document.getElementById('tripCountFilter').addEventListener('change', applyFiltersAndRender);
+        
+        // Reset filters
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            document.getElementById('statusFilter').value = 'all';
+            document.getElementById('carTypeFilter').value = 'all';
+            document.getElementById('tripCountFilter').value = 'all';
+            applyFiltersAndRender();
+        });
+    });
+
+    function applyFiltersAndRender() {
+        const filteredUsers = applyFilters();
+        renderUsers(filteredUsers);
+    }
+
+    function applyFilters() {
+        const statusFilter = document.getElementById('statusFilter').value;
+        const carTypeFilter = document.getElementById('carTypeFilter').value;
+        const tripCountFilter = document.getElementById('tripCountFilter').value;
+        
+        return users.filter(user => {
+            // Status filter
+            if (statusFilter !== 'all' && user.currentStatus !== statusFilter) {
+                return false;
+            }
+            
+            // Car type filter
+            if (carTypeFilter !== 'all') {
+                if (user.rentals.length === 0) return false;
+                
+                const hasCarType = user.rentals.some(rental => rental.carType === carTypeFilter);
+                if (!hasCarType) return false;
+            }
+            
+            // Trip count filter
+            if (tripCountFilter !== 'all') {
+                const tripCount = user.rentals.length;
+                
+                if (tripCountFilter === '0' && tripCount !== 0) return false;
+                if (tripCountFilter === '1-3' && (tripCount < 1 || tripCount > 3)) return false;
+                if (tripCountFilter === '4-6' && (tripCount < 4 || tripCount > 6)) return false;
+                if (tripCountFilter === '7+' && tripCount < 7) return false;
+            }
+            
+            return true;
+        });
+    }
+
+    // Render users to the table
+    function renderUsers(usersToRender) {
+        const tbody = document.getElementById('users-table-body');
+        tbody.innerHTML = '';
+        
+        if (usersToRender.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td colspan="6" class="px-6 py-8 text-center">
+                    <div class="flex flex-col items-center justify-center text-gray-500">
+                        <i class="fas fa-user-slash text-4xl mb-3"></i>
+                        <p class="text-lg">No users found</p>
+                        <p class="text-sm mt-1">Try adjusting your search or filters</p>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(row);
+            return;
+        }
+        
+        usersToRender.forEach(user => {
+            const row = document.createElement('tr');
+            row.className = 'table-row cursor-pointer';
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">${user.id}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 font-medium">
+                            ${user.name.charAt(0)}
+                        </div>
+                        <div class="ml-4">
+                            <div class="text-sm font-medium text-gray-900">${user.name}</div>
+                            <div class="text-xs text-gray-500">${user.rentals.length} rentals</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">${user.email}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">${user.phone}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    ${getStatusBadge(user.currentStatus)}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                    <button class="delete-btn text-red-500 hover:text-red-700 p-2 rounded-full" onclick="event.stopPropagation(); confirmDeleteUser(${user.id})">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>
+            `;
+            
+            // Add click event to show user details
+            row.addEventListener('click', () => showUserDetails(user));
+            
+            tbody.appendChild(row);
+        });
+    }
+
+    function getStatusBadge(status) {
+        const statusText = status === 'no-trips' ? 'No Trips' : 
+                         status === 'active' ? 'Currently Renting' : 
+                         status === 'upcoming' ? 'Upcoming Trip' : 
+                         status === 'cancelled' ? 'Cancelled' : 
+                         'Completed';
+        
+        const statusClass = status === 'no-trips' ? 'bg-gray-100 text-gray-800' : 
+                           status === 'active' ? 'status-active' : 
+                           status === 'upcoming' ? 'status-upcoming' : 
+                           status === 'cancelled' ? 'status-cancelled' : 
+                           'status-completed';
+        
+        return `<span class="status-badge ${statusClass}">${statusText}</span>`;
+    }
+
+    // Show user details modal with rental history
+    function showUserDetails(user) {
+        document.getElementById('modalUserName').textContent = user.name;
+        document.getElementById('modalUserId').textContent = `ID: ${user.id}`;
+        document.getElementById('modalUserPhone').textContent = user.phone;
+        document.getElementById('modalUserEmail').textContent = user.email;
+        
+        const rentalContainer = document.getElementById('rentalHistoryContainer');
+        rentalContainer.innerHTML = '';
+        
+        if (user.rentals.length === 0) {
+            rentalContainer.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-8 text-gray-500">
+                    <i class="fas fa-car text-3xl mb-3"></i>
+                    <p>No rental history found</p>
+                </div>
+            `;
+        } else {
+            // Sort rentals by date (newest first)
+            const sortedRentals = [...user.rentals].sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            sortedRentals.forEach(rental => {
+                const rentalCard = document.createElement('div');
+                rentalCard.className = 'bg-gray-50 rounded-lg p-4 flex items-start border border-gray-200';
+                
+                const statusClass = rental.status === 'active' ? 'status-active' : 
+                                  rental.status === 'upcoming' ? 'status-upcoming' : 
+                                  rental.status === 'cancelled' ? 'status-cancelled' : 
+                                  'status-completed';
+                
+                const statusText = rental.status === 'active' ? 'Currently Renting' : 
+                                 rental.status === 'upcoming' ? 'Upcoming' : 
+                                 rental.status === 'cancelled' ? 'Cancelled' : 
+                                 'Completed';
+                
+                rentalCard.innerHTML = `
+                    <div class="flex-shrink-0 h-16 w-24 bg-gray-200 rounded overflow-hidden mr-4">
+                        <img src="${rental.carImage}" alt="${rental.car}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-medium text-gray-900">${rental.car}</h4>
+                                <p class="text-sm text-gray-600 mt-1">${formatDate(rental.date)} - ${formatDate(rental.endDate)} • ${rental.duration}</p>
+                            </div>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusClass}">
+                                ${statusText}
+                            </span>
+                        </div>
+                        <div class="mt-2 flex justify-between items-center">
+                            <span class="text-sm font-medium text-gray-900">${rental.amount}</span>
+                            <span class="text-xs text-gray-500">ID: ${rental.id}</span>
+                        </div>
+                    </div>
+                `;
+                rentalContainer.appendChild(rentalCard);
+            });
+        }
+        
+        openModal('userDetailsModal');
+    }
+
+    function formatDate(dateString) {
+        const options = { day: 'numeric', month: 'short' };
+        return new Date(dateString).toLocaleDateString('en-IN', options);
+    }
+
+    // Confirm user deletion
+    function confirmDeleteUser(userId) {
+        document.getElementById('confirmDeleteBtn').onclick = function() {
+            deleteUser(userId);
+            closeModal('deleteUserModal');
+        };
+        openModal('deleteUserModal');
+    }
+
+    // Delete user
+    function deleteUser(userId) {
+        users = users.filter(user => user.id !== userId);
+        renderUsers(applyFilters());
+    }
+
+    // Modal controls
+    function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'block';
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target.className === 'modal') {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (modal.style.display === 'block') {
+                    closeModal(modal.id);
+                }
+            }
+        }
+    }
+    
+    // Enhanced user data with South Indian names and rental history
+    let users = [
+        {
+            id: 1,
+            name: "Arjun Reddy",
+            email: "arjun.reddy@example.com",
+            phone: "+91 98765 43210",
+            currentStatus: "active",
+            rentals: [
+                {
+                    id: "R1001",
+                    car: "Hyundai Creta",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/fronx-exterior-right-front-three-quarter-109.jpeg",
+                    date: "2023-05-15",
+                    endDate: "2023-05-18",
+                    duration: "3 days",
+                    amount: "₹12,500",
+                    status: "completed"
+                },
+                {
+                    id: "R1002",
+                    car: "Toyota Fortuner",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/161815/fortuner-exterior-right-front-three-quarter-2.jpeg",
+                    date: "2023-07-22",
+                    endDate: "2023-07-27",
+                    duration: "5 days",
+                    amount: "₹22,000",
+                    status: "completed"
+                },
+                {
+                    id: "R1010",
+                    car: "Mercedes-Benz E-Class",
+                    carType: "luxury",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/45261/e-class-exterior-right-front-three-quarter-2.jpeg",
+                    date: "2023-11-15",
+                    endDate: "2023-11-20",
+                    duration: "5 days",
+                    amount: "₹45,000",
+                    status: "active"
+                }
+            ]
+        },
+        {
+            id: 2,
+            name: "Priya Iyer",
+            email: "priya.iyer@example.com",
+            phone: "+91 87654 32109",
+            currentStatus: "upcoming",
+            rentals: [
+                {
+                    id: "R1003",
+                    car: "Maruti Suzuki Swift",
+                    carType: "hatchback",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/110815/swift-exterior-right-front-three-quarter-3.jpeg",
+                    date: "2023-06-20",
+                    endDate: "2023-06-22",
+                    duration: "2 days",
+                    amount: "₹5,500",
+                    status: "completed"
+                },
+                {
+                    id: "R1011",
+                    car: "Honda City",
+                    carType: "sedan",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/54349/city-exterior-right-front-three-quarter-148156.jpeg",
+                    date: "2023-12-05",
+                    endDate: "2023-12-10",
+                    duration: "5 days",
+                    amount: "₹15,000",
+                    status: "upcoming"
+                }
+            ]
+        },
+        {
+            id: 3,
+            name: "Karthik Nair",
+            email: "karthik.nair@example.com",
+            phone: "+91 76543 21098",
+            currentStatus: "no-trips",
+            rentals: []
+        },
+        {
+            id: 4,
+            name: "Meenakshi Sundaram",
+            email: "meenakshi.s@example.com",
+            phone: "+91 65432 10987",
+            currentStatus: "completed",
+            rentals: [
+                {
+                    id: "R1004",
+                    car: "Honda City",
+                    carType: "sedan",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/54349/city-exterior-right-front-three-quarter-148156.jpeg",
+                    date: "2023-08-05",
+                    endDate: "2023-08-12",
+                    duration: "7 days",
+                    amount: "₹18,200",
+                    status: "completed"
+                },
+                {
+                    id: "R1005",
+                    car: "Tata Nexon",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/141867/nexon-exterior-right-front-three-quarter-8.jpeg",
+                    date: "2023-09-12",
+                    endDate: "2023-09-16",
+                    duration: "4 days",
+                    amount: "₹9,600",
+                    status: "completed"
+                },
+                {
+                    id: "R1006",
+                    car: "Mahindra XUV700",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-75.jpeg",
+                    date: "2023-10-18",
+                    endDate: "2023-10-20",
+                    duration: "2 days",
+                    amount: "₹7,800",
+                    status: "completed"
+                }
+            ]
+        },
+        {
+            id: 5,
+            name: "Vijay Kumar",
+            email: "vijay.kumar@example.com",
+            phone: "+91 94321 09876",
+            currentStatus: "cancelled",
+            rentals: [
+                {
+                    id: "R1007",
+                    car: "Kia Seltos",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/115815/seltos-facelift-exterior-right-front-three-quarter-75.jpeg",
+                    date: "2023-09-01",
+                    endDate: "2023-09-05",
+                    duration: "4 days",
+                    amount: "₹11,200",
+                    status: "cancelled"
+                }
+            ]
+        },
+        {
+            id: 6,
+            name: "Lakshmi Menon",
+            email: "lakshmi.m@example.com",
+            phone: "+91 83210 98765",
+            currentStatus: "completed",
+            rentals: [
+                {
+                    id: "R1008",
+                    car: "Tata Nexon",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/141867/nexon-exterior-right-front-three-quarter-8.jpeg",
+                    date: "2023-09-12",
+                    endDate: "2023-09-16",
+                    duration: "4 days",
+                    amount: "₹9,600",
+                    status: "completed"
+                }
+            ]
+        },
+        {
+            id: 7,
+            name: "Suresh Pillai",
+            email: "suresh.p@example.com",
+            phone: "+91 72109 87654",
+            currentStatus: "active",
+            rentals: [
+                {
+                    id: "R1009",
+                    car: "Toyota Innova Crysta",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-75.jpeg",
+                    date: "2023-11-10",
+                    endDate: "2023-11-15",
+                    duration: "5 days",
+                    amount: "₹18,500",
+                    status: "active"
+                },
+                {
+                    id: "R1012",
+                    car: "Maruti Suzuki Baleno",
+                    carType: "hatchback",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/45261/e-class-exterior-right-front-three-quarter-2.jpeg",
+                    date: "2023-08-15",
+                    endDate: "2023-08-18",
+                    duration: "3 days",
+                    amount: "₹6,800",
+                    status: "completed"
+                }
+            ]
+        },
+        {
+            id: 8,
+            name: "Deepa Rajan",
+            email: "deepa.r@example.com",
+            phone: "+91 61098 76543",
+            currentStatus: "upcoming",
+            rentals: [
+                {
+                    id: "R1013",
+                    car: "BMW 5 Series",
+                    carType: "luxury",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-75.jpeg",
+                    date: "2023-12-20",
+                    endDate: "2023-12-25",
+                    duration: "5 days",
+                    amount: "₹52,000",
+                    status: "upcoming"
+                }
+            ]
+        },
+        {
+            id: 9,
+            name: "Ganesh Moorthy",
+            email: "ganesh.m@example.com",
+            phone: "+91 50987 65432",
+            currentStatus: "no-trips",
+            rentals: []
+        },
+        {
+            id: 10,
+            name: "Ananya Deshpande",
+            email: "ananya.d@example.com",
+            phone: "+91 49876 54321",
+            currentStatus: "completed",
+            rentals: [
+                {
+                    id: "R1014",
+                    car: "Hyundai Verna",
+                    carType: "sedan",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/54349/city-exterior-right-front-three-quarter-148156.jpeg",
+                    date: "2023-10-05",
+                    endDate: "2023-10-10",
+                    duration: "5 days",
+                    amount: "₹14,500",
+                    status: "completed"
+                },
+                {
+                    id: "R1015",
+                    car: "Mahindra Thar",
+                    carType: "suv",
+                    carImage: "https://imgd.aeplcdn.com/664x374/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-75.jpeg",
+                    date: "2023-09-01",
+                    endDate: "2023-09-05",
+                    duration: "4 days",
+                    amount: "₹16,000",
+                    status: "completed"
+                }
+            ]
+        }
+    ];
+</script>
+</body>
+</html>
