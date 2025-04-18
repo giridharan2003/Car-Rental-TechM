@@ -26,7 +26,7 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session management
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/send-otp", 
-                                 "/api/auth/verify-otp", "/api/auth/reset-password").permitAll() // Public endpoints
+                                 "/api/auth/verify-otp", "/api/auth/reset-password","/api/cars/**").permitAll() // Public endpoints
                 .anyRequest().authenticated() // All other requests require authentication
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add custom JWT filter

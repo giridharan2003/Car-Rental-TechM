@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxora Car Rental - Booking Confirmation</title>
+    <link th:href="@{/css/conformation.css}" rel="stylesheet">
+</head>
+
+<body>
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="container">
+        <div class="booking-confirmation">
+            <div class="confirmation-header">
+                <div class="success-icon">✓</div>
+                <h1>Booking Confirmed</h1>
+                <p>Your reservation is awaiting payment to be completed</p>
+            </div>
+            
+            <div class="booking-details">
+                <div>
+                    <img src="/assests/cars/luxury/cclass.webp" alt="Mercedes-Benz E-Class" class="car-image" />
+                    
+                    <div class="detail-group">
+                        <h3>Vehicle Details</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Car:</span>
+                            <span>Mercedes-Benz E-Class</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Category:</span>
+                            <span>Luxury Sedan</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Seats:</span>
+                            <span>5</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Transmission:</span>
+                            <span>Automatic</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Features:</span>
+                            <span>GPS, Bluetooth, Leather Seats</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="detail-group">
+                        <h3>Reservation Details</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Booking ID:</span>
+                            <span>LUX-2025042-867</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Pick-up Date:</span>
+                            <span>April 5, 2025, 10:00 AM</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Return Date:</span>
+                            <span>April 8, 2025, 10:00 AM</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Duration:</span>
+                            <span>3 days</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Pick-up Location:</span>
+                            <span>Downtown Office, 123 Main St</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Return Location:</span>
+                            <span>Downtown Office, 123 Main St</span>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-group">
+                        <h3>Customer Information</h3>
+                        <div class="detail-item">
+                            <span class="detail-label">Name:</span>
+                            <span>John Doe</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Email:</span>
+                            <span>john.doe@example.com</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Phone:</span>
+                            <span>+91 98765 43210</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="additional-services">
+                <h3 style="margin-bottom: 15px; color: var(--primary);">Additional Services</h3>
+                <p style="margin-bottom: 20px;">Enhance your driving experience with our premium add-on services.</p>
+                
+                <div class="services-container">
+                    <!-- Individual Service Items -->
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="insurance" id="insurance" data-price="7500" checked>
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">Premium Insurance</span>
+                                <span class="service-price">₹7,500.00</span>
+                                <span class="tooltip-icon" data-tooltip="Comprehensive coverage including zero liability, personal accident coverage, and coverage for all occupants. Includes roadside assistance and no security deposit.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="gps" id="gps" data-price="2000" checked>
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">GPS Navigation System</span>
+                                <span class="service-price">₹2,000.00</span>
+                                <span class="tooltip-icon" data-tooltip="High-precision GPS system with real-time traffic updates, voice guidance in multiple languages, and points of interest. Includes offline map functionality.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="driver" id="driver" data-price="1800" checked>
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">Additional Driver</span>
+                                <span class="service-price">₹1,800.00</span>
+                                <span class="tooltip-icon" data-tooltip="Register an additional driver for your rental. All registered drivers must be present at pickup with a valid driver's license. No extra paperwork needed during your trip.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="childSeat" id="childSeat" data-price="1200">
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">Child Safety Seat</span>
+                                <span class="service-price">₹1,200.00</span>
+                                <span class="tooltip-icon" data-tooltip="ISOFIX-compatible child safety seat suitable for children aged 9 months to 4 years (9-18 kg). Meets European safety standards with 5-point safety harness.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="wifi" id="wifi" data-price="1500">
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">4G WiFi Hotspot</span>
+                                <span class="service-price">₹1,500.00</span>
+                                <span class="tooltip-icon" data-tooltip="Portable WiFi device providing high-speed internet for up to 10 devices simultaneously. Includes 1.5GB data per day with pan-India coverage.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="fuellService" id="fuelService" data-price="1000">
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">Full Tank Fuel Service</span>
+                                <span class="service-price">₹1,000.00</span>
+                                <span class="tooltip-icon" data-tooltip="Pre-paid fuel service. Return the car with any fuel level - no need to refill before return. Saves time at drop-off and eliminates refueling charges.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                    
+                    <div class="service-item">
+                        <label class="service-checkbox">
+                            <input type="checkbox" name="chauffeur" id="chauffeur" data-price="8500">
+                            <span class="checkmark"></span>
+                            <div class="service-info">
+                                <span class="service-name">Professional Chauffeur</span>
+                                <span class="service-price">₹8,500.00</span>
+                                <span class="tooltip-icon" data-tooltip="Experienced professional driver for the duration of your rental. All chauffeurs are professionally trained, background-verified, and fluent in English and Hindi. 10 hours duty per day included.">ⓘ</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="price-summary">
+                <h3 style="margin-bottom: 15px;">Price Summary</h3>
+                <div class="price-row">
+                    <span>Base Rate (3 days x ₹12,000)</span>
+                    <span><span class="rupee">₹</span>36,000.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Insurance (Premium)</span>
+                    <span><span class="rupee">₹</span>7,500.00</span>
+                </div>
+                <div class="price-row">
+                    <span>GPS Navigation</span>
+                    <span><span class="rupee">₹</span>2,000.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Additional Driver</span>
+                    <span><span class="rupee">₹</span>1,800.00</span>
+                </div>
+                <div class="price-row">
+                    <span>Taxes & Fees (18% GST)</span>
+                    <span><span class="rupee">₹</span>8,514.00</span>
+                </div>
+                <div class="price-row total">
+                    <span>Total</span>
+                    <span><span class="rupee">₹</span>55,814.00</span>
+                </div>
+            </div>
+            
+            <div class="payment-timer">
+                Please complete payment within <span id="countdown" class="timer-highlight">14:59</span> to secure your reservation
+            </div>
+            
+            <div class="actions">
+                <button class="btn btn-outline" onclick="window.location.href='#'">Modify Booking</button>
+                <button class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
+            </div>
+            
+            <div class="success-checkmark">
+                <div class="check-icon">
+                    <span class="icon-line line-tip"></span>
+                    <span class="icon-line line-long"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Luxora Car Rental. All rights reserved.</p>
+        </div>
+    </footer>
+    <script th:src="@{/js/conformation.js}"></script>
+</body>
+</html>

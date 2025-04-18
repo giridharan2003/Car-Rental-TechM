@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import com.carsystem.app.model.enums.CarStatus;
 
@@ -26,12 +27,10 @@ public class Car {
     
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private CarCategory Category;
+    private CarCategory category;
         
     private String licensePlate;
-    private String insurence;
-    
-    private String location;
+    private String insurance;
     
     private int luggage;
     private int mileage;
@@ -46,4 +45,11 @@ public class Car {
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    private String fuelType;             
+    private String transmission;         
+    private String additionalDetails;    
+
+    @ManyToMany
+    private Set<Location> availableLocations;
 }

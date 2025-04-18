@@ -32,6 +32,12 @@ public class GlobalExceptionHandler {
     public ApiResponse<String> handleUserNotFound(UserNotFoundException ex) {
         return new ApiResponse<>(false, ex.getMessage(), null);
     }
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ApiResponse<String> handleResourceNotFound(ResourceNotFoundException ex) {
+        return new ApiResponse<>(false, ex.getMessage(), null);
+    }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,101 +8,185 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link th:href="@{/css/booking.css}" rel="stylesheet">
 </head>
+
 <body>
     <!-- Header -->
     <header>
         <div class="container">
             <div class="navbar">
-                <div class="logo">LUXORA</div>
+                <a class="logo" href="home.html">LUXORA</a>
                 <div class="nav-links">
-                    <a href="#">Home</a>
+                    <a href="home.html">Home</a>
                     <a href="#">Cars</a>
                     <a href="#">Packages</a>
                     <a href="#">About</a>
                     <a href="#">Contact</a>
                 </div>
                 <div class="auth-buttons">
-                    <button class="login-btn">Login</button>
-                    <button class="register-btn">Register</button>
+                    <button type="button" class="login-btn">Login</button>
+                    <button type="button" class="register-btn">Register</button>
                 </div>
             </div>
         </div>
     </header>
-    
+
     <!-- Main Content -->
     <main class="container">
         <!-- Tab Slider -->
         <div class="tab-slider">
             <div class="tab-header">
-                <button class="tab-btn active" data-tab="cars">Cars</button>
-                <button class="tab-btn" data-tab="packages">Rental Packages</button>
+                <button type="button" class="tab-btn active" data-tab="cars" aria-selected="true">Cars</button>
+                <button type="button" class="tab-btn" data-tab="packages" aria-selected="false">Rental Packages</button>
             </div>
-            
+
             <!-- Cars Tab Content (Default View) -->
             <div class="tab-content active" id="cars-tab">
                 <!-- Filter Section -->
                 <div class="filter-section">
-                    <div class="filter-title">Find Your Perfect Car</div>
-                    <form class="filter-form" id="filter-form">
-                        <div class="form-group">
-                            <label for="location">Pickup Location</label>
-                            <select id="location" name="location">
-                                <option value="">Select Location</option>
-                                <option value="chennai">Chennai</option>
-                                <option value="coimbatore">Coimbatore</option>
-                                <option value="madurai">Madurai</option>
-                                <option value="trichy">Tiruchirappalli (Trichy)</option>
-                                <option value="salem">Salem</option>
-                                <option value="erode">Erode</option>
-                                <option value="tirunelveli">Tirunelveli</option>
-                                <option value="vellore">Vellore</option>
-                                <option value="thoothukudi">Thoothukudi</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="pickup-date">Pickup Date</label>
-                            <input type="date" id="pickup-date" name="pickup-date">
-                        </div>
-                        <div class="form-group">
-                            <label for="return-date">Return Date</label>
-                            <input type="date" id="return-date" name="return-date">
-                        </div>
-                        <div class="form-group">
-                            <label for="car-type">Car Type</label>
-                            <select id="car-type" name="car-type">
-                                <option value="">All Types</option>
-                                <option value="sedan">Sedan</option>
-                                <option value="suv">SUV</option>
-                                <option value="luxury">Luxury</option>
-                                <option value="sports">Sports</option>
-                                <option value="electric">Electric</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="price-range">Price Range (₹)</label>
-                            <div class="price-range">
-                                <input type="number" id="price-min" name="price-min" placeholder="Min" min="0">
-                                <span>-</span>
-                                <input type="number" id="price-max" name="price-max" placeholder="Max" min="0">
+                    <h2 class="filter-title">Find Your Perfect Car</h2>
+                    <form class="filter-form" id="filter-form" novalidate>
+                        <div class="primary-filters">
+                            <!-- Pickup Location -->
+                            <div class="form-group">
+                                <label for="location" class="form-label">Pickup Location <span
+                                        class="required">*</span></label>
+                                <select id="location" name="location" required aria-required="true"
+                                    aria-label="Select pickup location">
+                                    <option value="">Select Location</option>
+                                    <option value="chennai">Chennai</option>
+                                    <option value="coimbatore">Coimbatore</option>
+                                    <option value="madurai">Madurai</option>
+                                    <option value="trichy">Tiruchirappalli (Trichy)</option>
+                                    <option value="salem">Salem</option>
+                                    <option value="erode">Erode</option>
+                                    <option value="tirunelveli">Tirunelveli</option>
+                                    <option value="vellore">Vellore</option>
+                                    <option value="thoothukudi">Thoothukudi</option>
+                                </select>
+                                <span class="error-message" id="location-error" hidden>Please select a pickup
+                                    location.</span>
+                            </div>
+
+                            <!-- Pickup Date -->
+                            <div class="form-group">
+                                <label for="pickup-date" class="form-label">Pickup Date <span
+                                        class="required">*</span></label>
+                                <input type="date" id="pickup-date" name="pickup-date" required aria-required="true"
+                                    aria-label="Select pickup date">
+                                <span class="error-message" id="pickup-date-error" hidden>Please select a valid pickup
+                                    date.</span>
+                            </div>
+
+                            <!-- Return Date -->
+                            <div class="form-group">
+                                <label for="return-date" class="form-label">Return Date <span
+                                        class="required">*</span></label>
+                                <input type="date" id="return-date" name="return-date" required aria-required="true"
+                                    aria-label="Select return date">
+                                <span class="error-message" id="return-date-error" hidden>Please select a valid return
+                                    date after the pickup date.</span>
+                            </div>
+
+                            <!-- Car Type -->
+                            <div class="form-group">
+                                <label for="car-type" class="form-label">Car Type</label>
+                                <select id="car-type" name="car-type" aria-describedby="car-type-desc"
+                                    aria-label="Select car type">
+                                    <option value="">All Types</option>
+                                    <option value="sedan">Sedan</option>
+                                    <option value="suv">SUV</option>
+                                    <option value="luxury">Luxury</option>
+                                    <option value="sports">Sports</option>
+                                    <option value="electric">Electric</option>
+                                </select>
+                                <small id="car-type-desc" class="form-hint">Optional: Select a car type to narrow your
+                                    search.</small>
                             </div>
                         </div>
-                        <button type="submit" class="search-btn">
-                            <i class="fas fa-search"></i> Search Cars
+
+                        <button type="button" id="advanced-search-btn">Advanced Search</button>
+
+                        <div class="advanced-filters" style="display: none;">
+                            <!-- Price Range -->
+                            <div class="form-group price-range-group">
+                                <label for="price-min" class="form-label">Price Range (₹)</label>
+                                <div class="price-range">
+                                    <input type="number" id="price-min" name="price-min" placeholder="Min" min="0"
+                                        step="100" aria-describedby="price-range-error" aria-label="Minimum price">
+                                    <span class="range-divider">–</span>
+                                    <input type="number" id="price-max" name="price-max" placeholder="Max" min="0"
+                                        step="100" aria-describedby="price-range-error" aria-label="Maximum price">
+                                </div>
+                                <span class="error-message" id="price-range-error" hidden>Maximum price must be greater
+                                    than minimum price.</span>
+                            </div>
+
+                            <!-- Minimum Seats -->
+                            <div class="form-group">
+                                <label for="seats" class="form-label">Minimum Seats</label>
+                                <select id="seats" name="seats" aria-label="Select minimum seats">
+                                    <option value="">Any</option>
+                                    <option value="2">2 or more</option>
+                                    <option value="4">4 or more</option>
+                                    <option value="5">5 or more</option>
+                                    <option value="7">7 or more</option>
+                                </select>
+                            </div>
+
+                            <!-- Transmission Type -->
+                            <div class="form-group">
+                                <label for="transmission" class="form-label">Transmission Type</label>
+                                <select id="transmission" name="transmission" aria-label="Select transmission type">
+                                    <option value="">Any</option>
+                                    <option value="automatic">Automatic</option>
+                                    <option value="manual">Manual</option>
+                                </select>
+                            </div>
+
+                            <!-- Minimum Luggage Capacity -->
+                            <div class="form-group">
+                                <label for="luggage" class="form-label">Minimum Luggage Capacity</label>
+                                <select id="luggage" name="luggage" aria-label="Select minimum luggage capacity">
+                                    <option value="">Any</option>
+                                    <option value="2">2 or more bags</option>
+                                    <option value="3">3 or more bags</option>
+                                    <option value="4">4 or more bags</option>
+                                    <option value="5">5 or more bags</option>
+                                    <option value="6">6 or more bags</option>
+                                </select>
+                            </div>
+
+                            <!-- Fuel Type -->
+                            <div class="form-group">
+                                <label for="fuel" class="form-label">Fuel Type</label>
+                                <select id="fuel" name="fuel" aria-label="Select fuel type">
+                                    <option value="">Any</option>
+                                    <option value="gasoline">Gasoline</option>
+                                    <option value="electric">Electric</option>
+                                    <option value="hybrid">Hybrid</option>
+                                    <option value="petrol">Petrol</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="search-btn" aria-label="Search for cars">
+                            <span class="btn-icon">🔍</span> Search Cars
                         </button>
                     </form>
                 </div>
-                
+
                 <!-- Car Listings -->
                 <div class="car-listings" id="car-listings">
                     <!-- Car cards will be dynamically inserted here via JavaScript -->
                 </div>
-                
+
                 <!-- Pagination -->
                 <div class="pagination" id="pagination">
                     <!-- Pagination items will be dynamically inserted here -->
                 </div>
             </div>
-            
+
             <!-- Packages Tab Content -->
             <div class="tab-content" id="packages-tab">
                 <div class="packages-container">
@@ -111,9 +196,10 @@
                         <div class="package-icon">
                             <i class="fas fa-mountain"></i>
                         </div>
-                        <div class="package-name">Adventure Package</div>
-                        <div class="package-price">₹7055 <span>/ day</span></div>
-                        <p>Perfect for outdoor enthusiasts and adventure seekers. Includes 4x4 vehicles with roof racks.</p>
+                        <div class="package-name"> Adventure Package</div>
+                        <div class="package-price">₹${(7055).toLocaleString('en-IN')} <span>/ day</span></div>
+                        <p>Perfect for outdoor enthusiasts and adventure seekers. Includes 4x4 vehicles with roof racks.
+                        </p>
                         <div class="package-features">
                             <div class="feature-item">
                                 <i class="fas fa-check"></i> 4x4 or SUV vehicle
@@ -131,17 +217,18 @@
                                 <i class="fas fa-check"></i> 24/7 roadside assistance
                             </div>
                         </div>
-                        <button class="package-btn">Book Package</button>
+                        <button type="button" class="package-btn">Book Package</button>
                     </div>
-                    
+
                     <!-- Family Package -->
                     <div class="package-card">
                         <div class="package-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="package-name">Family Package</div>
-                        <div class="package-price">₹7885 <span>/ day</span></div>
-                        <p>Comfortable and spacious vehicles perfect for family trips with extra amenities for children.</p>
+                        <div class="package-price">₹${(7885).toLocaleString('en-IN')} <span>/ day</span></div>
+                        <p>Comfortable and spacious vehicles perfect for family trips with extra amenities for children.
+                        </p>
                         <div class="package-features">
                             <div class="feature-item">
                                 <i class="fas fa-check"></i> Minivan or large SUV
@@ -159,16 +246,16 @@
                                 <i class="fas fa-check"></i> Additional driver free
                             </div>
                         </div>
-                        <button class="package-btn">Book Package</button>
+                        <button type="button" class="package-btn">Book Package</button>
                     </div>
-                    
+
                     <!-- Business Package -->
                     <div class="package-card">
                         <div class="package-icon">
                             <i class="fas fa-briefcase"></i>
                         </div>
                         <div class="package-name">Business Package</div>
-                        <div class="package-price">₹9960 <span>/ day</span></div>
+                        <div class="package-price">₹${(9960).toLocaleString('en-IN')} <span>/ day</span></div>
                         <p>Premium vehicles with professional service for business travelers and corporate clients.</p>
                         <div class="package-features">
                             <div class="feature-item">
@@ -187,9 +274,9 @@
                                 <i class="fas fa-check"></i> Corporate billing option
                             </div>
                         </div>
-                        <button class="package-btn">Book Package</button>
+                        <button type="button" class="package-btn">Book Package</button>
                     </div>
-                    
+
                     <!-- Luxury Package -->
                     <div class="package-card">
                         <div class="package-badge">PREMIUM</div>
@@ -197,7 +284,7 @@
                             <i class="fas fa-gem"></i>
                         </div>
                         <div class="package-name">Luxury Experience</div>
-                        <div class="package-price">₹20750 <span>/ day</span></div>
+                        <div class="package-price">₹${(20750).toLocaleString('en-IN')} <span>/ day</span></div>
                         <p>Experience ultimate luxury with our premium vehicles and exclusive services.</p>
                         <div class="package-features">
                             <div class="feature-item">
@@ -216,16 +303,16 @@
                                 <i class="fas fa-check"></i> Complimentary upgrades
                             </div>
                         </div>
-                        <button class="package-btn">Book Package</button>
+                        <button type="button" class="package-btn">Book Package</button>
                     </div>
-                    
+
                     <!-- Weekend Package -->
                     <div class="package-card">
                         <div class="package-icon">
                             <i class="fas fa-calendar-week"></i>
                         </div>
                         <div class="package-name">Weekend Getaway</div>
-                        <div class="package-price">₹6225 <span>/ day</span></div>
+                        <div class="package-price">₹${(6225).toLocaleString('en-IN')} <span>/ day</span></div>
                         <p>Perfect for short weekend trips with special weekend rates and flexible hours.</p>
                         <div class="package-features">
                             <div class="feature-item">
@@ -244,10 +331,10 @@
                                 <i class="fas fa-check"></i> Free car upgrade (subject to availability)
                             </div>
                         </div>
-                        <button class="package-btn">Book Package</button>
+                        <button type="button" class="package-btn">Book Package</button>
                     </div>
                 </div>
-                
+
                 <!-- Scroll Controls for Packages -->
                 <div class="scroll-controls">
                     <div class="scroll-btn scroll-left">
@@ -260,14 +347,15 @@
             </div>
         </div>
     </main>
-    
+
     <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <div class="logo">CarRent</div>
-                    <p>Premium car rental services with a wide range of vehicles to meet your needs. Experience comfort, style, and convenience on your journey.</p>
+                    <div class="logo">LUXORA</div>
+                    <p>Premium car rental services with a wide range of vehicles to meet your needs. Experience comfort,
+                        style, and convenience on your journey.</p>
                     <div class="social-icons">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -275,7 +363,7 @@
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-links">
                     <div class="footer-column">
                         <h3>Quick Links</h3>
@@ -288,7 +376,7 @@
                             <li><a href="#">Contact Us</a></li>
                         </ul>
                     </div>
-                    
+
                     <div class="footer-column">
                         <h3>Our Services</h3>
                         <ul>
@@ -300,43 +388,45 @@
                             <li><a href="#">Wedding Cars</a></li>
                         </ul>
                     </div>
-                    
+
                     <div class="footer-column">
                         <h3>Contact Info</h3>
                         <ul>
                             <li><i class="fas fa-map-marker-alt"></i> 123 Street, Chennai, Tamil Nadu, India</li>
                             <li><i class="fas fa-phone"></i> +91 98765 43210</li>
-                            <li><i class="fas fa-envelope"></i> info@carrent.in</li>
+                            <li><i class="fas fa-envelope"></i> info@luxora.in</li>
                             <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM</li>
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="footer-column">
                     <h3>Newsletter</h3>
                     <p>Subscribe to our newsletter for updates and special offers.</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your Email" required>
+                    <form class="newsletter-form" action="/subscribe" method="POST">
+                        <input type="email" placeholder="Your Email" required
+                            aria-label="Enter your email for newsletter">
                         <button type="submit">Subscribe</button>
                     </form>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>© 2025 CarRent. All Rights Reserved.</p>
+                <p>© 2025 Luxora. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
-    
+
     <!-- Modal -->
     <div class="modal" id="car-details-modal">
         <div class="modal-content">
-            <button class="modal-close" id="modal-close">&times;</button>
+            <button type="button" class="modal-close" id="modal-close" aria-label="Close modal">×</button>
             <div class="modal-header" id="modal-header"></div>
             <div class="modal-body" id="modal-body"></div>
         </div>
     </div>
-    
+
     <script th:src="@{/js/booking.js}"></script>
 </body>
+
 </html>

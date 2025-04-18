@@ -1,600 +1,101 @@
- // Internal JSON data for cars (27 cars for 3 pages)
- const carsData = [
-    {
-        name: "Toyota Camry",
-        category: "Sedan",
-        image: "/assests/cars/luxury/camry.webp",
-        price_usd: 45,
-        price_inr: 45 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "coimbatore", "madurai", "trichy", "salem"],
-        model: "Camry SE 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Includes GPS, insurance, and 24/7 roadside assistance."
-    },
-    {
-        name: "Honda CR-V",
-        category: "SUV",
-        image: "/assests/cars/suv/hyryder.webp",
-        price_usd: 65,
-        price_inr: 65 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "6 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "erode", "tirunelveli"],
-        model: "CR-V EX-L 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 6,
-        additionalDetails: "Features all-wheel drive and premium audio system."
-    },
-    {
-        name: "BMW 5 Series",
-        category: "Luxury",
-        image: "/assests/cars/luxury/5series.webp",
-        price_usd: 120,
-        price_inr: 120 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "coimbatore", "vellore"],
-        model: "530i xDrive 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Luxury package with leather seats and navigation."
-    },
-    {
-        name: "Tesla Model 3",
-        category: "Electric",
-        image: "/assests/cars/ev/windsorev.webp",
-        price_usd: 95,
-        price_inr: 95 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "3 Bags" },
-            { icon: "fas fa-bolt", text: "Electric" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "madurai", "salem"],
-        model: "Model 3 Long Range 2023",
-        fuelType: "Electric",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 3,
-        additionalDetails: "Includes Tesla Supercharger access."
-    },
-    {
-        name: "Porsche 911",
-        category: "Sports",
-        image: "/assests/cars/luxury/cooper.webp",
-        price_usd: 250,
-        price_inr: 250 * 83,
-        features: [
-            { icon: "fas fa-user", text: "2 Seats" },
-            { icon: "fas fa-suitcase", text: "2 Bags" },
-            { icon: "fas fa-gas-pump", text: "Petrol" },
-            { icon: "fas fa-cog", text: "Manual" }
-        ],
-        locations: ["chennai", "coimbatore"],
-        model: "911 Carrera 2022",
-        fuelType: "Petrol",
-        transmission: "Manual",
-        seatingCapacity: 2,
-        luggageCapacity: 2,
-        additionalDetails: "High-performance sports car with premium interior."
-    },
-    {
-        name: "Ford Mustang",
-        category: "Sports",
-        image: "/assests/cars/hatchback/i20.webp",
-        price_usd: 180,
-        price_inr: 180 * 83,
-        features: [
-            { icon: "fas fa-user", text: "4 Seats" },
-            { icon: "fas fa-suitcase", text: "2 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["madurai", "trichy"],
-        model: "Mustang GT 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 4,
-        luggageCapacity: 2,
-        additionalDetails: "Includes sport suspension and touchscreen infotainment."
-    },
-    {
-        name: "Mercedes-Benz E-Class",
-        category: "Luxury",
-        image: "/assests/cars/luxury/cclass.webp",
-        price_usd: 140,
-        price_inr: 140 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "salem"],
-        model: "E 350 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Features ambient lighting and advanced safety systems."
-    },
-    {
-        name: "Jeep Wrangler",
-        category: "SUV",
-        image: "/assests/cars/suv/meridian.webp",
-        price_usd: 85,
-        price_inr: 85 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "5 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "erode"],
-        model: "Wrangler Sahara 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 5,
-        additionalDetails: "Off-road capable with removable roof."
-    },
-    {
-        name: "Nissan Leaf",
-        category: "Electric",
-        image: "/assests/cars/hatchback/glanza.webp",
-        price_usd: 80,
-        price_inr: 80 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "3 Bags" },
-            { icon: "fas fa-bolt", text: "Electric" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["madurai", "tirunelveli"],
-        model: "Leaf SV 2023",
-        fuelType: "Electric",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 3,
-        additionalDetails: "Eco-friendly with fast charging support."
-    },
-    // Page 2
-    {
-        name: "Chevrolet Camaro",
-        category: "Sports",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 200,
-        price_inr: 200 * 83,
-        features: [
-            { icon: "fas fa-user", text: "4 Seats" },
-            { icon: "fas fa-suitcase", text: "2 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "vellore"],
-        model: "Camaro SS 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 4,
-        luggageCapacity: 2,
-        additionalDetails: "Muscle car with powerful V8 engine."
-    },
-    {
-        name: "Hyundai Sonata",
-        category: "Sedan",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 50,
-        price_inr: 50 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "thoothukudi"],
-        model: "Sonata SEL 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Comfortable sedan with fuel efficiency."
-    },
-    {
-        name: "Audi Q7",
-        category: "SUV",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 100,
-        price_inr: 100 * 83,
-        features: [
-            { icon: "fas fa-user", text: "7 Seats" },
-            { icon: "fas fa-suitcase", text: "6 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "trichy"],
-        model: "Q7 Premium Plus 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 7,
-        luggageCapacity: 6,
-        additionalDetails: "Spacious SUV with advanced driver assistance."
-    },
-    {
-        name: "Lexus RX 350",
-        category: "Luxury",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 130,
-        price_inr: 130 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "5 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["madurai", "salem"],
-        model: "RX 350 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 5,
-        additionalDetails: "Luxury crossover with hybrid option available."
-    },
-    {
-        name: "Volkswagen ID.4",
-        category: "Electric",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 90,
-        price_inr: 90 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-bolt", text: "Electric" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "erode"],
-        model: "ID.4 Pro 2023",
-        fuelType: "Electric",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Electric SUV with long-range battery."
-    },
-    {
-        name: "Dodge Challenger",
-        category: "Sports",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 210,
-        price_inr: 210 * 83,
-        features: [
-            { icon: "fas fa-user", text: "4 Seats" },
-            { icon: "fas fa-suitcase", text: "2 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "tirunelveli"],
-        model: "Challenger R/T 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 4,
-        luggageCapacity: 2,
-        additionalDetails: "Classic American muscle car design."
-    },
-    {
-        name: "Kia Optima",
-        category: "Sedan",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 55,
-        price_inr: 55 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["madurai", "vellore"],
-        model: "Optima EX 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Stylish sedan with modern tech features."
-    },
-    {
-        name: "Subaru Outback",
-        category: "SUV",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 75,
-        price_inr: 75 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "5 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "thoothukudi"],
-        model: "Outback Limited 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 5,
-        additionalDetails: "Rugged SUV with all-terrain capability."
-    },
-    {
-        name: "Jaguar F-Type",
-        category: "Sports",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 230,
-        price_inr: 230 * 83,
-        features: [
-            { icon: "fas fa-user", text: "2 Seats" },
-            { icon: "fas fa-suitcase", text: "2 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "salem"],
-        model: "F-Type R 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 2,
-        luggageCapacity: 2,
-        additionalDetails: "High-performance coupe with sleek design."
-    },
-    // Page 3
-    {
-        name: "Cadillac Escalade",
-        category: "Luxury",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 160,
-        price_inr: 160 * 83,
-        features: [
-            { icon: "fas fa-user", text: "7 Seats" },
-            { icon: "fas fa-suitcase", text: "6 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "madurai"],
-        model: "Escalade Premium 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 7,
-        luggageCapacity: 6,
-        additionalDetails: "Full-size luxury SUV with advanced tech."
-    },
-    {
-        name: "Toyota Prius",
-        category: "Electric",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 70,
-        price_inr: 70 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-bolt", text: "Hybrid" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["trichy", "vellore"],
-        model: "Prius XLE 2022",
-        fuelType: "Hybrid",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Fuel-efficient hybrid with eco mode."
-    },
-    {
-        name: "Mazda CX-5",
-        category: "SUV",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 80,
-        price_inr: 80 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "5 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "erode"],
-        model: "CX-5 Touring 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 5,
-        additionalDetails: "Compact SUV with sporty handling."
-    },
-    {
-        name: "Nissan Altima",
-        category: "Sedan",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 60,
-        price_inr: 60 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "tirunelveli"],
-        model: "Altima SR 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Reliable sedan with comfortable ride."
-    },
-    {
-        name: "Lamborghini Huracan",
-        category: "Sports",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 300,
-        price_inr: 300 * 83,
-        features: [
-            { icon: "fas fa-user", text: "2 Seats" },
-            { icon: "fas fa-suitcase", text: "2 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "madurai"],
-        model: "Huracan EVO 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 2,
-        luggageCapacity: 2,
-        additionalDetails: "Supercar with exceptional performance."
-    },
-    {
-        name: "Volvo XC90",
-        category: "Luxury",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 150,
-        price_inr: 150 * 83,
-        features: [
-            { icon: "fas fa-user", text: "7 Seats" },
-            { icon: "fas fa-suitcase", text: "6 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "salem"],
-        model: "XC90 Inscription 2023",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 7,
-        luggageCapacity: 6,
-        additionalDetails: "Premium SUV with top safety ratings."
-    },
-    {
-        name: "Ford Escape",
-        category: "SUV",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 70,
-        price_inr: 70 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "5 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["madurai", "thoothukudi"],
-        model: "Escape SEL 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 5,
-        additionalDetails: "Versatile SUV with hybrid option."
-    },
-    {
-        name: "Chevrolet Bolt EV",
-        category: "Electric",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 85,
-        price_inr: 85 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "3 Bags" },
-            { icon: "fas fa-bolt", text: "Electric" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["chennai", "vellore"],
-        model: "Bolt EV LT 2023",
-        fuelType: "Electric",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 3,
-        additionalDetails: "Compact electric with impressive range."
-    },
-    {
-        name: "Honda Accord",
-        category: "Sedan",
-        image: "https://cdnjs.cloudflare.com/ajax/libs/placeholder-images/0.1.0/img/placeholder-horizontal.webp",
-        price_usd: 55,
-        price_inr: 55 * 83,
-        features: [
-            { icon: "fas fa-user", text: "5 Seats" },
-            { icon: "fas fa-suitcase", text: "4 Bags" },
-            { icon: "fas fa-gas-pump", text: "Gasoline" },
-            { icon: "fas fa-cog", text: "Automatic" }
-        ],
-        locations: ["coimbatore", "trichy"],
-        model: "Accord Touring 2022",
-        fuelType: "Gasoline",
-        transmission: "Automatic",
-        seatingCapacity: 5,
-        luggageCapacity: 4,
-        additionalDetails: "Spacious sedan with hybrid variant."
-    }
-];
-
-// Pagination settings
 const carsPerPage = 9;
 let currentPage = 1;
-let filteredCars = [...carsData];
+let filteredCars = [];
 
-// Function to render car cards
-function renderCarCards(cars, page) {
-    const carListings = document.getElementById('car-listings');
-    carListings.innerHTML = '';
-
-    const start = (page - 1) * carsPerPage;
-    const end = start + carsPerPage;
-    const paginatedCars = cars.slice(start, end);
-
-    paginatedCars.forEach(car => {
-        const carCard = document.createElement('div');
-        carCard.className = 'car-card';
-        carCard.innerHTML = `
-            <img src="${car.image}" alt="${car.name}" class="car-image">
-            <div class="car-details">
-                <div class="car-name">${car.name}</div>
-                <div class="car-category">${car.category}</div>
-                <div class="car-features">
-                    ${car.features.map(feature => `
-                        <div class="feature">
-                            <i class="${feature.icon}"></i> ${feature.text}
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="car-price">₹${car.price_inr.toLocaleString('en-IN')} <span>/ day</span></div>
-                <div class="car-buttons">
-                    <button class="book-btn">Book Now</button>
-                    <button class="details-btn" data-car='${JSON.stringify(car)}'>Details</button>
-                </div>
-            </div>
-        `;
-        carListings.appendChild(carCard);
-    });
-
-    // Add event listeners to details buttons
-    document.querySelectorAll('.details-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const car = JSON.parse(btn.getAttribute('data-car'));
-            showModal(car);
-        });
-    });
-
-    renderPagination(cars.length);
+// Debounce function
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
-// Function to render pagination
+// Map backend Car to frontend format
+function mapCarToFrontend(car) {
+    return {
+        name: `${car.make} ${car.model}`,
+        category: car.category.name,
+        image: car.imageUrl,
+        price_inr: car.dailyRate,
+        features: [
+            { icon: "fas fa-user", text: `${car.seats} Seats` },
+            { icon: "fas fa-suitcase", text: `${car.luggage} Bags` },
+            { icon: car.fuelType.toLowerCase() === "electric" ? "fas fa-bolt" : "fas fa-gas-pump", text: car.fuelType },
+            { icon: "fas fa-cog", text: car.transmission }
+        ],
+        locations: car.availableLocations.map(loc => loc.name.toLowerCase()),
+        model: car.model,
+        fuelType: car.fuelType,
+        transmission: car.transmission,
+        seatingCapacity: car.seats,
+        luggageCapacity: car.luggage,
+        additionalDetails: car.additionalDetails
+    };
+}
+
+// Render car cards
+async function renderCarCards(page) {
+    const carListings = document.getElementById('car-listings');
+    carListings.innerHTML = '<p>Loading...</p>';
+
+    try {
+        const response = await fetch(`/api/cars?page=${page}&size=${carsPerPage}`);
+        if (!response.ok) throw new Error('Failed to fetch cars');
+        const apiResponse = await response.json();
+        if (!apiResponse.success) throw new Error(apiResponse.message);
+        filteredCars = apiResponse.data.map(mapCarToFrontend);
+
+        carListings.innerHTML = '';
+        const start = (page - 1) * carsPerPage;
+        const end = start + carsPerPage;
+        const paginatedCars = filteredCars.slice(start, end);
+
+        paginatedCars.forEach(car => {
+            const carCard = document.createElement('div');
+            carCard.className = 'car-card';
+            console.log(car.image);
+            carCard.innerHTML = `
+                <img src="${car.image}" alt="${car.name}" class="car-image" loading="lazy">
+                <div class="car-details">
+                    <div class="car-name">${car.name}</div>
+                    <div class="car-category">${car.category}</div>
+                    <div class="car-features">
+                        ${car.features.map(feature => `
+                            <div class="feature">
+                                <i class="${feature.icon}"></i> ${feature.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="car-price">₹${car.price_inr.toLocaleString('en-IN')} <span>/ day</span></div>
+                    <div class="car-buttons">
+                        <a href="conformation" class="book-btn">Book Now</a>
+                        <button type="button" class="details-btn" data-car='${JSON.stringify(car)}'>Details</button>
+                    </div>
+                </div>
+            `;
+            carListings.appendChild(carCard);
+        });
+
+        document.querySelectorAll('.details-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const car = JSON.parse(btn.getAttribute('data-car'));
+                showModal(car);
+            });
+        });
+
+        renderPagination(filteredCars.length);
+    } catch (error) {
+        carListings.innerHTML = `<p style="text-align: center; padding: 20px;">Error: ${error.message}</p>`;
+        document.getElementById('pagination').innerHTML = '';
+    }
+}
+
+// Render pagination
 function renderPagination(totalCars) {
     const pagination = document.getElementById('pagination');
     pagination.innerHTML = '';
@@ -607,7 +108,7 @@ function renderPagination(totalCars) {
     prevItem.addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            renderCarCards(filteredCars, currentPage);
+            renderCarCards(currentPage);
         }
     });
     pagination.appendChild(prevItem);
@@ -618,7 +119,7 @@ function renderPagination(totalCars) {
         pageItem.textContent = i;
         pageItem.addEventListener('click', () => {
             currentPage = i;
-            renderCarCards(filteredCars, currentPage);
+            renderCarCards(currentPage);
         });
         pagination.appendChild(pageItem);
     }
@@ -629,15 +130,27 @@ function renderPagination(totalCars) {
     nextItem.addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
-            renderCarCards(filteredCars, currentPage);
+            renderCarCards(currentPage);
         }
     });
     pagination.appendChild(nextItem);
 }
 
-// Function to show modal with car details
+// Modal functionality
+const modal = document.getElementById('car-details-modal');
+const modalClose = document.getElementById('modal-close');
+
+modalClose.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+
+modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
 function showModal(car) {
-    const modal = document.getElementById('car-details-modal');
     const modalHeader = document.getElementById('modal-header');
     const modalBody = document.getElementById('modal-body');
 
@@ -655,112 +168,186 @@ function showModal(car) {
     `;
 
     modal.style.display = 'flex';
-
-    document.getElementById('modal-close').addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    // Close modal when clicking outside
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
 }
 
-// Filter and search functionality
+// Toggle advanced search
+const advancedSearchBtn = document.getElementById('advanced-search-btn');
+const advancedFilters = document.querySelector('.advanced-filters');
+
+advancedSearchBtn.addEventListener('click', () => {
+    if (advancedFilters.style.display === 'none') {
+        advancedFilters.style.display = 'block';
+        advancedSearchBtn.textContent = 'Hide Advanced Search';
+    } else {
+        advancedFilters.style.display = 'none';
+        advancedSearchBtn.textContent = 'Advanced Search';
+    }
+});
+
+// Filter and Search Functionality
 const filterForm = document.getElementById('filter-form');
-filterForm.addEventListener('submit', (e) => {
+const errorContainer = document.createElement('div');
+errorContainer.className = 'error-container';
+filterForm.prepend(errorContainer);
+
+filterForm.addEventListener('submit', debounce(async (e) => {
     e.preventDefault();
+    errorContainer.textContent = '';
+
+    const searchBtn = filterForm.querySelector('.search-btn');
+    searchBtn.disabled = true;
+    searchBtn.textContent = 'Searching...';
+
     const formData = new FormData(filterForm);
     const filters = {
-        location: formData.get('location'),
+        location: formData.get('location')?.toLowerCase() || '',
         pickupDate: formData.get('pickup-date'),
         returnDate: formData.get('return-date'),
-        carType: formData.get('car-type'),
-        priceMin: parseInt(formData.get('price-min')) || 0,
-        priceMax: parseInt(formData.get('price-max')) || Infinity
+        carType: formData.get('car-type')?.toLowerCase() || '',
+        priceMin: parseInt(formData.get('price-min')) || null,
+        priceMax: parseInt(formData.get('price-max')) || null,
+        seats: parseInt(formData.get('seats')) || null,
+        transmission: formData.get('transmission')?.toLowerCase() || '',
+        luggage: parseInt(formData.get('luggage')) || null,
+        fuel: formData.get('fuel')?.toLowerCase() || ''
     };
 
-    filteredCars = carsData.filter(car => {
-        let matches = true;
+    // Validate required fields
+    document.querySelectorAll('.error-message').forEach(error => error.hidden = true);
+    let hasErrors = false;
 
-        if (filters.location && !car.locations.includes(filters.location)) {
-            matches = false;
+    if (!filters.location) {
+        document.getElementById('location-error').hidden = false;
+        hasErrors = true;
+    }
+
+    if (!filters.pickupDate) {
+        document.getElementById('pickup-date-error').hidden = false;
+        hasErrors = true;
+    }
+
+    if (!filters.returnDate) {
+        document.getElementById('return-date-error').hidden = false;
+        hasErrors = true;
+    } else if (filters.pickupDate && filters.returnDate && new Date(filters.returnDate) <= new Date(filters.pickupDate)) {
+        document.getElementById('return-date-error').textContent = 'Return date must be after pickup date.';
+        document.getElementById('return-date-error').hidden = false;
+        hasErrors = true;
+    }
+
+    if (filters.priceMin > filters.priceMax && filters.priceMax !== null) {
+        document.getElementById('price-range-error').hidden = false;
+        hasErrors = true;
+    }
+
+    if (hasErrors) {
+        errorContainer.textContent = 'Please fix the errors above and try again.';
+        searchBtn.disabled = false;
+        searchBtn.textContent = 'Search Cars';
+        return;
+    }
+
+    // Fetch filtered cars
+    try {
+        let url = `/api/cars?location=${encodeURIComponent(filters.location)}`;
+        if (filters.carType) url += `&carType=${encodeURIComponent(filters.carType)}`;
+        if (filters.priceMin) url += `&priceMin=${filters.priceMin}`;
+        if (filters.priceMax) url += `&priceMax=${filters.priceMax}`;
+        if (filters.seats) url += `&seats=${filters.seats}`;
+        if (filters.transmission) url += `&transmission=${encodeURIComponent(filters.transmission)}`;
+        if (filters.luggage) url += `&luggage=${filters.luggage}`;
+        if (filters.fuel) url += `&fuel=${encodeURIComponent(filters.fuel)}`;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to fetch cars');
+        const apiResponse = await response.json();
+        if (!apiResponse.success) throw new Error(apiResponse.message);
+        filteredCars = apiResponse.data.map(mapCarToFrontend);
+
+        currentPage = 1;
+        if (filteredCars.length === 0) {
+            document.getElementById('car-listings').innerHTML = '<p style="text-align: center; padding: 20px;">No cars match your criteria. Please adjust your filters.</p>';
+            document.getElementById('pagination').innerHTML = '';
+        } else {
+            renderCarCards(currentPage);
         }
+    } catch (error) {
+        document.getElementById('car-listings').innerHTML = `<p style="text-align: center; padding: 20px;">Error: ${error.message}</p>`;
+        document.getElementById('pagination').innerHTML = '';
+    } finally {
+        searchBtn.disabled = false;
+        searchBtn.textContent = 'Search Cars';
+    }
+}, 300));
 
-        if (filters.carType && car.category.toLowerCase() !== filters.carType) {
-            matches = false;
-        }
-
-        if (car.price_inr < filters.priceMin || car.price_inr > filters.priceMax) {
-            matches = false;
-        }
-
-        if (filters.pickupDate && filters.returnDate) {
-            const pickup = new Date(filters.pickupDate);
-            const returnDate = new Date(filters.returnDate);
-            if (pickup > returnDate) {
-                matches = false;
-            }
-        }
-
-        return matches;
-    });
-
-    currentPage = 1;
-    renderCarCards(filteredCars, currentPage);
-});
-
-// Tab Functionality
-const tabBtns = document.querySelectorAll('.tab-btn');
+// Tab switching functionality
+const tabButtons = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const tabId = btn.getAttribute('data-tab');
-        
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
-        
-        btn.classList.add('active');
-        document.getElementById(`${tabId}-tab`).classList.add('active');
-    });
-});
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        tabButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+        tabContents.forEach(content => content.classList.remove('active'));
 
-// Package Scroll Functionality
-const scrollLeftBtn = document.querySelector('.scroll-left');
-const scrollRightBtn = document.querySelector('.scroll-right');
-const packagesContainer = document.querySelector('.packages-container');
+        button.classList.add('active');
+        button.setAttribute('aria-selected', 'true');
+        document.getElementById(`${button.dataset.tab}-tab`).classList.add('active');
 
-if (scrollLeftBtn && scrollRightBtn) {
-    scrollLeftBtn.addEventListener('click', () => {
-        packagesContainer.scrollBy({ left: -330, behavior: 'smooth' });
-    });
-    
-    scrollRightBtn.addEventListener('click', () => {
-        packagesContainer.scrollBy({ left: 330, behavior: 'smooth' });
-    });
-}
-
-// Form Validation for Dates
-const pickupDateInput = document.getElementById('pickup-date');
-const returnDateInput = document.getElementById('return-date');
-
-if (pickupDateInput && returnDateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    pickupDateInput.setAttribute('min', today);
-    
-    pickupDateInput.addEventListener('change', () => {
-        returnDateInput.setAttribute('min', pickupDateInput.value);
-        
-        if (returnDateInput.value && returnDateInput.value < pickupDateInput.value) {
-            returnDateInput.value = pickupDateInput.value;
+        if (button.dataset.tab === 'cars') {
+            currentPage = 1;
+            renderCarCards(currentPage);
         }
     });
-}
+});
+
+// Package scroll functionality
+const packagesContainer = document.querySelector('.packages-container');
+const scrollLeftBtn = document.querySelector('.scroll-left');
+const scrollRightBtn = document.querySelector('.scroll-right');
+
+scrollLeftBtn.addEventListener('click', () => {
+    packagesContainer.scrollBy({ left: -300, behavior: 'smooth' });
+});
+
+scrollRightBtn.addEventListener('click', () => {
+    packagesContainer.scrollBy({ left: 300, behavior: 'smooth' });
+});
 
 // Initial render
-document.addEventListener('DOMContentLoaded', () => {
-    renderCarCards(filteredCars, currentPage);
+renderCarCards(currentPage);
+
+// Handle fallback images
+document.querySelectorAll('.car-image').forEach(img => {
+    img.addEventListener('error', () => {
+        img.src = '';
+    });
 });
+
+// Accessibility: Keyboard navigation for tabs
+tabButtons.forEach(button => {
+    button.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            button.click();
+        }
+    });
+});
+
+// Accessibility: Keyboard navigation for pagination
+document.getElementById('pagination').addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft' && currentPage > 1) {
+        currentPage--;
+        renderCarCards(currentPage);
+    } else if (e.key === 'ArrowRight' && currentPage < Math.ceil(filteredCars.length / carsPerPage)) {
+        currentPage++;
+        renderCarCards(currentPage);
+    }
+});
+
+// Prevent form resubmission
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}

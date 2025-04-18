@@ -11,5 +11,10 @@ public class UserController {
     public String booking(){
         return "booking";
     }
+
+    @GetMapping("/conformation")
+    public String conformation(){
+        return "conformation";
+    }
     
 }
