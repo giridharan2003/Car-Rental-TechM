@@ -52,4 +52,6 @@ public class Car {
 
     @ManyToMany
     private Set<Location> availableLocations;
+    
+    private boolean isActive;
 }

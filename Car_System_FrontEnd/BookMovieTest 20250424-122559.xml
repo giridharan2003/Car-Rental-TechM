@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="BookMovieTest" project="JUnit" tests="6" started="6" failures="0" errors="0" ignored="0">
+  <testsuite name="com.Assignment15.app.BookMovieTest" time="0.047" displayname="BookMovieTest" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]">
+    <testcase name="testValidateCircle" classname="com.Assignment15.app.BookMovieTest" time="0.022" displayname="testValidateCircle()" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]/[method:testValidateCircle()]"/>
+    <testcase name="testViewMovieTicketById_InvalidId" classname="com.Assignment15.app.BookMovieTest" time="0.003" displayname="testViewMovieTicketById_InvalidId()" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]/[method:testViewMovieTicketById_InvalidId()]"/>
+    <testcase name="testAddMovieTicket_Success" classname="com.Assignment15.app.BookMovieTest" time="0.012" displayname="testAddMovieTicket_Success()" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]/[method:testAddMovieTicket_Success()]"/>
+    <testcase name="testViewMovieTicketByScreen_Success" classname="com.Assignment15.app.BookMovieTest" time="0.002" displayname="testViewMovieTicketByScreen_Success()" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]/[method:testViewMovieTicketByScreen_Success()]"/>
+    <testcase name="testInvalidCircle" classname="com.Assignment15.app.BookMovieTest" time="0.002" displayname="testInvalidCircle()" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]/[method:testInvalidCircle()]"/>
+    <testcase name="testViewMovieTicketById_Success" classname="com.Assignment15.app.BookMovieTest" time="0.001" displayname="testViewMovieTicketById_Success()" uniqueid="[engine:junit-jupiter]/[class:com.Assignment15.app.BookMovieTest]/[method:testViewMovieTicketById_Success()]"/>
+  </testsuite>
+</testrun>

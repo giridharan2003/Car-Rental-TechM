@@ -478,3 +478,44 @@ body {
     margin-bottom: 0.25rem;
     width: calc(100% - 2rem);
 }
+
+
+.tooltip {
+    max-width: 200px;
+    word-wrap: break-word;
+    transition: opacity 0.3s ease;
+    pointer-events: none; /* prevents flickering */
+}
+
+.group:hover .tooltip {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+
+#options {
+    /* border: 1px solid #ccc; */
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 4px;
+    margin-top: 4px;
+    background-color: white;
+    position: absolute;
+    width: 300px;
+    z-index: 1000;
+    color: #000000;
+    list-style-type: none;
+    padding: 0;
+}
+
+#options li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#options li:hover {
+    background-color: #f0f0f0;
+}

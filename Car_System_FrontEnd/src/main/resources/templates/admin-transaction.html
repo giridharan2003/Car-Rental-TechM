@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Booking Transactions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Dark mode styles */
+        .dark {
+            background-color: #1d0a2f;
+            color: #ffffff;
+        }
+        
+        /* Main content area background in dark mode */
+        .dark .flex-1 {
+            background-color: #1d0a2f;
+        }
+        
+        /* Space between cards in dark mode */
+        .dark .gap-6 {
+            background-color: #1d0a2f;
+        }
+        
+        /* Card backgrounds remain black in dark mode */
+        .dark .bg-white {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .dark .bg-gray-100 {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .dark .text-gray-600, 
+        .dark .text-gray-700 {
+            color: #b0b0b0;
+            transition: color 0.3s ease;
+        }
+        
+        .dark table,
+        .dark table th,
+        .dark table td {
+            color: white;
+            transition: color 0.3s ease;
+        }
+        
+        .dark .border-r, 
+        .dark .border-b, 
+        .dark .border-t {
+            border-color: #3d3d3d;
+        }
+        
+        .dark .hover\:bg-gray-100:hover {
+            background-color: #3d3d3d;
+        }
+        
+        .dark .shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Modal styles for dark mode */
+        .dark .modal-content {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            border-color: #3d3d3d;
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: #2d2d2d;
+        }
+        
+        /* Status badges in dark mode */
+        .dark .status-pending {
+            background-color: #92400E;
+            color: #FEF3C7;
+        }
+        
+        .dark .status-confirmed {
+            background-color: #065F46;
+            color: #D1FAE5;
+        }
+        
+        .dark .status-cancelled {
+            background-color: #991B1B;
+            color: #FEE2E2;
+        }
+        
+        .dark .status-completed {
+            background-color: #1E40AF;
+            color: #DBEAFE;
+        }
+
+        /* Filter section in dark mode */
+        .dark .filter-section {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        
+        .dark .filter-section input,
+        .dark .filter-section select {
+            background-color: #2d2d2d;
+            color: #ffffff;
+            border-color: #3d3d3d;
+        }
+        
+        .dark .filter-section input::placeholder {
+            color: #b0b0b0;
+        }
+        
+        .dark .filter-section label {
+            color: #b0b0b0;
+        }
+
+        /* Booking table row hover in dark mode */
+        .dark .booking-row:hover {
+            background-color: #3d3d3d !important;
+        }
+
+        /* Original styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 25px;
+            border: 1px solid #888;
+            width: 60%;
+            border-radius: 8px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .status-confirmed {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .status-cancelled {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+        .status-completed {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+        
+        /* Person icon placeholder */
+        .person-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+        }
+        
+        .dark .person-icon {
+            background-color: #374151;
+        }
+        
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dark .user-icon {
+            background-color: #374151;
+        }
+
+        /* Add this to your existing dark mode styles */
+.dark .bg-purple-50 {
+    background-color: #2d1a42;
+}
+.dark .border-purple-600 {
+    border-color: #8b5cf6;
+}
+.dark .text-purple-600 {
+    color: #8b5cf6;
+}
+    </style>
+</head>
+<body class="bg-gray-100">
+<div class="flex min-h-screen">
+    <!-- Sidebar -->
+<div class="w-64 bg-white border-r">
+    <div class="flex items-center justify-center h-16 border-b">
+        <div class="text-2xl font-bold text-purple-600">
+            Luxora
+        </div>
+    </div>
+    <nav class="mt-10">
+        <a class="flex items-center px-6 py-2 text-gray-600 hover:bg-gray-100" th:href="@{/admin/dashboard}">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            Dashboard
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/admin/management}">
+            <i class="fas fa-car mr-3"></i>
+            Car Management
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-700 bg-purple-50 border-r-4 border-purple-600" th:href="@{/admin/transactions}">
+            <i class="fas fa-file-invoice-dollar mr-3 text-purple-600"></i>
+            Transactions
+        </a>
+        <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/admin/user-management}">
+            <i class="fas fa-users mr-3"></i>
+            User Management
+        </a>
+        <!-- <a class="flex items-center px-6 py-2 mt-4 text-gray-600 hover:bg-gray-100" th:href="@{/admin/analytics}">
+            <i class="fas fa-chart-line mr-3"></i>
+            Analytics
+        </a> -->
+        <div class="mt-10">
+            <a class="flex items-center px-6 py-2 mt-4 text-red-600 hover:bg-gray-100" th:href="@{/admin/login}">
+                <i class="fas fa-sign-out-alt mr-3"></i>
+                Logout
+            </a>
+        </div>
+    </nav>
+</div>
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Booking Transactions</h1>
+            <div class="flex space-x-4">
+                <button class="px-4 py-2 text-white bg-purple-600 rounded-lg" onclick="exportToExcel()">
+                    <i class="fas fa-file-export mr-2"></i>
+                    Export
+                </button>
+                <button class="px-4 py-2 text-white bg-green-600 rounded-lg" onclick="showStatsModal()">
+                    <i class="fas fa-chart-bar mr-2"></i>
+                    Stats
+                </button>
+            </div>
+        </div>
+        
+        <!-- Filters Section -->
+        <div class="bg-white p-6 rounded-lg shadow mt-6 filter-section">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-gray-600 mb-2">Customer Name</label>
+                    <input type="text" id="nameFilter" class="w-full p-2 border rounded" placeholder="Search by name" onkeyup="filterBookings()">
+                </div>
+                <div>
+                    <label class="block text-gray-600 mb-2">Car Type</label>
+                    <select id="carTypeFilter" class="w-full p-2 border rounded" onchange="filterBookings()">
+                        <option value="all">All Types</option>
+                        <option value="sedan">Sedan</option>
+                        <option value="suv">SUV</option>
+                        <option value="hatchback">Hatchback</option>
+                        <option value="premium">Premium</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-600 mb-2">Fuel Type</label>
+                    <select id="fuelTypeFilter" class="w-full p-2 border rounded" onchange="filterBookings()">
+                        <option value="all">All Fuel Types</option>
+                        <option value="petrol">Petrol</option>
+                        <option value="diesel">Diesel</option>
+                        <option value="electric">Electric</option>
+                        <option value="hybrid">Hybrid</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-600 mb-2">Transmission</label>
+                    <select id="transmissionFilter" class="w-full p-2 border rounded" onchange="filterBookings()">
+                        <option value="all">All Transmissions</option>
+                        <option value="automatic">Automatic</option>
+                        <option value="manual">Manual</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-600 mb-2">Booking Status</label>
+                    <select id="statusFilter" class="w-full p-2 border rounded" onchange="filterBookings()">
+                        <option value="all">All Statuses</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-600 mb-2">Date Range</label>
+                    <select id="dateFilter" class="w-full p-2 border rounded" onchange="filterBookings()">
+                        <option value="all">All Time</option>
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="year">This Year</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-between mt-4">
+                <button class="px-4 py-2 text-gray-600 border rounded-lg" onclick="resetFilters()">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    Reset Filters
+                </button>
+                <div class="text-gray-600">
+                    <span id="totalBookings">0</span> bookings found
+                </div>
+            </div>
+        </div>
+
+        <!-- Bookings Table -->
+        <div class="bg-white p-6 rounded-lg shadow mt-6 overflow-x-auto">
+            <table class="min-w-full">
+                <thead>
+                    <tr class="border-b">
+                        <th class="px-4 py-3 text-left text-gray-600">Booking ID</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Customer</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Car Model</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Booking Date</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Pickup Date</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Amount</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Status</th>
+                        <th class="px-4 py-3 text-left text-gray-600">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="bookingsTable">
+                    <!-- Bookings will be inserted here dynamically -->
+                </tbody>
+            </table>
+            <div class="flex justify-between items-center mt-4">
+                <div class="text-gray-600">
+                    Showing <span id="showingFrom">1</span> to <span id="showingTo">10</span> of <span id="totalRecords">0</span> entries
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1 border rounded" onclick="changePage(-1)" id="prevBtn" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <div id="pageNumbers" class="flex space-x-1">
+                        <!-- Page numbers will be inserted here -->
+                    </div>
+                    <button class="px-3 py-1 border rounded" onclick="changePage(1)" id="nextBtn" disabled>
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Booking Details Modal -->
+<div id="bookingDetailsModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer text-2xl" onclick="closeModal('bookingDetailsModal')">&times;</span>
+        <h2 class="text-xl font-semibold mb-4">Booking Details - <span id="modalBookingId"></span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Customer Information</h3>
+                <div class="space-y-3">
+                    <p><span class="font-medium">Name:</span> <span id="customerName"></span></p>
+                    <p><span class="font-medium">Email:</span> <span id="customerEmail"></span></p>
+                    <p><span class="font-medium">Phone:</span> <span id="customerPhone"></span></p>
+                    <p><span class="font-medium">ID Proof:</span> <span id="customerIdProof"></span></p>
+                    <p><span class="font-medium">Address:</span> <span id="customerAddress"></span></p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Booking Information</h3>
+                <div class="space-y-3">
+                    <p><span class="font-medium">Booking Date:</span> <span id="bookingDate"></span></p>
+                    <p><span class="font-medium">Pickup Date:</span> <span id="pickupDate"></span></p>
+                    <p><span class="font-medium">Return Date:</span> <span id="returnDate"></span></p>
+                    <p><span class="font-medium">Pickup Location:</span> <span id="pickupLocation"></span></p>
+                    <p><span class="font-medium">Return Location:</span> <span id="returnLocation"></span></p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Car Information</h3>
+                <div class="space-y-3">
+                    <p><span class="font-medium">Car Model:</span> <span id="carModel"></span></p>
+                    <p><span class="font-medium">Car Type:</span> <span id="carType"></span></p>
+                    <p><span class="font-medium">Fuel Type:</span> <span id="carFuelType"></span></p>
+                    <p><span class="font-medium">Transmission:</span> <span id="carTransmission"></span></p>
+                    <p><span class="font-medium">Registration No:</span> <span id="carRegNo"></span></p>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Payment Information</h3>
+                <div class="space-y-3">
+                    <p><span class="font-medium">Total Amount:</span> <span id="totalAmount"></span></p>
+                    <p><span class="font-medium">Payment Method:</span> <span id="paymentMethod"></span></p>
+                    <p><span class="font-medium">Payment Status:</span> <span id="paymentStatus"></span></p>
+                    <p><span class="font-medium">Booking Status:</span> <span id="bookingStatus"></span></p>
+                    <p><span class="font-medium">Special Requests:</span> <span id="specialRequests"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="mt-6 pt-4 border-t">
+            <div class="flex justify-end space-x-3">
+                <button class="px-4 py-2 text-white bg-blue-600 rounded-lg" onclick="printBookingDetails()">
+                    <i class="fas fa-print mr-2"></i> Print
+                </button>
+                <button class="px-4 py-2 text-white bg-purple-600 rounded-lg" onclick="sendEmailConfirmation()">
+                    <i class="fas fa-envelope mr-2"></i> Resend Email
+                </button>
+                <button class="px-4 py-2 text-white bg-green-600 rounded-lg" id="statusActionBtn" onclick="changeBookingStatus()">
+                    <!-- Button text will be set dynamically -->
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Modal -->
+<div id="statsModal" class="modal">
+    <div class="modal-content">
+        <span class="float-right text-gray-500 cursor-pointer text-2xl" onclick="closeModal('statsModal')">&times;</span>
+        <h2 class="text-xl font-semibold mb-4">Booking Statistics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Booking Status</h3>
+                <canvas id="statusChart" height="200"></canvas>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Revenue by Car Type</h3>
+                <canvas id="revenueChart" height="200"></canvas>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Monthly Bookings</h3>
+                <canvas id="monthlyChart" height="200"></canvas>
+            </div>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h3 class="text-lg font-medium mb-3 text-purple-600">Quick Stats</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-3 rounded shadow">
+                        <p class="text-gray-600">Total Bookings</p>
+                        <p class="text-2xl font-bold" id="totalBookingsStat">0</p>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow">
+                        <p class="text-gray-600">Total Revenue</p>
+                        <p class="text-2xl font-bold" id="totalRevenueStat">₹0</p>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow">
+                        <p class="text-gray-600">Avg. Booking Value</p>
+                        <p class="text-2xl font-bold" id="avgBookingStat">₹0</p>
+                    </div>
+                    <div class="bg-white p-3 rounded shadow">
+                        <p class="text-gray-600">Cancellation Rate</p>
+                        <p class="text-2xl font-bold" id="cancelRateStat">0%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Check for saved theme preference when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentTheme = localStorage.getItem('theme');
+        if (currentTheme === 'dark') {
+            document.body.classList.add('dark');
+        }
+        
+        renderBookingsTable();
+        updatePagination();
+    });
+
+    // Listen for theme changes from other tabs/windows
+    window.addEventListener('storage', function(event) {
+        if (event.key === 'theme') {
+            if (event.newValue === 'dark') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+        }
+    });
+
+    // Hardcoded booking data
+    let bookings = [
+        {
+            "id": "BK20230001",
+            "customer": {
+                "name": "Arjun Reddy",
+                "email": "arjun.reddy@example.com",
+                "phone": "+91 9876543210",
+                "idProof": "DL-AP1234567890",
+                "address": "12-34, MG Road, Bangalore, Karnataka"
+            },
+            "car": {
+                "model": "Hyundai Creta",
+                "type": "suv",
+                "fuelType": "petrol",
+                "transmission": "automatic",
+                "regNo": "KA01AB1234",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/130591/fronx-exterior-right-front-three-quarter-109.jpeg"
+            },
+            "bookingDate": "2023-05-15",
+            "pickupDate": "2023-05-20",
+            "returnDate": "2023-05-25",
+            "pickupLocation": "Bangalore Airport",
+            "returnLocation": "Bangalore Airport",
+            "amount": 12500,
+            "paymentMethod": "Credit Card",
+            "paymentStatus": "Paid",
+            "status": "completed",
+            "specialRequests": "Child seat required",
+            "driver": "Self-drive"
+        },
+        {
+            "id": "BK20230002",
+            "customer": {
+                "name": "Priya Sharma",
+                "email": "priya.sharma@example.com",
+                "phone": "+91 8765432109",
+                "idProof": "DL-DL0987654321",
+                "address": "45, Nehru Place, New Delhi"
+            },
+            "car": {
+                "model": "Maruti Swift",
+                "type": "hatchback",
+                "fuelType": "petrol",
+                "transmission": "manual",
+                "regNo": "DL8CAB5678",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/45242/swift-exterior-right-front-three-quarter-3.jpeg"
+            },
+            "bookingDate": "2023-05-18",
+            "pickupDate": "2023-05-22",
+            "returnDate": "2023-05-24",
+            "pickupLocation": "Delhi Railway Station",
+            "returnLocation": "Delhi Airport",
+            "amount": 6500,
+            "paymentMethod": "Debit Card",
+            "paymentStatus": "Paid",
+            "status": "confirmed",
+            "specialRequests": "None",
+            "driver": "Self-drive"
+        },
+        {
+            "id": "BK20230003",
+            "customer": {
+                "name": "Rahul Mehta",
+                "email": "rahul.mehta@example.com",
+                "phone": "+91 7654321098",
+                "idProof": "DL-MH7654321098",
+                "address": "78, Linking Road, Mumbai, Maharashtra"
+            },
+            "car": {
+                "model": "Toyota Fortuner",
+                "type": "suv",
+                "fuelType": "diesel",
+                "transmission": "automatic",
+                "regNo": "MH02CD9012",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/40432/fortuner-exterior-right-front-three-quarter-2.jpeg"
+            },
+            "bookingDate": "2023-05-10",
+            "pickupDate": "2023-05-25",
+            "returnDate": "2023-05-30",
+            "pickupLocation": "Mumbai Airport",
+            "returnLocation": "Mumbai Airport",
+            "amount": 18000,
+            "paymentMethod": "Net Banking",
+            "paymentStatus": "Pending",
+            "status": "pending",
+            "specialRequests": "Additional driver",
+            "driver": "With driver"
+        },
+        {
+            "id": "BK20230004",
+            "customer": {
+                "name": "Ananya Patel",
+                "email": "ananya.patel@example.com",
+                "phone": "+91 6543210987",
+                "idProof": "DL-GJ6543210987",
+                "address": "23, CG Road, Ahmedabad, Gujarat"
+            },
+            "car": {
+                "model": "Honda City",
+                "type": "sedan",
+                "fuelType": "petrol",
+                "transmission": "automatic",
+                "regNo": "GJ01EF3456",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/40535/city-exterior-right-front-three-quarter-2.jpeg"
+            },
+            "bookingDate": "2023-05-05",
+            "pickupDate": "2023-05-15",
+            "returnDate": "2023-05-18",
+            "pickupLocation": "Ahmedabad Airport",
+            "returnLocation": "Ahmedabad Airport",
+            "amount": 9500,
+            "paymentMethod": "UPI",
+            "paymentStatus": "Paid",
+            "status": "completed",
+            "specialRequests": "GPS navigation required",
+            "driver": "Self-drive"
+        },
+        {
+            "id": "BK20230005",
+            "customer": {
+                "name": "Vikram Singh",
+                "email": "vikram.singh@example.com",
+                "phone": "+91 9432109876",
+                "idProof": "DL-WB9432109876",
+                "address": "56, Park Street, Kolkata, West Bengal"
+            },
+            "car": {
+                "model": "BMW 5 Series",
+                "type": "premium",
+                "fuelType": "diesel",
+                "transmission": "automatic",
+                "regNo": "WB04GH7890",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/107815/5-series-exterior-right-front-three-quarter-2.jpeg"
+            },
+            "bookingDate": "2023-05-20",
+            "pickupDate": "2023-06-01",
+            "returnDate": "2023-06-05",
+            "pickupLocation": "Kolkata Airport",
+            "returnLocation": "Kolkata Airport",
+            "amount": 32000,
+            "paymentMethod": "Credit Card",
+            "paymentStatus": "Paid",
+            "status": "confirmed",
+            "specialRequests": "Premium cleaning required",
+            "driver": "With driver"
+        },
+        {
+            "id": "BK20230006",
+            "customer": {
+                "name": "Neha Gupta",
+                "email": "neha.gupta@example.com",
+                "phone": "+91 8321098765",
+                "idProof": "DL-UP8321098765",
+                "address": "34, Gomti Nagar, Lucknow, Uttar Pradesh"
+            },
+            "car": {
+                "model": "Tata Nexon EV",
+                "type": "suv",
+                "fuelType": "electric",
+                "transmission": "automatic",
+                "regNo": "UP32IJ1234",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/40601/nexon-ev-max-exterior-right-front-three-quarter-2.jpeg"
+            },
+            "bookingDate": "2023-05-12",
+            "pickupDate": "2023-05-25",
+            "returnDate": "2023-05-28",
+            "pickupLocation": "Lucknow Airport",
+            "returnLocation": "Lucknow Airport",
+            "amount": 14000,
+            "paymentMethod": "Debit Card",
+            "paymentStatus": "Paid",
+            "status": "confirmed",
+            "specialRequests": "Charging cable required",
+            "driver": "Self-drive"
+        },
+        {
+            "id": "BK20230007",
+            "customer": {
+                "name": "Suresh Kumar",
+                "email": "suresh.kumar@example.com",
+                "phone": "+91 7210987654",
+                "idProof": "DL-TN7210987654",
+                "address": "67, Anna Salai, Chennai, Tamil Nadu"
+            },
+            "car": {
+                "model": "Hyundai Verna",
+                "type": "sedan",
+                "fuelType": "diesel",
+                "transmission": "manual",
+                "regNo": "TN09KL5678",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/40469/verna-exterior-right-front-three-quarter-3.jpeg"
+            },
+            "bookingDate": "2023-05-08",
+            "pickupDate": "2023-05-15",
+            "returnDate": "2023-05-17",
+            "pickupLocation": "Chennai Central",
+            "returnLocation": "Chennai Airport",
+            "amount": 7500,
+            "paymentMethod": "Cash",
+            "paymentStatus": "Pending",
+            "status": "pending",
+            "specialRequests": "None",
+            "driver": "Self-drive"
+        },
+        {
+            "id": "BK20230008",
+            "customer": {
+                "name": "Deepika Joshi",
+                "email": "deepika.joshi@example.com",
+                "phone": "+91 6109876543",
+                "idProof": "DL-KA6109876543",
+                "address": "89, Brigade Road, Bangalore, Karnataka"
+            },
+            "car": {
+                "model": "Mercedes-Benz E-Class",
+                "type": "premium",
+                "fuelType": "petrol",
+                "transmission": "automatic",
+                "regNo": "KA03MN9012",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/40454/e-class-exterior-right-front-three-quarter-3.jpeg"
+            },
+            "bookingDate": "2023-05-22",
+            "pickupDate": "2023-06-10",
+            "returnDate": "2023-06-15",
+            "pickupLocation": "Bangalore Airport",
+            "returnLocation": "Bangalore Airport",
+            "amount": 45000,
+            "paymentMethod": "Credit Card",
+            "paymentStatus": "Paid",
+            "status": "confirmed",
+            "specialRequests": "Airport pickup preferred",
+            "driver": "With driver"
+        },
+        {
+            "id": "BK20230009",
+            "customer": {
+                "name": "Amit Desai",
+                "email": "amit.desai@example.com",
+                "phone": "+91 5098765432",
+                "idProof": "DL-GA5098765432",
+                "address": "12, Miramar Beach Road, Panaji, Goa"
+            },
+            "car": {
+                "model": "Mahindra Thar",
+                "type": "suv",
+                "fuelType": "diesel",
+                "transmission": "manual",
+                "regNo": "GA05OP3456",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/141867/thar-exterior-right-front-three-quarter-4.jpeg"
+            },
+            "bookingDate": "2023-05-14",
+            "pickupDate": "2023-05-28",
+            "returnDate": "2023-06-02",
+            "pickupLocation": "Goa Airport",
+            "returnLocation": "Goa Airport",
+            "amount": 16000,
+            "paymentMethod": "UPI",
+            "paymentStatus": "Paid",
+            "status": "completed",
+            "specialRequests": "Off-road accessories",
+            "driver": "Self-drive"
+        },
+        {
+            "id": "BK20230010",
+            "customer": {
+                "name": "Pooja Reddy",
+                "email": "pooja.reddy@example.com",
+                "phone": "+91 4987654321",
+                "idProof": "DL-TS4987654321",
+                "address": "45, Banjara Hills, Hyderabad, Telangana"
+            },
+            "car": {
+                "model": "Kia Seltos",
+                "type": "suv",
+                "fuelType": "petrol",
+                "transmission": "automatic",
+                "regNo": "TS07QR7890",
+                "image": "https://imgd.aeplcdn.com/664x374/n/cw/ec/40434/seltos-exterior-right-front-three-quarter-3.jpeg"
+            },
+            "bookingDate": "2023-05-17",
+            "pickupDate": "2023-05-25",
+            "returnDate": "2023-05-27",
+            "pickupLocation": "Hyderabad Airport",
+            "returnLocation": "Hyderabad Airport",
+            "amount": 11000,
+            "paymentMethod": "Debit Card",
+            "paymentStatus": "Paid",
+            "status": "cancelled",
+            "specialRequests": "None",
+            "driver": "Self-drive"
+        }
+    ];
+
+    // Initialize filtered bookings
+    let filteredBookings = [...bookings];
+    let currentPage = 1;
+    const recordsPerPage = 10;
+
+    // Render bookings table
+    function renderBookingsTable() {
+        const tableBody = document.getElementById('bookingsTable');
+        tableBody.innerHTML = '';
+        
+        const startIndex = (currentPage - 1) * recordsPerPage;
+        const endIndex = Math.min(startIndex + recordsPerPage, filteredBookings.length);
+        
+        for (let i = startIndex; i < endIndex; i++) {
+            const booking = filteredBookings[i];
+            const row = document.createElement('tr');
+            row.className = 'border-b hover:bg-gray-50 booking-row';
+            row.innerHTML = `
+                <td class="px-4 py-3">${booking.id}</td>
+                <td class="px-4 py-3">${booking.customer.name}</td>
+                <td class="px-4 py-3">${booking.car.model}</td>
+                <td class="px-4 py-3">${formatDate(booking.bookingDate)}</td>
+                <td class="px-4 py-3">${formatDate(booking.pickupDate)}</td>
+                <td class="px-4 py-3">₹${booking.amount.toLocaleString('en-IN')}</td>
+                <td class="px-4 py-3">
+                    <span class="px-2 py-1 rounded-full text-xs status-${booking.status}">
+                        ${capitalizeFirstLetter(booking.status)}
+                    </span>
+                </td>
+                <td class="px-4 py-3">
+                    <button class="text-purple-600 hover:text-purple-800" onclick="showBookingDetails('${booking.id}')">
+                        <i class="fas fa-eye mr-1"></i> View
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        }
+        
+        // Update counters
+        document.getElementById('showingFrom').textContent = startIndex + 1;
+        document.getElementById('showingTo').textContent = endIndex;
+        document.getElementById('totalRecords').textContent = filteredBookings.length;
+        document.getElementById('totalBookings').textContent = filteredBookings.length;
+    }
+
+    // Format date
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+
+    // Capitalize first letter
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    // Filter bookings based on filters
+    function filterBookings() {
+        const nameFilter = document.getElementById('nameFilter').value.toLowerCase();
+        const carTypeFilter = document.getElementById('carTypeFilter').value;
+        const fuelTypeFilter = document.getElementById('fuelTypeFilter').value;
+        const transmissionFilter = document.getElementById('transmissionFilter').value;
+        const statusFilter = document.getElementById('statusFilter').value;
+        const dateFilter = document.getElementById('dateFilter').value;
+        
+        filteredBookings = bookings.filter(booking => {
+            // Name filter
+            if (nameFilter && !booking.customer.name.toLowerCase().includes(nameFilter)) {
+                return false;
+            }
+            
+            // Car type filter
+            if (carTypeFilter !== 'all' && booking.car.type !== carTypeFilter) {
+                return false;
+            }
+            
+            // Fuel type filter
+            if (fuelTypeFilter !== 'all' && booking.car.fuelType !== fuelTypeFilter) {
+                return false;
+            }
+            
+            // Transmission filter
+            if (transmissionFilter !== 'all' && booking.car.transmission !== transmissionFilter) {
+                return false;
+            }
+            
+            // Status filter
+            if (statusFilter !== 'all' && booking.status !== statusFilter) {
+                return false;
+            }
+            
+            // Date filter
+            if (dateFilter !== 'all') {
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                const bookingDate = new Date(booking.bookingDate);
+                bookingDate.setHours(0, 0, 0, 0);
+                
+                if (dateFilter === 'today' && bookingDate.getTime() !== today.getTime()) {
+                    return false;
+                }
+                
+                if (dateFilter === 'week') {
+                    const weekStart = new Date(today);
+                    weekStart.setDate(today.getDate() - today.getDay());
+                    
+                    const weekEnd = new Date(weekStart);
+                    weekEnd.setDate(weekStart.getDate() + 6);
+                    
+                    if (bookingDate < weekStart || bookingDate > weekEnd) {
+                        return false;
+                    }
+                }
+                
+                if (dateFilter === 'month' && bookingDate.getMonth() !== today.getMonth()) {
+                    return false;
+                }
+                
+                if (dateFilter === 'year' && bookingDate.getFullYear() !== today.getFullYear()) {
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+        
+        currentPage = 1;
+        renderBookingsTable();
+        updatePagination();
+    }
+
+    // Reset all filters
+    function resetFilters() {
+        document.getElementById('nameFilter').value = '';
+        document.getElementById('carTypeFilter').value = 'all';
+        document.getElementById('fuelTypeFilter').value = 'all';
+        document.getElementById('transmissionFilter').value = 'all';
+        document.getElementById('statusFilter').value = 'all';
+        document.getElementById('dateFilter').value = 'all';
+        
+        filteredBookings = [...bookings];
+        currentPage = 1;
+        renderBookingsTable();
+        updatePagination();
+    }
+
+    // Update pagination controls
+    function updatePagination() {
+        const totalPages = Math.ceil(filteredBookings.length / recordsPerPage);
+        const pageNumbers = document.getElementById('pageNumbers');
+        pageNumbers.innerHTML = '';
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = `px-3 py-1 border rounded ${currentPage === i ? 'bg-purple-600 text-white' : ''}`;
+            pageBtn.textContent = i;
+            pageBtn.onclick = () => {
+                currentPage = i;
+                renderBookingsTable();
+                updatePagination();
+            };
+            pageNumbers.appendChild(pageBtn);
+        }
+        
+        document.getElementById('prevBtn').disabled = currentPage === 1;
+        document.getElementById('nextBtn').disabled = currentPage === totalPages;
+    }
+
+    // Change page
+    function changePage(direction) {
+        const totalPages = Math.ceil(filteredBookings.length / recordsPerPage);
+        const newPage = currentPage + direction;
+        
+        if (newPage > 0 && newPage <= totalPages) {
+            currentPage = newPage;
+            renderBookingsTable();
+            updatePagination();
+        }
+    }
+
+    // Show booking details modal
+    function showBookingDetails(bookingId) {
+        const booking = bookings.find(b => b.id === bookingId);
+        if (!booking) return;
+        
+        document.getElementById('modalBookingId').textContent = bookingId;
+        document.getElementById('customerName').textContent = booking.customer.name;
+        document.getElementById('customerEmail').textContent = booking.customer.email;
+        document.getElementById('customerPhone').textContent = booking.customer.phone;
+        document.getElementById('customerIdProof').textContent = booking.customer.idProof;
+        document.getElementById('customerAddress').textContent = booking.customer.address;
+        
+        document.getElementById('bookingDate').textContent = formatDate(booking.bookingDate);
+        document.getElementById('pickupDate').textContent = formatDate(booking.pickupDate);
+        document.getElementById('returnDate').textContent = formatDate(booking.returnDate);
+        document.getElementById('pickupLocation').textContent = booking.pickupLocation;
+        document.getElementById('returnLocation').textContent = booking.returnLocation;
+        
+        document.getElementById('carModel').textContent = booking.car.model;
+        document.getElementById('carType').textContent = capitalizeFirstLetter(booking.car.type);
+        document.getElementById('carFuelType').textContent = capitalizeFirstLetter(booking.car.fuelType);
+        document.getElementById('carTransmission').textContent = capitalizeFirstLetter(booking.car.transmission);
+        document.getElementById('carRegNo').textContent = booking.car.regNo;
+        
+        document.getElementById('totalAmount').textContent = `₹${booking.amount.toLocaleString('en-IN')}`;
+        document.getElementById('paymentMethod').textContent = booking.paymentMethod;
+        document.getElementById('paymentStatus').textContent = booking.paymentStatus;
+        document.getElementById('bookingStatus').textContent = capitalizeFirstLetter(booking.status);
+        document.getElementById('specialRequests').textContent = booking.specialRequests || 'None';
+        
+        // Set status action button based on current status
+        const statusBtn = document.getElementById('statusActionBtn');
+        if (booking.status === 'pending') {
+            statusBtn.innerHTML = '<i class="fas fa-check mr-2"></i> Confirm Booking';
+            statusBtn.className = 'px-4 py-2 text-white bg-green-600 rounded-lg';
+        } else if (booking.status === 'confirmed') {
+            statusBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i> Mark as Completed';
+            statusBtn.className = 'px-4 py-2 text-white bg-blue-600 rounded-lg';
+        } else if (booking.status === 'completed') {
+            statusBtn.innerHTML = '<i class="fas fa-check-double mr-2"></i> Completed';
+            statusBtn.className = 'px-4 py-2 text-white bg-gray-600 rounded-lg';
+            statusBtn.disabled = true;
+        } else {
+            statusBtn.innerHTML = '<i class="fas fa-times mr-2"></i> Cancelled';
+            statusBtn.className = 'px-4 py-2 text-white bg-gray-600 rounded-lg';
+            statusBtn.disabled = true;
+        }
+        
+        document.getElementById('bookingDetailsModal').style.display = 'block';
+    }
+
+    // Close modal
+    function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Change booking status
+    function changeBookingStatus() {
+        const bookingId = document.getElementById('modalBookingId').textContent;
+        const booking = bookings.find(b => b.id === bookingId);
+        
+        if (booking.status === 'pending') {
+            booking.status = 'confirmed';
+        } else if (booking.status === 'confirmed') {
+            booking.status = 'completed';
+        }
+        
+        // Update the filtered bookings array if needed
+        const filteredIndex = filteredBookings.findIndex(b => b.id === bookingId);
+        if (filteredIndex !== -1) {
+            filteredBookings[filteredIndex].status = booking.status;
+        }
+        
+        // Close modal and refresh table
+        closeModal('bookingDetailsModal');
+        renderBookingsTable();
+    }
+
+    // Print booking details
+    function printBookingDetails() {
+        window.print();
+    }
+
+    // Send email confirmation
+    function sendEmailConfirmation() {
+        alert('Email confirmation has been sent to the customer.');
+    }
+
+    // Show stats modal
+    function showStatsModal() {
+        // Calculate stats
+        const totalBookings = bookings.length;
+        const totalRevenue = bookings.reduce((sum, booking) => sum + booking.amount, 0);
+        const avgBooking = totalBookings > 0 ? Math.round(totalRevenue / totalBookings) : 0;
+        const cancelledCount = bookings.filter(b => b.status === 'cancelled').length;
+        const cancelRate = totalBookings > 0 ? Math.round((cancelledCount / totalBookings) * 100) : 0;
+        
+        // Update stats in modal
+        document.getElementById('totalBookingsStat').textContent = totalBookings;
+        document.getElementById('totalRevenueStat').textContent = `₹${totalRevenue.toLocaleString('en-IN')}`;
+        document.getElementById('avgBookingStat').textContent = `₹${avgBooking.toLocaleString('en-IN')}`;
+        document.getElementById('cancelRateStat').textContent = `${cancelRate}%`;
+        
+        // Create charts
+        createStatusChart();
+        createRevenueChart();
+        createMonthlyChart();
+        
+        document.getElementById('statsModal').style.display = 'block';
+    }
+
+    // Create status chart
+    function createStatusChart() {
+        const ctx = document.getElementById('statusChart').getContext('2d');
+        const statusCounts = {
+            pending: bookings.filter(b => b.status === 'pending').length,
+            confirmed: bookings.filter(b => b.status === 'confirmed').length,
+            cancelled: bookings.filter(b => b.status === 'cancelled').length,
+            completed: bookings.filter(b => b.status === 'completed').length
+        };
+        
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pending', 'Confirmed', 'Cancelled', 'Completed'],
+                datasets: [{
+                    data: Object.values(statusCounts),
+                    backgroundColor: [
+                        '#FEF3C7',
+                        '#D1FAE5',
+                        '#FEE2E2',
+                        '#DBEAFE'
+                    ],
+                    borderColor: [
+                        '#92400E',
+                        '#065F46',
+                        '#991B1B',
+                        '#1E40AF'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+
+    // Create revenue chart
+    function createRevenueChart() {
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const carTypes = ['sedan', 'suv', 'hatchback', 'premium'];
+        const revenueByType = carTypes.map(type => 
+            bookings.filter(b => b.car.type === type).reduce((sum, b) => sum + b.amount, 0)
+        );
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Sedan', 'SUV', 'Hatchback', 'Premium'],
+                datasets: [{
+                    label: 'Revenue (₹)',
+                    data: revenueByType,
+                    backgroundColor: [
+                        'rgba(124, 58, 237, 0.7)',
+                        'rgba(124, 58, 237, 0.7)',
+                        'rgba(124, 58, 237, 0.7)',
+                        'rgba(124, 58, 237, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(124, 58, 237, 1)',
+                        'rgba(124, 58, 237, 1)',
+                        'rgba(124, 58, 237, 1)',
+                        'rgba(124, 58, 237, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Create monthly chart
+    function createMonthlyChart() {
+        const ctx = document.getElementById('monthlyChart').getContext('2d');
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const currentYear = new Date().getFullYear();
+        
+        const monthlyCounts = months.map((month, index) => {
+            return bookings.filter(booking => {
+                const bookingDate = new Date(booking.bookingDate);
+                return bookingDate.getFullYear() === currentYear && bookingDate.getMonth() === index;
+            }).length;
+        });
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: months,
+                datasets: [{
+                    label: 'Bookings',
+                    data: monthlyCounts,
+                    fill: false,
+                    borderColor: 'rgba(124, 58, 237, 1)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    // Export to Excel
+    function exportToExcel() {
+        // This would typically be implemented with a library like SheetJS
+        alert('Export to Excel functionality would be implemented here');
+    }
+</script>
+</body>
+</html>

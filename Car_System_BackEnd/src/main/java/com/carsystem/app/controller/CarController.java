@@ -1,7 +1,8 @@
 package com.carsystem.app.controller;
 
-import com.carsystem.app.dto.ApiResponse;
 import com.carsystem.app.model.Car;
+import com.carsystem.app.model.CarCategory;
+import com.carsystem.app.model.Location;
 import com.carsystem.app.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,21 +17,32 @@ public class CarController {
     private CarService carService;
 
     @GetMapping
-    public ApiResponse<List<Car>> getCars(
-        @RequestParam(required = false) String location,
-        @RequestParam(required = false) String carType,
-        @RequestParam(required = false) Double priceMin,
-        @RequestParam(required = false) Double priceMax,
-        @RequestParam(required = false) Integer seats,
-        @RequestParam(required = false) String transmission,
-        @RequestParam(required = false) Integer luggage,
-        @RequestParam(required = false) String fuel
-    ) {
-        return carService.getCars(location, carType, priceMin, priceMax, seats, transmission, luggage, fuel);
+    public List<Car> getCars() {
+        return carService.getCars();
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<Car> getCarById(@PathVariable Long id) {
+    public Car getCarById(@PathVariable Long id) {
         return carService.getCarById(id);
+    }
+
+    @PostMapping("/add")
+    public Car addCar(@RequestBody Car car) {
+        return carService.addCar(car);
+    }
+
+    @PutMapping("/{id}")
+    public Car updateCar(@PathVariable Long id, @RequestBody Car car) {
+        return carService.updateCar(id, car);
+    }
+    
+    @GetMapping("/categories")
+    public List<CarCategory> getAllCategories() {
+        return carService.getAllCategories();
+    }
+
+    @GetMapping("/locations")
+    public List<Location> getAllLocations() {
+        return carService.getAllLocations();
     }
 }

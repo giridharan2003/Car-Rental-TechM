@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - LUXORA Car Rental</title>
+
+    <link th:href="@{/css/userProfile.css}" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="nav-container">
+            <a href="home.html" class="logo">
+                <svg width="40" height="30" viewBox="0 0 40 30">
+                    <path d="M30,10 C30,6.134 26.866,3 23,3 L7,3 C3.134,3 0,6.134 0,10 L0,20 C0,23.866 3.134,27 7,27 L23,27 C26.866,27 30,23.866 30,20 L30,10 Z" fill="#D4AF37"/>
+                    <circle cx="8" cy="20" r="4" fill="#333"/>
+                    <circle cx="22" cy="20" r="4" fill="#333"/>
+                </svg>
+                <h1>LUXORA</h1>
+            </a>
+
+            <button class="menu-toggle" id="menuToggle">☰</button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="booking.html">Cars</a>
+                <a href="booking.html">Packages</a>
+                <a href="home.html">Services</a>
+                <a href="home.html">About</a>
+            </div>
+
+            <div class="auth-buttons">
+                <a href="login.html" class="login-btn">Login</a>
+                <a href="login.html" class="signup-btn">Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <h1 class="page-title">My Profile</h1>
+
+        <div id="successAlert" class="alert alert-success">
+            Rental successfully extended! Your new return date has been updated.
+        </div>
+
+        <div id="errorAlert" class="alert alert-error">
+            Sorry, there was a problem processing your request. Please try again.
+        </div>
+
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-value">5</div>
+                <div class="stat-label">Total Rentals</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="activeRentalsCount">2</div>
+                <div class="stat-label">Active Rentals</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1250</div>
+                <div class="stat-label">Loyalty Points</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Favorite Cars</div>
+            </div>
+        </div>
+
+        <div class="profile-container">
+            <div class="profile-sidebar">
+                <img src="/assests/cars/dp3.jpg" alt="Profile" class="profile-pic">
+                <div class="user-info">
+                    <h2 class="user-name">Gokul</h2>
+                    <span class="membership-status">Gold Member</span>
+                    <p>Member since Jan 2023</p>
+                </div>
+
+                <ul class="profile-menu">
+                    <li><a href="#" class="active" data-section="rentals">My Rentals</a></li>
+                    <li><a href="#" data-section="settings">Account Settings</a></li>
+                    <li><a href="#" data-section="payments">Payment Methods</a></li>
+                    <li><a href="#" data-section="history">Rental History</a></li>
+                    <li><a href="#" data-section="support">Help & Support</a></li>
+                    <li><a href="login.html" id="logoutBtn">Logout</a></li>
+                </ul>
+            </div>
+
+            <div class="profile-content">
+                <div id="rentalsSection">
+                    <h2 class="section-title">Active Rentals</h2>
+                    
+                    <div class="rentals-container" id="activeRentalsContainer">
+                        <div class="rental-card" data-booking-id="BK-1234">
+                            <img src="/assests/cars/luxury/5series.webp" alt="BMW 5 Series" class="car-image">
+                            <div class="rental-details"> 
+                                <span class="rental-status status-active">Active</span>
+                                <h3 class="car-name">BMW 5 Series</h3>
+                                <div class="rental-info">
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Booking ID:</span>
+                                        <span class="info-value">BK-1234</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Pickup Date:</span>
+                                        <span class="info-value">Mar 28, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Return Date:</span>
+                                        <span class="info-value return-date">Apr 04, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Pickup Location:</span>
+                                        <span class="info-value">Downtown Branch</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Return Location:</span>
+                                        <span class="info-value">Airport Branch</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Package:</span>
+                                        <span class="info-value">Weekly Premium</span>
+                                    </div>
+                                </div>
+                                <div class="rental-actions">
+                                    <button class="btn btn-primary extend-btn">Extend Rental</button>
+                                    <button class="btn btn-secondary details-btn">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-card" data-booking-id="BK-5678">
+                            <img src="/assests/cars/luxury/cclass.webp" alt="Mercedes E-Class" class="car-image">
+                            <div class="rental-details">
+                                <span class="rental-status status-active">Active</span>
+                                <h3 class="car-name">Mercedes E-Class</h3>
+                                <div class="rental-info">
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Booking ID:</span>
+                                        <span class="info-value">BK-5678</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Pickup Date:</span>
+                                        <span class="info-value">Mar 30, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Return Date:</span>
+                                        <span class="info-value return-date">Apr 02, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Pickup Location:</span>
+                                        <span class="info-value">Airport Branch</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Return Location:</span>
+                                        <span class="info-value">Airport Branch</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Package:</span>
+                                        <span class="info-value">Weekend Getaway</span>
+                                    </div>
+                                </div>
+                                <div class="rental-actions">
+                                    <button class="btn btn-primary extend-btn">Extend Rental</button>
+                                    <button class="btn btn-secondary details-btn">View Details</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 class="section-title" style="margin-top: 40px;">Recent Rentals</h2>
+                    
+                    <div class="rentals-container">
+                        <div class="rental-card">
+                            <img src="/assests/cars/luxury/rangerover.webp" alt="Audi A6" class="car-image">
+                            <div class="rental-details">
+                                <span class="rental-status status-completed">Completed</span>
+                                <h3 class="car-name">Range Rover</h3>
+                                <div class="rental-info">
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Booking ID:</span>
+                                        <span class="info-value">BK-9012</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Pickup Date:</span>
+                                        <span class="info-value">Mar 15, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Return Date:</span>
+                                        <span class="info-value">Mar 20, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Package:</span>
+                                        <span class="info-value">Business Trip</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Total Paid:</span>
+                                        <span class="info-value">$450.00</span>
+                                    </div>
+                                </div>
+                                <div class="rental-actions">
+                                    <button class="btn btn-secondary receipt-btn">View Receipt</button>
+                                    <button class="btn btn-secondary review-btn">Leave Review</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rental-card">
+                            <img src="/assests/cars/mpv/gloster.webp" alt="Tesla Model 3" class="car-image">
+                            <div class="rental-details">
+                                <span class="rental-status status-completed">Completed</span>
+                                <h3 class="car-name">MG Gloster</h3>
+                                <div class="rental-info">
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Booking ID:</span>
+                                        <span class="info-value">BK-3456</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Pickup Date:</span>
+                                        <span class="info-value">Feb 28, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Return Date:</span>
+                                        <span class="info-value">Mar 07, 2025</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Package:</span>
+                                        <span class="info-value">EV Weekly</span>
+                                    </div>
+                                    <div class="rental-info-item">
+                                        <span class="info-label">Total Paid:</span>
+                                        <span class="info-value">$550.00</span>
+                                    </div>
+                                </div>
+                                <div class="rental-actions">
+                                    <button class="btn btn-secondary receipt-btn">View Receipt</button>
+                                    <button class="btn btn-secondary review-btn">Leave Review</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other sections (hidden by default) -->
+                <div id="settingsSection" style="display: none;">
+                    <h2 class="section-title">Account Settings</h2>
+                    
+                    <div class="account-form">
+                        <form id="accountSettingsForm">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="fullName" value="Gokul" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" value="gokul@example.com" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" value="+91 9876543210" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Date of Birth</label>
+                                <input type="date" class="form-control" id="dob" value="1990-01-15">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Address</label>
+                                <textarea class="form-control" id="address" rows="3">123 Main Street, Chennai, Tamil Nadu</textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Driver's License Number</label>
+                                <input type="text" class="form-control" id="license" value="TN1234567890">
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancelSettings">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="profile-picture-section" style="margin-top: 40px;">
+                        <h3 class="section-subtitle">Profile Picture</h3>
+                        <div class="picture-upload">
+                            <img src="/assests/cars/dp3.jpg" alt="Current Profile" class="current-profile-pic" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 15px;">
+                            <input type="file" id="profilePicUpload" accept="image/*" style="display: none;">
+                            <button type="button" class="btn btn-secondary" onclick="document.getElementById('profilePicUpload').click()">Change Picture</button>
+                            <button type="button" class="btn btn-secondary" id="removeProfilePic">Remove Picture</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="paymentsSection" style="display: none;">
+                    <h2 class="section-title">Payment Methods</h2>
+                    
+                    <div class="payment-methods-list">
+                        <div class="payment-card">
+                            <div class="payment-card-header">
+                                <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Visa" style="width: 50px; height: auto;">
+                                <span class="payment-card-title">VISA ending in 4242</span>
+                                <span class="payment-card-default">Default</span>
+                            </div>
+                            <div class="payment-card-details">
+                                <p>Expires: 05/2026</p>
+                                <div class="payment-card-actions">
+                                    <button class="btn btn-secondary btn-sm">Edit</button>
+                                    <button class="btn btn-secondary btn-sm">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <div class="payment-card-header">
+                                <img src="https://cdn-icons-png.flaticon.com/512/196/196561.png" alt="PayPal" style="width: 50px; height: auto;">
+                                <span class="payment-card-title">PayPal Account</span>
+                            </div>
+                            <div class="payment-card-details">
+                                <p>Connected: gokul@example.com</p>
+                                <div class="payment-card-actions">
+                                    <button class="btn btn-secondary btn-sm">Edit</button>
+                                    <button class="btn btn-secondary btn-sm">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary" id="addPaymentMethod" style="margin-top: 20px;">+ Add Payment Method</button>
+                    
+                    <div class="add-payment-form" id="addPaymentForm" style="display: none; margin-top: 30px;">
+                        <h3 class="section-subtitle">Add New Payment Method</h3>
+                        <form id="paymentMethodForm">
+                            <div class="form-group">
+                                <label class="form-label">Card Type</label>
+                                <select class="form-control" id="cardType" required>
+                                    <option value="">Select Card Type</option>
+                                    <option value="visa">Visa</option>
+                                    <option value="mastercard">Mastercard</option>
+                                    <option value="amex">American Express</option>
+                                    <option value="discover">Discover</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Card Number</label>
+                                <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+                            </div>
+                            
+                            <div class="form-row" style="display: flex; gap: 15px;">
+                                <div class="form-group" style="flex: 1;">
+                                    <label class="form-label">Expiration Date</label>
+                                    <input type="text" class="form-control" id="expDate" placeholder="MM/YY" required>
+                                </div>
+                                <div class="form-group" style="flex: 1;">
+                                    <label class="form-label">Security Code</label>
+                                    <input type="text" class="form-control" id="securityCode" placeholder="CVC" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Cardholder Name</label>
+                                <input type="text" class="form-control" id="cardholderName" placeholder="Name on card" required>
+                            </div>
+                            
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="setAsDefault">
+                                <label class="form-check-label" for="setAsDefault">Set as default payment method</label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-secondary" id="cancelAddPayment">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Payment Method</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="billing-address" style="margin-top: 40px;">
+                        <h3 class="section-subtitle">Billing Address</h3>
+                        <div class="address-card">
+                            <p>Gokul</p>
+                            <p>123 Main Street</p>
+                            <p>Chennai, Tamil Nadu 600001</p>
+                            <p>India</p>
+                            <button class="btn btn-secondary" style="margin-top: 10px;">Edit Billing Address</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="historySection" style="display: none;">
+                    <h2 class="section-title">Rental History</h2>
+                    
+                    <div class="history-filters" style="margin-bottom: 20px;">
+                        <div class="filter-row" style="display: flex; gap: 15px; align-items: center;">
+                            <div class="form-group" style="flex: 1;">
+                                <label class="form-label">Filter by Date Range</label>
+                                <select class="form-control" id="dateRangeFilter">
+                                    <option value="all">All Time</option>
+                                    <option value="last30">Last 30 Days</option>
+                                    <option value="last90">Last 90 Days</option>
+                                    <option value="lastyear">Last Year</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" style="flex: 1; display: none;" id="customDateRange">
+                                <label class="form-label">Custom Date Range</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="date" class="form-control" id="startDate">
+                                    <input type="date" class="form-control" id="endDate">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="flex: 1;">
+                                <label class="form-label">Filter by Status</label>
+                                <select class="form-control" id="statusFilter">
+                                    <option value="all">All Statuses</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="upcoming">Upcoming</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn btn-primary" id="applyFilters" style="align-self: flex-end;">Apply Filters</button>
+                        </div>
+                    </div>
+                    
+                    <div class="history-list">
+                        <div class="history-item">
+                            <div class="history-header">
+                                <span class="history-id">BK-9012</span>
+                                <span class="history-date">Mar 15, 2025 - Mar 20, 2025</span>
+                                <span class="history-status status-completed">Completed</span>
+                                <span class="history-price">$450.00</span>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-car">
+                                    <img src="/assests/cars/luxury/rangerover.webp" alt="Range Rover" style="width: 100px; height: auto; border-radius: 5px;">
+                                    <div class="history-car-info">
+                                        <h4>Range Rover</h4>
+                                        <p>Business Trip Package</p>
+                                    </div>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn btn-secondary">View Receipt</button>
+                                    <button class="btn btn-secondary">Book Again</button>
+                                    <button class="btn btn-secondary">Leave Review</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-header">
+                                <span class="history-id">BK-3456</span>
+                                <span class="history-date">Feb 28, 2025 - Mar 07, 2025</span>
+                                <span class="history-status status-completed">Completed</span>
+                                <span class="history-price">$550.00</span>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-car">
+                                    <img src="/assests/cars/mpv/gloster.webp" alt="MG Gloster" style="width: 100px; height: auto; border-radius: 5px;">
+                                    <div class="history-car-info">
+                                        <h4>MG Gloster</h4>
+                                        <p>EV Weekly Package</p>
+                                    </div>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn btn-secondary">View Receipt</button>
+                                    <button class="btn btn-secondary">Book Again</button>
+                                    <button class="btn btn-secondary">Leave Review</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-header">
+                                <span class="history-id">BK-7890</span>
+                                <span class="history-date">Jan 10, 2025 - Jan 15, 2025</span>
+                                <span class="history-status status-completed">Completed</span>
+                                <span class="history-price">$380.00</span>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-car">
+                                    <img src="/assests/cars/sedan/civic.webp" alt="Honda Civic" style="width: 100px; height: auto; border-radius: 5px;">
+                                    <div class="history-car-info">
+                                        <h4>Honda Civic</h4>
+                                        <p>Daily Rental</p>
+                                    </div>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn btn-secondary">View Receipt</button>
+                                    <button class="btn btn-secondary">Book Again</button>
+                                    <button class="btn btn-secondary">Leave Review</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="history-item">
+                            <div class="history-header">
+                                <span class="history-id">BK-2345</span>
+                                <span class="history-date">Dec 20, 2024 - Dec 27, 2024</span>
+                                <span class="history-status status-cancelled">Cancelled</span>
+                                <span class="history-price">$0.00 (Refunded)</span>
+                            </div>
+                            <div class="history-details">
+                                <div class="history-car">
+                                    <img src="/assests/cars/suv/creta.webp" alt="Hyundai Creta" style="width: 100px; height: auto; border-radius: 5px;">
+                                    <div class="history-car-info">
+                                        <h4>Hyundai Creta</h4>
+                                        <p>Weekly Rental</p>
+                                    </div>
+                                </div>
+                                <div class="history-actions">
+                                    <button class="btn btn-secondary">View Receipt</button>
+                                    <button class="btn btn-secondary">Book Again</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pagination" style="margin-top: 30px; display: flex; justify-content: center;">
+                        <button class="btn btn-secondary" disabled>Previous</button>
+                        <button class="btn btn-primary" style="margin: 0 5px;">1</button>
+                        <button class="btn btn-secondary" style="margin: 0 5px;">2</button>
+                        <button class="btn btn-secondary" style="margin: 0 5px;">3</button>
+                        <button class="btn btn-secondary">Next</button>
+                    </div>
+                </div>
+
+                <div id="supportSection" style="display: none;">
+                    <h2 class="section-title">Help & Support</h2>
+                    
+                    <div class="support-options">
+                        <div class="support-card">
+                            <h3 class="support-card-title">Frequently Asked Questions</h3>
+                            <p>Find answers to common questions about bookings, payments, and more.</p>
+                            <button class="btn btn-primary">Browse FAQs</button>
+                        </div>
+                        
+                        <div class="support-card">
+                            <h3 class="support-card-title">Contact Support</h3>
+                            <p>Need help? Our support team is available 24/7 to assist you.</p>
+                            <button class="btn btn-primary">Contact Us</button>
+                        </div>
+                        
+                        <div class="support-card">
+                            <h3 class="support-card-title">Live Chat</h3>
+                            <p>Chat with a support representative in real-time.</p>
+                            <button class="btn btn-primary">Start Chat</button>
+                        </div>
+                    </div>
+                    
+                    <div class="support-form" style="margin-top: 40px;">
+                        <h3 class="section-subtitle">Submit a Support Request</h3>
+                        <form id="supportRequestForm">
+                            <div class="form-group">
+                                <label class="form-label">Subject</label>
+                                <select class="form-control" id="supportSubject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="booking">Booking Assistance</option>
+                                    <option value="payment">Payment Issues</option>
+                                    <option value="cancellation">Cancellation Request</option>
+                                    <option value="damage">Accident/Damage Report</option>
+                                    <option value="other">Other Inquiry</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Related Booking (if applicable)</label>
+                                <select class="form-control" id="relatedBooking">
+                                    <option value="">Select a booking</option>
+                                    <option value="BK-1234">BK-1234 - BMW 5 Series (Active)</option>
+                                    <option value="BK-5678">BK-5678 - Mercedes E-Class (Active)</option>
+                                    <option value="BK-9012">BK-9012 - Range Rover (Completed)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="supportDescription" rows="5" required placeholder="Please describe your issue in detail..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Attachments (optional)</label>
+                                <input type="file" class="form-control" id="supportAttachments" multiple>
+                                <small class="form-text">You can upload screenshots or documents to help us understand your issue (max 5MB each).</small>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Submit Request</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div class="support-contact-info" style="margin-top: 40px; background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                        <h3 class="section-subtitle">Contact Information</h3>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <h4>Phone Support</h4>
+                                <p>24/7 Customer Service</p>
+                                <p><strong>+1 (800) 123-4567</strong></p>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <h4>Email Support</h4>
+                                <p>Response within 24 hours</p>
+                                <p><strong>support@luxorarental.com</strong></p>
+                            </div>
+                            
+                            <div class="contact-method">
+                                <h4>Corporate Office</h4>
+                                <p>LUXORA Car Rental Headquarters</p>
+                                <p>123 Business Park, Chennai</p>
+                                <p>Tamil Nadu, India 600001</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Extend Rental Modal -->
+    <div id="extendModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 class="modal-title">Extend Your Rental</h2>
+            <form id="extendForm">
+                <div class="form-group">
+                    <label class="form-label">Booking ID</label>
+                    <input type="text" id="bookingId" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Vehicle</label>
+                    <input type="text" id="vehicleName" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Current Return Date</label>
+                    <input type="text" id="currentReturnDate" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Extend Until</label>
+                    <input type="date" id="newReturnDate" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Reason for Extension (Optional)</label>
+                    <textarea class="form-control" id="extensionReason" rows="3" placeholder="Optional details about your extension request"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelExtension">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmExtension">Confirm Extension</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Back to top button -->
+    <div class="back-to-top" id="backToTop">
+        &#8679;
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-title">LUXORA</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Fleet</a></li>
+                    <li><a href="#">Locations</a></li>
+                    <li><a href="#">Careers</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Rentals</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Cars</a></li>
+                    <li><a href="#">SUVs</a></li>
+                    <li><a href="#">Luxury</a></li>
+                    <li><a href="#">Vans</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQs</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3 class="footer-title">Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 LUXORA Car Rental. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Profile section navigation
+        const sectionLinks = document.querySelectorAll('.profile-menu a[data-section]');
+        
+        sectionLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                sectionLinks.forEach(sectionLink => {
+                    sectionLink.classList.remove('active');
+                });
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.profile-content > div').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // Show selected section
+                const sectionId = link.getAttribute('data-section') + 'Section';
+                document.getElementById(sectionId).style.display = 'block';
+            });
+        });
+
+        // Back to top functionality
+        const backToTopBtn = document.getElementById('backToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.style.display = 'flex';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Extend rental modal functionality
+        const modal = document.getElementById('extendModal');
+        const extendBtns = document.querySelectorAll('.extend-btn');
+        const closeModal = document.querySelector('.close-modal');
+        const cancelBtn = document.getElementById('cancelExtension');
+        const confirmBtn = document.getElementById('confirmExtension');
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        
+        extendBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const rentalCard = btn.closest('.rental-card');
+                const bookingId = rentalCard.getAttribute('data-booking-id');
+                const vehicleName = rentalCard.querySelector('.car-name').textContent;
+                const currentReturnDate = rentalCard.querySelector('.return-date').textContent;
+                
+                // Set the modal form values
+                document.getElementById('bookingId').value = bookingId;
+                document.getElementById('vehicleName').value = vehicleName;
+                document.getElementById('currentReturnDate').value = currentReturnDate;
+                
+                // Set min date for extension (current return date)
+                const returnDateParts = currentReturnDate.split(', ')[1].split(' ');
+                const monthMap = {
+                    'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04', 'May': '05', 'Jun': '06',
+                    'Jul': '07', 'Aug': '08', 'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+                };
+                const minDate = `${returnDateParts[1]}-${monthMap[returnDateParts[0]]}-${returnDateParts[0] === 'Mar' ? '31' : returnDateParts[0] === 'Apr' ? '30' : '28'}`;
+                document.getElementById('newReturnDate').min = minDate;
+                
+                // Display modal
+                modal.style.display = 'block';
+            });
+        });
+        
+        // Close modal functions
+        closeModal.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        cancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+        
+        // Click outside to close
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+        
+        // Confirm extension button
+        confirmBtn.addEventListener('click', () => {
+            const bookingId = document.getElementById('bookingId').value;
+            const newReturnDate = document.getElementById('newReturnDate').value;
+            
+            if (!newReturnDate) {
+                alert('Please select a new return date.');
+                return;
+            }
+            
+            // Format the new date
+            const date = new Date(newReturnDate);
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const formattedDate = `${monthNames[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+            
+            // Update the return date in the rental card
+            const rentalCard = document.querySelector(`.rental-card[data-booking-id="${bookingId}"]`);
+            if (rentalCard) {
+                rentalCard.querySelector('.return-date').textContent = formattedDate;
+                
+                // Close modal
+                modal.style.display = 'none';
+                
+                // Show success message
+                successAlert.style.display = 'block';
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 3000);
+            } else {
+                // Show error message
+                errorAlert.style.display = 'block';
+                setTimeout(() => {
+                    errorAlert.style.display = 'none';
+                }, 3000);
+            }
+        });
+        
+        // Logout functionality
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('Are you sure you want to logout?')) {
+                // In a real application, this would handle the logout process
+                // For demo purposes, just redirect to a hypothetical login page
+                alert('You have been logged out successfully.');
+                // window.location.href = 'login.html';
+            }
+        });
+        // Account Settings Form
+document.getElementById('accountSettingsForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Account settings updated successfully!');
+});
+
+document.getElementById('cancelSettings').addEventListener('click', function() {
+    // Reset form or navigate away
+    alert('Changes discarded');
+});
+
+// Payment Methods
+document.getElementById('addPaymentMethod').addEventListener('click', function() {
+    document.getElementById('addPaymentForm').style.display = 'block';
+    this.style.display = 'none';
+});
+
+document.getElementById('cancelAddPayment').addEventListener('click', function() {
+    document.getElementById('addPaymentForm').style.display = 'none';
+    document.getElementById('addPaymentMethod').style.display = 'block';
+});
+
+document.getElementById('paymentMethodForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Payment method added successfully!');
+    document.getElementById('addPaymentForm').style.display = 'none';
+    document.getElementById('addPaymentMethod').style.display = 'block';
+});
+
+// History Filters
+document.getElementById('dateRangeFilter').addEventListener('change', function() {
+    if (this.value === 'custom') {
+        document.getElementById('customDateRange').style.display = 'block';
+    } else {
+        document.getElementById('customDateRange').style.display = 'none';
+    }
+});
+
+document.getElementById('applyFilters').addEventListener('click', function() {
+    alert('Filters applied!');
+});
+
+// Support Form
+document.getElementById('supportRequestForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Support request submitted successfully! Our team will contact you soon.');
+    this.reset();
+});
+        // View Details button functionality
+        const detailsBtns = document.querySelectorAll('.details-btn');
+        detailsBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const bookingId = btn.closest('.rental-card').getAttribute('data-booking-id');
+                alert(`Viewing details for booking ${bookingId}. This feature will be available in the next update.`);
+            });
+        });
+        
+        // Receipt and Review button functionality
+        const receiptBtns = document.querySelectorAll('.receipt-btn');
+        const reviewBtns = document.querySelectorAll('.review-btn');
+        
+        receiptBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Receipt feature will be available in the next update.');
+            });
+        });
+        
+        reviewBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Review feature will be available in the next update.');
+            });
+        });
+    </script>
+</body>
+</html>

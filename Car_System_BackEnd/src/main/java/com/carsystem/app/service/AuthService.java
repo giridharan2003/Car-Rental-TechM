@@ -7,10 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.carsystem.app.dto.ApiResponse;
-import com.carsystem.app.dto.LoginRequest;
 import com.carsystem.app.dto.OtpRequest;
 import com.carsystem.app.dto.RegisterRequest;
+import com.carsystem.app.dto.LoginRequest;
 import com.carsystem.app.dto.ResetPasswordRequest;
 import com.carsystem.app.exception.InvalidCredentialsException;
 import com.carsystem.app.exception.InvalidOtpException;
@@ -45,7 +44,7 @@ public class AuthService {
         return String.format("%06d", otp);
     }
 
-    public ApiResponse<String> sendOTP(OtpRequest otpRequest) {
+    public void sendOTP(OtpRequest otpRequest) {
         String email = otpRequest.getEmail();
         String otp = generateOTP();
 
@@ -68,14 +67,12 @@ public class AuthService {
             otpRepository.save(otpEntity);
 
             emailService.sendEmail(email, "Your OTP Code", htmlBody);
-
-            return new ApiResponse<>(true, "OTP sent to your email", null);
         } catch (Exception e) {
             throw new RuntimeException("Failed to send OTP: " + e.getMessage());
         }
     }
 
-    public ApiResponse<String> verifyOTP(OtpRequest otpRequest) {
+    public void verifyOTP(OtpRequest otpRequest) {
         String email = otpRequest.getEmail();
         String enteredOtp = otpRequest.getOtp();
 
@@ -92,10 +89,9 @@ public class AuthService {
         }
 
         otpRepository.delete(otpEntity);
-        return new ApiResponse<>(true, "OTP verified successfully", null);
     }
 
-    public ApiResponse<String> register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
         if (userRepository.findByEmail(request.getEmail()) != null) {
             throw new UserAlreadyExistsException("Email already exists");
         }
@@ -112,20 +108,19 @@ public class AuthService {
         user.setUpdatedAt(LocalDateTime.now());
 
         userRepository.save(user);
-        return new ApiResponse<>(true, "Registration successful", null);
     }
 
-    public ApiResponse<String> login(LoginRequest request) {
+    public void login(LoginRequest request) {
         User user = userRepository.findByEmail(request.getEmail());
         if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Invalid email or password");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
-        return new ApiResponse<>(true, "Login successful", token);
+        // Token is created, but no return. You can store it in the session or elsewhere if needed.
     }
 
-    public ApiResponse<String> resetPassword(ResetPasswordRequest request) {
+    public void resetPassword(ResetPasswordRequest request) {
         User user = userRepository.findByEmail(request.getEmail());
         if (user == null) {
             throw new UserNotFoundException("User not found");
@@ -134,7 +129,5 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
-
-        return new ApiResponse<>(true, "Password reset successful", null);
     }
 }

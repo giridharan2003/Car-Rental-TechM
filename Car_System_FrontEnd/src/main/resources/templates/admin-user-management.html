@@ -18,28 +18,28 @@
             </div>
         </div>
         <nav class="mt-8">
-            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="dashboard.html">
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" th:href="@{/admin/dashboard}">
                 <i class="fas fa-tachometer-alt mr-3 text-gray-500"></i>
                 Dashboard
             </a>
-            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="car-management.html">
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" th:href="@{/admin/management}">
                 <i class="fas fa-car mr-3 text-gray-500"></i>
                 Car Management
             </a>
-            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="transactions.html">
+            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" th:href="@{/admin/transactions}">
                 <i class="fas fa-file-invoice-dollar mr-3 text-gray-500"></i>
                 Transactions
             </a>
-            <a class="flex items-center px-6 py-3 text-gray-900 bg-purple-50 font-medium border-r-4 border-purple-600" href="users.html">
+            <a class="flex items-center px-6 py-3 text-gray-900 bg-purple-50 font-medium border-r-4 border-purple-600" th:href="@{/admin/user-management}">
                 <i class="fas fa-users mr-3 text-purple-600"></i>
                 User Management
             </a>
-            <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" href="analytics.html">
+            <!-- <a class="flex items-center px-6 py-3 text-gray-600 hover:bg-gray-100 transition-colors duration-200" th:href="@{/admin/analytics}">
                 <i class="fas fa-chart-line mr-3 text-gray-500"></i>
                 Analytics
-            </a>
+            </a> -->
             <div class="mt-8">
-                <a class="flex items-center px-6 py-3 text-red-600 hover:bg-gray-100 transition-colors duration-200" href="#">
+                <a class="flex items-center px-6 py-3 text-red-600 hover:bg-gray-100 transition-colors duration-200" th:href="@{/admin/login}">
                     <i class="fas fa-sign-out-alt mr-3"></i>
                     Logout
                 </a>

@@ -1,54 +1,83 @@
 package com.carsystem.app.service;
 
-import com.carsystem.app.dto.ApiResponse;
+import com.carsystem.app.model.Car;
+import com.carsystem.app.model.CarCategory;
+import com.carsystem.app.model.Location;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CarService {
-
     private final RestTemplate restTemplate = new RestTemplate();
     private final String backendUrl = "http://localhost:2004/api/cars";
 
-    public ApiResponse<?> getCars(String location, String carType, Double priceMin, Double priceMax,
-                                  Integer seats, String transmission, Integer luggage, String fuel) {
-        StringBuilder url = new StringBuilder(backendUrl);
-        boolean firstParam = true;
-        if (location != null && !location.isEmpty()) {
-            url.append(firstParam ? "?" : "&").append("location=").append(location);
-            firstParam = false;
-        }
-        if (carType != null && !carType.isEmpty()) {
-            url.append(firstParam ? "?" : "&").append("carType=").append(carType);
-            firstParam = false;
-        }
-        if (priceMin != null) {
-            url.append(firstParam ? "?" : "&").append("priceMin=").append(priceMin);
-            firstParam = false;
-        }
-        if (priceMax != null) {
-            url.append(firstParam ? "?" : "&").append("priceMax=").append(priceMax);
-            firstParam = false;
-        }
-        if (seats != null) {
-            url.append(firstParam ? "?" : "&").append("seats=").append(seats);
-            firstParam = false;
-        }
-        if (transmission != null && !transmission.isEmpty()) {
-            url.append(firstParam ? "?" : "&").append("transmission=").append(transmission);
-            firstParam = false;
-        }
-        if (luggage != null) {
-            url.append(firstParam ? "?" : "&").append("luggage=").append(luggage);
-            firstParam = false;
-        }
-        if (fuel != null && !fuel.isEmpty()) {
-            url.append(firstParam ? "?" : "&").append("fuel=").append(fuel);
-        }
-        return restTemplate.getForObject(url.toString(), ApiResponse.class);
+    public Car[] getAllCars() {
+        return restTemplate.getForObject(backendUrl, Car[].class);
     }
 
-    public ApiResponse<?> getCarById(Long id) {
-        return restTemplate.getForObject(backendUrl + "/" + id, ApiResponse.class);
+    public Car getCarById(Long id) {
+        return restTemplate.getForObject(backendUrl + "/" + id, Car.class);
+    }
+
+    public Car addCar(Car car, MultipartFile imageFile) {
+        try {
+            String make = car.getMake();
+            String model = car.getModel();
+            String category = String.valueOf(car.getCategory().getCategoryId());
+
+            Path categoryPath = Paths.get("D:/Projects/TechM - Project 2 - Car_Rental_System/Car_System_FrontEnd/src/main/resources/static/assets/cars/", category);
+
+            if (Files.exists(categoryPath)) {
+                System.out.println("The path exists.");
+            } else {
+                System.out.println("The path does not exist.");
+            }
+
+            if (!Files.exists(categoryPath)) {
+                Files.createDirectories(categoryPath);
+            }
+            
+
+            String originalFilename = imageFile.getOriginalFilename();
+            String extension = "";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                extension = originalFilename.substring(originalFilename.lastIndexOf('.')); // e.g., .jpg, .png
+            }
+
+            String fileName = make + "_" + model + extension;
+            Path filePath = categoryPath.resolve(fileName);
+
+            imageFile.transferTo(filePath.toFile());
+
+            String imageUrl = "/assets/cars/" + category + "/" + fileName;
+
+            car.setImageUrl(imageUrl);
+
+            return restTemplate.postForObject(backendUrl + "/add", car, Car.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to upload image and send car data to backend", e);
+        }
+    }
+
+    public Car editCar(Long id, Car car) {
+        restTemplate.put(backendUrl + "/edit/" + id, car);
+        return car;
+    }
+
+    public CarCategory[] getAllCategory(){
+        return restTemplate.getForObject(backendUrl + "/categories", CarCategory[].class);
+    }
+
+    public Location[] getAllLocation(){
+        return restTemplate.getForObject(backendUrl + "/locations", Location[].class);
     }
 }

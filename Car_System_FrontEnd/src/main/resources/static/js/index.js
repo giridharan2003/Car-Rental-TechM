@@ -1,3 +1,30 @@
+function showNotification(message) {
+    let container = document.querySelector('.notification-container');
+    
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'notification-container';
+        document.body.appendChild(container);
+    }
+
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+
+    container.appendChild(notification);
+
+    // Remove after animation ends (3s)
+    setTimeout(() => {
+        notification.remove();
+        // Optional: remove the container if empty
+        if (container.children.length === 0) {
+            container.remove();
+        }
+    }, 3000);
+}
+
+
+
 // Get references to all necessary elements
 const loginForm = document.getElementById('loginForm');
 const registrationForm = document.getElementById('registrationForm');
@@ -249,10 +276,11 @@ resetPasswordBtn.addEventListener('click', async function(e) {
         const data = await response.json();
 
         if (response.ok) {
-            alert('Password reset successful! Please login with your new password.');
+            showNotification("Password reset successful! Please login with your new password.");
+
             showLoginForm();
         } else {
-            showError('newPasswordError', data.message || 'Error resetting password. Please try again.');
+            showError('newPasswordError', "Invalid Password");
         }
     } catch (error) {
         console.error('Error:', error);
@@ -306,7 +334,7 @@ loginFormSubmit.addEventListener('submit', async function(e) {
         if (response.ok) {
             window.location.href = "/home";
         } else {
-            showError('loginEmailError', data.message || 'Invalid email or password');
+            showError('loginEmailError', 'Invalid email or password');
         }
     } catch (error) {
         console.error('Error:', error);
@@ -327,7 +355,6 @@ registrationFormSubmit.addEventListener('submit', async function(e) {
     const email = document.getElementById('registerEmail').value;
     const phoneNumber = document.getElementById('phoneNumber').value;
     const streetAddress = document.getElementById('streetAddress').value;
-    const country = document.getElementById('country').value;
     const password = document.getElementById('registerPassword').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     let isValid = true;
@@ -367,13 +394,6 @@ registrationFormSubmit.addEventListener('submit', async function(e) {
         hideError('streetAddressError');
     }
     
-    if (!country) {
-        showError('countryError', 'Country is required');
-        isValid = false;
-    } else {
-        hideError('countryError');
-    }
-    
     if (!password) {
         showError('registerPasswordError', 'Please create a password');
         isValid = false;
@@ -407,20 +427,20 @@ registrationFormSubmit.addEventListener('submit', async function(e) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ 
+                email, 
+                password ,
                 firstName, 
                 lastName, 
-                email, 
-                phoneNumber, 
-                streetAddress, 
-                country, 
-                password 
+                phone:phoneNumber, 
+                address:streetAddress
             })
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            alert('Registration successful! Please login to continue.');
+            showNotification("Registration successful! Please login to continue.");
+
             showLoginForm();
         } else {
             showError('registerEmailError', data.message || 'Error during registration. Please try again.');

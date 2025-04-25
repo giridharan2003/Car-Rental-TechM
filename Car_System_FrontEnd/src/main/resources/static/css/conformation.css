@@ -1,651 +1,646 @@
-        /* Root Variables */
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #d4af37; /* Gold accent */
-            --accent-hover: #b8860b; /* Darker gold for hover */
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-        }
-        
-        /* Global Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: var(--primary);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            animation: shimmer 3s infinite;
-        }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo-icon {
-            margin-right: 10px;
-            font-size: 28px;
-            animation: bounce 2s ease infinite;
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-        
-        /* Booking Confirmation Styles */
-        .booking-confirmation {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-            margin: 30px 0;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.8s forwards;
-        }
-        
-        @keyframes fadeIn {
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .booking-confirmation::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: var(--accent);
-        }
-        
-        .confirmation-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .confirmation-header h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .confirmation-header h1::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background-color: var(--accent);
-        }
-        
-        .confirmation-header .success-icon {
-            font-size: 60px;
-            color: var(--success);
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        /* Booking Details Styles */
-        .booking-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeInUp 0.8s forwards 0.3s;
-        }
-        
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .detail-group {
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: translateY(15px);
-        }
-        
-        .booking-details .detail-group:nth-child(1) { animation: fadeInUp 0.4s forwards 0.4s; }
-        .booking-details .detail-group:nth-child(2) { animation: fadeInUp 0.4s forwards 0.6s; }
-        .booking-details .detail-group:nth-child(3) { animation: fadeInUp 0.4s forwards 0.8s; }
-        
-        .detail-group h3 {
-            color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 18px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
-        }
-        
-        .detail-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-        
-        .detail-label {
-            font-weight: bold;
-            color: #666;
-        }
-        
-        .car-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .car-image:hover {
-            transform: scale(1.02);
-        }
-        
-        /* Price Summary Styles */
-        .price-summary {
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-left: 4px solid var(--accent);
-            opacity: 0;
-            animation: fadeInUp 0.8s forwards 1s;
-        }
-        
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-        }
-        
-        .price-row.total {
-            font-weight: bold;
-            font-size: 18px;
-            border-top: 2px solid #ddd;
-            margin-top: 10px;
-            padding-top: 15px;
-            color: var(--primary);
-        }
-        
-        .rupee {
-            font-family: Arial, sans-serif;
-        }
-        
-        /* Button Styles */
-        .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            border: none;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: translate(-50%, -50%) scale(1);
-            transition: 0.5s;
-        }
-        
-        .btn:active::after {
-            transform: translate(-50%, -50%) scale(50);
+       /* Root Variables */
+       :root {
+        --primary: #2c3e50;
+        --secondary: #3498db;
+        --accent: #d4af37; /* Gold accent */
+        --accent-hover: #b8860b; /* Darker gold for hover */
+        --light: #ecf0f1;
+        --dark: #2c3e50;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+    }
+    
+    /* Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+        background-color: #f5f7fa;
+        color: var(--dark);
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    /* Header Styles */
+    header {
+        background-color: var(--primary);
+        color: white;
+        padding: 20px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        animation: shimmer 3s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+    
+    .logo-icon {
+        margin-right: 10px;
+        font-size: 28px;
+        animation: bounce 2s ease infinite;
+    }
+    
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+    }
+    
+    /* Booking Confirmation Styles */
+    .booking-confirmation {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        margin: 30px 0;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeIn 0.8s forwards;
+    }
+    
+    @keyframes fadeIn {
+        to { 
             opacity: 1;
+            transform: translateY(0);
         }
-        
-        .btn-primary {
-            background-color: var(--accent);
-            color: var(--dark);
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .booking-confirmation::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--accent);
+    }
+    
+    .confirmation-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .confirmation-header h1 {
+        color: var(--primary);
+        margin-bottom: 10px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .confirmation-header h1::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background-color: var(--accent);
+    }
+    
+    .confirmation-header .success-icon {
+        font-size: 60px;
+        color: var(--success);
+        margin-bottom: 20px;
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+    }
+    
+    /* Booking Details Styles */
+    .booking-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 30px;
+        opacity: 0;
+        animation: fadeInUp 0.8s forwards 0.3s;
+    }
+    
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-        
-        .btn-primary:hover {
-            background-color: var(--accent-hover);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background-color: var(--primary);
-            color: white;
-            transform: translateY(-2px);
-        }
-        
-        /* Timer and Actions Styles */
-        .payment-timer {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            color: var(--danger);
-            font-weight: bold;
-            background-color: rgba(231, 76, 60, 0.05);
-            border-radius: 4px;
-            opacity: 0;
-            animation: fadeInUp 0.8s forwards 1.2s;
-        }
-        
-        .timer-highlight {
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+    }
+    
+    .detail-group {
+        margin-bottom: 20px;
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    
+    .booking-details .detail-group:nth-child(1) { animation: fadeInUp 0.4s forwards 0.4s; }
+    .booking-details .detail-group:nth-child(2) { animation: fadeInUp 0.4s forwards 0.6s; }
+    .booking-details .detail-group:nth-child(3) { animation: fadeInUp 0.4s forwards 0.8s; }
+    
+    .detail-group h3 {
+        color: var(--primary);
+        margin-bottom: 10px;
+        font-size: 18px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 8px;
+    }
+    
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+    
+    .detail-label {
+        font-weight: bold;
+        color: #666;
+    }
+    
+    .car-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .car-image:hover {
+        transform: scale(1.02);
+    }
+    
+    /* Price Summary Styles */
+    .price-summary {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-left: 4px solid var(--accent);
+        opacity: 0;
+        animation: fadeInUp 0.8s forwards 1s;
+    }
+    
+    .price-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+    
+    .price-row.total {
+        font-weight: bold;
+        font-size: 18px;
+        border-top: 2px solid #ddd;
+        margin-top: 10px;
+        padding-top: 15px;
+        color: var(--primary);
+    }
+    
+    .rupee {
+        font-family: Arial, sans-serif;
+    }
+    
+    /* Button Styles */
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        background: rgba(255, 255, 255, 0.5);
+        opacity: 0;
+        border-radius: 100%;
+        transform: translate(-50%, -50%) scale(1);
+        transition: 0.5s;
+    }
+    
+    .btn:active::after {
+        transform: translate(-50%, -50%) scale(50);
+        opacity: 1;
+    }
+    
+    .btn-primary {
+        background-color: var(--accent);
+        color: var(--dark);
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--accent-hover);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    }
+    
+    .btn-outline {
+        background-color: transparent;
+        color: var(--primary);
+        border: 2px solid var(--primary);
+    }
+    
+    .btn-outline:hover {
+        background-color: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+    }
+    
+    /* Timer and Actions Styles */
+    .payment-timer {
+        text-align: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        color: var(--danger);
+        font-weight: bold;
+        background-color: rgba(231, 76, 60, 0.05);
+        border-radius: 4px;
+        opacity: 0;
+        animation: fadeInUp 0.8s forwards 1.2s;
+    }
+    
+    .timer-highlight {
+        animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        opacity: 0;
+        animation: fadeInUp 0.8s forwards 1.4s;
+    }
+    
+    /* Footer Styles */
+    footer {
+        text-align: center;
+        padding: 20px 0;
+        color: #888;
+        font-size: 14px;
+        margin-top: 50px;
+        position: relative;
+    }
+    
+    footer::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background-color: var(--accent);
+    }
+    
+    /* Loading Animation */
+    .loading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .loading-spinner {
+        width: 60px;
+        height: 60px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid var(--accent);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .booking-details {
+            grid-template-columns: 1fr;
         }
         
         .actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            opacity: 0;
-            animation: fadeInUp 0.8s forwards 1.4s;
+            flex-direction: column;
+            gap: 15px;
         }
         
-        /* Footer Styles */
-        footer {
-            text-align: center;
-            padding: 20px 0;
-            color: #888;
-            font-size: 14px;
-            margin-top: 50px;
-            position: relative;
-        }
-        
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 2px;
-            background-color: var(--accent);
-        }
-        
-        /* Loading Animation */
-        .loading {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        .btn {
             width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
         }
-        
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--accent);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .booking-details {
-                grid-template-columns: 1fr;
-            }
-            
-            .actions {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-        }
-        
-        /* Razorpay Modal Styles */
-        .razorpay-payment-button {
-            display: none;
-        }
-        
-        /* Success Animation */
-        .success-checkmark {
-            display: none;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto;
-            position: relative;
-        }
-        
-        .check-icon {
-            width: 80px;
-            height: 80px;
-            position: relative;
-            border-radius: 50%;
-            box-sizing: content-box;
-            border: 4px solid var(--success);
-        }
-        
-        .check-icon::before {
-            top: 3px;
-            left: -2px;
-            width: 30px;
-            transform-origin: 100% 50%;
-            border-radius: 100px 0 0 100px;
-        }
-        
-        .check-icon::after {
-            top: 0;
-            left: 30px;
-            width: 60px;
-            transform-origin: 0 50%;
-            border-radius: 0 100px 100px 0;
-            animation: rotate-circle 4.25s ease-in;
-        }
-        
-        .check-icon::before, .check-icon::after {
-            content: '';
-            height: 100px;
-            position: absolute;
-            background: #fff;
-            transform: rotate(-45deg);
-        }
-        
-        .icon-line {
-            height: 5px;
-            background-color: var(--success);
-            display: block;
-            border-radius: 2px;
-            position: absolute;
-            z-index: 10;
-        }
-        
-        .icon-line.line-tip {
-            top: 46px;
-            left: 14px;
-            width: 25px;
-            transform: rotate(45deg);
-            animation: icon-line-tip 0.75s;
-        }
-        
-        .icon-line.line-long {
-            top: 38px;
-            right: 8px;
-            width: 47px;
-            transform: rotate(-45deg);
-            animation: icon-line-long 0.75s;
-        }
-        
-        @keyframes icon-line-tip {
-            0% { width: 0; left: 1px; top: 19px; }
-            54% { width: 0; left: 1px; top: 19px; }
-            70% { width: 50px; left: -8px; top: 37px; }
-            84% { width: 17px; left: 21px; top: 48px; }
-            100% { width: 25px; left: 14px; top: 46px; }
-        }
-        
-        @keyframes icon-line-long {
-            0% { width: 0; right: 46px; top: 54px; }
-            65% { width: 0; right: 46px; top: 54px; }
-            84% { width: 55px; right: 0; top: 35px; }
-            100% { width: 47px; right: 8px; top: 38px; }
-        }
-
-        * Additional Services Styles */
-.additional-services {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    padding: 25px;
-    margin-bottom: 30px;
-    position: relative;
-    border-left: 4px solid var(--secondary);
-    opacity: 0;
-    animation: fadeInUp 0.8s forwards 1s;
-}
-
-.services-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-    gap: 15px;
-}
-
-.service-item {
-    background-color: #f8f9fa;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    position: relative;
-}
-
-.service-item:hover {
-    background-color: #f1f3f5;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-}
-
-.service-checkbox {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    cursor: pointer;
-    user-select: none;
-    width: 100%;
-    position: relative;
-}
-
-.service-checkbox input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-
-.checkmark {
-    position: relative;
-    height: 22px;
-    width: 22px;
-    background-color: white;
-    border: 2px solid #ddd;
-    border-radius: 4px;
-    margin-right: 15px;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-}
-
-.service-checkbox:hover input ~ .checkmark {
-    border-color: var(--accent);
-}
-
-.service-checkbox input:checked ~ .checkmark {
-    background-color: var(--accent);
-    border-color: var(--accent);
-}
-
-.checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-    left: 7px;
-    top: 3px;
-    width: 5px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
-}
-
-.service-checkbox input:checked ~ .checkmark:after {
-    display: block;
-}
-
-.service-info {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.service-name {
-    font-weight: 500;
-    color: var(--dark);
-}
-
-.service-price {
-    color: var(--primary);
-    font-weight: 600;
-    margin-left: auto;
-    margin-right: 10px;
-}
-
-.tooltip-icon {
-    position: relative;
-    cursor: help;
-    color: var(--secondary);
-    font-size: 16px;
-    width: 20px;
-    height: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-}
-
-.tooltip-icon:hover::before {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 30px;
-    right: -10px;
-    width: 300px;
-    padding: 10px;
-    border-radius: 6px;
-    background-color: var(--dark);
-    color: white;
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 1.5;
-    z-index: 10;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    opacity: 0;
-    transform: translateY(10px);
-    animation: fadeInTooltip 0.3s forwards;
-}
-
-.tooltip-icon:hover::after {
-    content: '';
-    position: absolute;
-    bottom: 22px;
-    right: 5px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid var(--dark);
-    z-index: 10;
-    animation: fadeInTooltip 0.3s forwards;
-}
-
-@keyframes fadeInTooltip {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 768px) {
-    .services-container {
-        grid-template-columns: 1fr;
     }
     
-    .tooltip-icon:hover::before {
-        width: 200px;
-        right: -100px;
+    /* Success Animation */
+    .success-checkmark {
+        display: none;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        position: relative;
     }
-}
+    
+    .check-icon {
+        width: 80px;
+        height: 80px;
+        position: relative;
+        border-radius: 50%;
+        box-sizing: content-box;
+        border: 4px solid var(--success);
+    }
+    
+    .check-icon::before {
+        top: 3px;
+        left: -2px;
+        width: 30px;
+        transform-origin: 100% 50%;
+        border-radius: 100px 0 0 100px;
+    }
+    
+    .check-icon::after {
+        top: 0;
+        left: 30px;
+        width: 60px;
+        transform-origin: 0 50%;
+        border-radius: 0 100px 100px 0;
+        animation: rotate-circle 4.25s ease-in;
+    }
+    
+    .check-icon::before, .check-icon::after {
+        content: '';
+        height: 100px;
+        position: absolute;
+        background: #fff;
+        transform: rotate(-45deg);
+    }
+    
+    .icon-line {
+        height: 5px;
+        background-color: var(--success);
+        display: block;
+        border-radius: 2px;
+        position: absolute;
+        z-index: 10;
+    }
+    
+    .icon-line.line-tip {
+        top: 46px;
+        left: 14px;
+        width: 25px;
+        transform: rotate(45deg);
+        animation: icon-line-tip 0.75s;
+    }
+    
+    .icon-line.line-long {
+        top: 38px;
+        right: 8px;
+        width: 47px;
+        transform: rotate(-45deg);
+        animation: icon-line-long 0.75s;
+    }
+    
+    @keyframes icon-line-tip {
+        0% { width: 0; left: 1px; top: 19px; }
+        54% { width: 0; left: 1px; top: 19px; }
+        70% { width: 50px; left: -8px; top: 37px; }
+        84% { width: 17px; left: 21px; top: 48px; }
+        100% { width: 25px; left: 14px; top: 46px; }
+    }
+    
+    @keyframes icon-line-long {
+        0% { width: 0; right: 46px; top: 54px; }
+        65% { width: 0; right: 46px; top: 54px; }
+        84% { width: 55px; right: 0; top: 35px; }
+        100% { width: 47px; right: 8px; top: 38px; }
+    }
+
+    /* Additional Services Styles */
+    .additional-services {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        padding: 25px;
+        margin-bottom: 30px;
+        position: relative;
+        border-left: 4px solid var(--accent);
+        opacity: 0;
+        animation: fadeInUp 0.8s forwards 1s;
+    }
+
+    .services-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+        gap: 15px;
+    }
+
+    .service-item {
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .service-item:hover {
+        background-color: #f1f3f5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .service-checkbox {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        cursor: pointer;
+        user-select: none;
+        width: 100%;
+        position: relative;
+    }
+
+    .service-checkbox input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark {
+        position: relative;
+        height: 22px;
+        width: 22px;
+        background-color: white;
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        margin-right: 15px;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .service-checkbox:hover input ~ .checkmark {
+        border-color: var(--accent);
+    }
+
+    .service-checkbox input:checked ~ .checkmark {
+        background-color: var(--accent);
+        border-color: var(--accent);
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        left: 7px;
+        top: 3px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    .service-checkbox input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    .service-info {
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .service-name {
+        font-weight: 500;
+        color: var(--dark);
+    }
+
+    .service-price {
+        color: var(--primary);
+        font-weight: 600;
+        margin-left: auto;
+        margin-right: 10px;
+    }
+
+    .tooltip-icon {
+        position: relative;
+        cursor: help;
+        color: var(--success);
+        font-size: 16px;
+        width: 20px;
+        height: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .tooltip-icon:hover::before {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 30px;
+        right: -10px;
+        width: 300px;
+        padding: 10px;
+        border-radius: 6px;
+        background-color: var(--accent-hover);
+        color: white;
+        font-size: 12px;
+        font-weight: normal;
+        line-height: 1.5;
+        z-index: 10;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        opacity: 0;
+        transform: translateY(10px);
+        animation: fadeInTooltip 0.3s forwards;
+    }
+
+    .tooltip-icon:hover::after {
+        content: '';
+        position: absolute;
+        bottom: 22px;
+        right: 5px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        border-top: 8px solid var(--dark);
+        z-index: 10;
+        animation: fadeInTooltip 0.3s forwards;
+    }
+
+    @keyframes fadeInTooltip {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .services-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .tooltip-icon:hover::before {
+            width: 200px;
+            right: -100px;
+        }
+    }

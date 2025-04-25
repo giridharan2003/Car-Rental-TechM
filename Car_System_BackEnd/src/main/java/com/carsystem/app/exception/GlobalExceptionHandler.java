@@ -1,47 +1,46 @@
 package com.carsystem.app.exception;
 
-import com.carsystem.app.dto.ApiResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse<String> handleUserAlreadyExists(UserAlreadyExistsException ex) {
-        return new ApiResponse<>(false, ex.getMessage(), null);
+    @ExceptionHandler(CarNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleCarNotFound(CarNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(InvalidCredentialsException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public ApiResponse<String> handleInvalidCredentials(InvalidCredentialsException ex) {
-        return new ApiResponse<>(false, ex.getMessage(), null);
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleCategoryNotFound(CategoryNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(InvalidOtpException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse<String> handleInvalidOtp(InvalidOtpException ex) {
-        return new ApiResponse<>(false, ex.getMessage(), null);
+    @ExceptionHandler(LocationNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleLocationNotFound(LocationNotFoundException ex) {
+        return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiResponse<String> handleUserNotFound(UserNotFoundException ex) {
-        return new ApiResponse<>(false, ex.getMessage(), null);
-    }
-    
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiResponse<String> handleResourceNotFound(ResourceNotFoundException ex) {
-        return new ApiResponse<>(false, ex.getMessage(), null);
+    @ExceptionHandler(InvalidCarDataException.class)
+    public ResponseEntity<Map<String, Object>> handleInvalidCarData(InvalidCarDataException ex) {
+        return buildResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiResponse<String> handleGenericException(Exception ex) {
-        return new ApiResponse<>(false, "An unexpected error occurred", null);
+    public ResponseEntity<Map<String, Object>> handleGeneric(Exception ex) {
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error: " + ex.getMessage());
+    }
+
+    private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {
+        return ResponseEntity.status(status).body(Map.of(
+            "timestamp", LocalDateTime.now(),
+            "status", status.value(),
+            "error", status.getReasonPhrase(),
+            "message", message
+        ));
     }
 }
