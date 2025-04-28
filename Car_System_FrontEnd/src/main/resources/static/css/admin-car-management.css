@@ -519,3 +519,8 @@ body {
 #options li:hover {
     background-color: #f0f0f0;
 }
+
+textarea {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.153);
+}

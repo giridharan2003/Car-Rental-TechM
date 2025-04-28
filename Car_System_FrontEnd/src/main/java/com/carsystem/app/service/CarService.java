@@ -69,7 +69,7 @@ public class CarService {
     }
 
     public Car editCar(Long id, Car car) {
-        restTemplate.put(backendUrl + "/edit/" + id, car);
+        restTemplate.put(backendUrl + "/" + id, car , Car.class);
         return car;
     }
 

@@ -7,7 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
     <link th:href="@{/css/admin-car-management.css}" rel="stylesheet"/>
 </head>
@@ -177,9 +176,9 @@
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Status</label>
                         <select id="addCarStatus" class="w-full p-2 border rounded" required>
-                            <option value="available">Available</option>
-                            <option value="booked">Booked</option>
-                            <option value="on_road">On Road</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="RENTED">Booked</option>
+                            <option value="MAINTENANCE">Maintenance</option>
                         </select>
                     </div>
                 </div>
@@ -191,16 +190,17 @@
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Fuel Type</label>
                         <select id="addCarFuelType" class="w-full p-2 border rounded" required>
-                            <option value="petrol">Petrol</option>
-                            <option value="diesel">Diesel</option>
-                            <option value="electric">Electric</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Gasoline">Gasoline</option>
+                            <option value="Electric">Electric</option>
                         </select>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Transmission</label>
                         <select id="addCarTransmission" class="w-full p-2 border rounded" required>
-                            <option value="automatic">Automatic</option>
-                            <option value="manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -230,6 +230,11 @@
                 <!-- Additional Details -->
                 <div class="modal-section">
                     <h3 class="modal-section-title">Additional Details</h3>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-600 mb-2">Description :</label>
+                        <textarea id="addCarDesc" class="w-full p-2 border rounded" rows="3"></textarea>
+                    </div>
 
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Insurance</label>
@@ -269,7 +274,7 @@
                 <!-- Car Overview -->
                 <div class="modal-section">
                     <h3 class="modal-section-title">Car Overview</h3>
-
+                    <h1 id="editCarId" style="visibility: hidden;"></h1>
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Make</label>
                         <input type="text" id="editCarMake" class="w-full p-2 border rounded" required>
@@ -302,9 +307,9 @@
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Status</label>
                         <select id="editCarStatus" class="w-full p-2 border rounded" required>
-                            <option value="available">Available</option>
-                            <option value="booked">Booked</option>
-                            <option value="on_road">On Road</option>
+                            <option value="AVAILABLE">Available</option>
+                            <option value="MAINTENANCE">Maintenance</option>
+                            <option value="RENTED">Booked</option>
                         </select>
                     </div>
                 </div>
@@ -316,16 +321,17 @@
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Fuel Type</label>
                         <select id="editCarFuelType" class="w-full p-2 border rounded" required>
-                            <option value="petrol">Petrol</option>
-                            <option value="diesel">Diesel</option>
-                            <option value="electric">Electric</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                            <option value="Gasoline">Gasoline</option>
+                            <option value="Electric">Electric</option>
                         </select>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Transmission</label>
                         <select id="editCarTransmission" class="w-full p-2 border rounded" required>
-                            <option value="automatic">Automatic</option>
-                            <option value="manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
                         </select>
                     </div>
                     <div class="mb-4">
@@ -364,10 +370,10 @@
                         <label class="block text-gray-600 mb-2">Image URL</label>
                         <input type="text" id="editCarImage" class="w-full p-2 border rounded" required>
                     </div>
-                    <!-- <div class="mb-4">
-                        <label class="block text-gray-600 mb-2">Additional Details</label>
-                        <textarea id="editCarAdditionalDetails" class="w-full p-2 border rounded" rows="3"></textarea>
-                    </div> -->
+                    <div class="mb-4">
+                        <label class="block mb-2">Description</label>
+                        <textarea id="editCarDesc" class="w-full p-2 border rounded" rows="3"></textarea>
+                    </div>                    
                     <div class="mb-4">
                         <label class="block text-gray-600 mb-2">Available Locations</label>
                         <input type="text" id="editCarLocations" class="w-full p-2 border rounded" placeholder="Search and select locations" multiple>
@@ -581,8 +587,6 @@
 </div>
 
 <script th:src="@{/js/admin-car-management.js}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script th:inline="javascript">window.allLocations = /*[[${locations}]]*/ [];</script>
 
 </body>
 </html>

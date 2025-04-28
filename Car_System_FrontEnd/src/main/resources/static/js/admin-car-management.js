@@ -21,7 +21,6 @@ async function getCarsData() {
             throw new Error('Network response was not ok');
         }
         let Allcars = await response.json();
-        console.log(Array.isArray(Allcars));
         return Allcars;
         
     } catch (error) {
@@ -137,76 +136,72 @@ function renderCars(carsToRender) {
     carsToRender.forEach((car) => {
         const carCard = document.createElement('div');
         carCard.className = `car-card bg-white p-0 rounded-lg shadow hover:shadow-lg transition-all ${!car.active ? 'hidden-car' : ''}`;
-
+    
         carCard.innerHTML = `
-            <div class="car-image-container">
-                <img src="${car.imageUrl}" alt="${car.model}" class="car-image">
-                <span class="car-type-badge bg-violet-600 text-white">${capitalizeFirstLetter(car.category.name)}</span>
-            </div>
-            <div class="p-4">
-                <div class="flex justify-between items-start mb-2">
-                    <h2 class="text-xl font-semibold">${car.model}</h2>
-                    <p class="text-lg font-bold text-purple-600 dark:text-purple-400">₹${car.dailyRate.toLocaleString()}</p>
+            <div class="flex flex-col h-full">
+                <div class="car-image-container">
+                    <img src="${car.imageUrl}" alt="${car.model}" class="car-image">
+                    <span class="car-type-badge bg-violet-600 text-white">${capitalizeFirstLetter(car.category.name)}</span>
                 </div>
-                <div class="grid grid-cols-2 gap-3 mb-3">
-                    <div class="flex items-center">
-                        <i class="fas fa-users mr-2 text-gray-500 dark:text-gray-400"></i>
-                        <span class="text-gray-600 dark:text-gray-300">${car.seats} Seats</span>
+                <div class="p-4 flex flex-col flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h2 class="text-xl font-semibold">${car.model}</h2>
+                        <p class="text-lg font-bold text-purple-600 dark:text-purple-400">₹${car.dailyRate.toLocaleString()}</p>
                     </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-tachometer-alt mr-2 text-gray-500 dark:text-gray-400"></i>
-                        <span class="text-gray-600 dark:text-gray-300">${car.mileage} ${car.fuelType === 'electric' ? 'km/charge' : 'km/l'}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-cog mr-2 text-gray-500 dark:text-gray-400"></i>
-                        <span class="text-gray-600 dark:text-gray-300">${capitalizeFirstLetter(car.transmission)}</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="fas fa-map-marker-alt mr-2 text-gray-500 dark:text-gray-400"></i>
-                        <div class="relative group w-fit max-w-full">
-                            <span class="text-gray-600 dark:text-gray-300 cursor-pointer">
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <div class="flex items-center">
+                            <i class="fas fa-users mr-2 text-gray-500 dark:text-gray-400"></i>
+                            <span class="text-gray-600 dark:text-gray-300">${car.seats} Seats</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-tachometer-alt mr-2 text-gray-500 dark:text-gray-400"></i>
+                            <span class="text-gray-600 dark:text-gray-300">${car.mileage} ${car.fuelType === 'electric' ? 'km/charge' : 'km/l'}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-cog mr-2 text-gray-500 dark:text-gray-400"></i>
+                            <span class="text-gray-600 dark:text-gray-300">${capitalizeFirstLetter(car.transmission)}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2 text-gray-500 dark:text-gray-400"></i>
+                            <div class="relative group w-fit max-w-full">
+                                <span class="text-gray-600 dark:text-gray-300 cursor-pointer">
+                                    ${
+                                        car.availableLocations && car.availableLocations.length > 0
+                                            ? `${car.availableLocations[0].name}${car.availableLocations.length > 1 ? ' ..' : ''}`
+                                            : 'Not Specified'
+                                    }
+                                </span>
                                 ${
-                                    car.availableLocations && car.availableLocations.length > 0
-                                        ? `${car.availableLocations[0].name}${car.availableLocations.length > 1 ? ' ..' : ''}`
-                                        : 'Not Specified'
+                                    car.availableLocations && car.availableLocations.length > 1
+                                        ? `<div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-50 bg-gray-800 text-white text-sm rounded-lg px-3 py-2 shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-200 max-w-[200px] break-words">
+                                            ${car.availableLocations.map(loc => loc.name).join(', ')}
+                                        </div>`
+                                        : ''
                                 }
-                            </span>
-                            ${
-                                car.availableLocations && car.availableLocations.length > 1
-                                    ? `<div class="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-50 bg-gray-800 text-white text-sm rounded-lg px-3 py-2 shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible invisible transition-all duration-200 max-w-[200px] break-words">
-                                        ${car.availableLocations.map(loc => loc.name).join(', ')}
-                                    </div>`
-                                    : ''
-                            }
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Available at:</p>
-                    <p class="text-sm text-gray-600 dark:text-gray-200">${car.additionalDetails}</p>
-                </div>
-                <div class="mt-4 flex justify-between space-x-3">
-                    <button class="edit-btn px-4 py-2 text-white rounded-lg flex-1 flex items-center justify-center" onclick="${`openEditModal(${car.carId})`}">
-                        <i class="fas fa-edit mr-2"></i>
-                        Edit
-                    </button>
-                    <button class="${car.active ? 'unhide-btn' : 'hide-btn'} px-4 py-2 text-white rounded-lg flex-1 flex items-center justify-center" 
-                            onclick="toggleCarVisibility(${car.carId})">
-                        <i class="fas ${car.active ? 'fa-eye' : 'fa-eye-slash'} mr-2"></i>
-                        ${car.active ? 'Unhide' : 'Hide'}
-                    </button>
+                    <div class="mt-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <p class="text-sm font-medium text-gray-700 dark:text-gray-300">Description :</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-200">${car.additionalDetails}</p>
+                    </div>
+                    <div class=" flex justify-between space-x-3 button-container mt-auto">
+                        <button class="edit-btn px-4 mt-4 py-2 text-white rounded-lg flex-1 flex items-center justify-center" onclick="${`openEditModal(${car.carId})`}">
+                            <i class="fas fa-edit mr-2"></i>
+                            Edit
+                        </button>
+                        <button class="${car.active ? 'hide-btn' : 'unhide-btn'} px-4 py-2 mt-4 text-white rounded-lg flex-1 flex items-center justify-center" 
+                                onclick="toggleCarVisibility(${car.carId})">
+                            <i class="fas ${car.active ? 'fa-eye' : 'fa-eye-slash'} mr-2"></i>
+                            ${car.active ? 'Hide' : 'Unide'}
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
-
         container.appendChild(carCard);
     });
 }
-{/* <button class="edit-btn px-4 py-2 text-white rounded-lg flex-1 flex items-center justify-center ${car.active ? 'opacity-50 cursor-not-allowed' : ''}" 
-                            ${car.active ? 'disabled' : ''} onclick="${car.active ? '' : `openEditModal(${car.carId})`}">
-                        <i class="fas fa-edit mr-2"></i>
-                        Edit
-</button> */}
 
 // Render packages to the page
 function renderPackages(packagesToRender) {
@@ -290,7 +285,7 @@ function renderPackages(packagesToRender) {
     }, 50);
 }
 
-// Open Add Car Modal
+
 function openModal(modelId) {
     console.log(modelId);
     document.getElementById(modelId).style.display = 'block';
@@ -298,6 +293,37 @@ function openModal(modelId) {
 
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
+}
+
+async function openEditModal(carId) {
+    try {
+        const response = await fetch(`/cars/${carId}`);
+        const car = await response.json();
+
+        document.getElementById('editCarId').value = car.carId;
+        document.getElementById('editCarMake').value = car.make;
+        document.getElementById('editCarModel').value = car.model;
+        document.getElementById('editCarYear').value = car.year;
+        document.getElementById('editCarSeats').value = car.seats;
+        document.getElementById('editCarCategory').value = car.category.categoryId;
+        document.getElementById('editCarLicensePlate').value = car.licensePlate;
+        document.getElementById('editCarStatus').value = car.status;
+        document.getElementById('editCarFuelType').value = car.fuelType;
+        document.getElementById('editCarTransmission').value = car.transmission;
+        document.getElementById('editCarMileage').value = car.mileage;
+        document.getElementById('editCarLuggage').value = car.luggage;
+        document.getElementById('editCarHourlyRate').value = car.hourlyRate;
+        document.getElementById('editCarDailyRate').value = car.dailyRate;
+        document.getElementById('editCarInsurance').value = car.insurance;
+        document.getElementById('editCarImage').value = car.imageUrl;
+        document.getElementById('editCarLocations').value = car.locations;
+        document.getElementById('editCarDesc').value = car.additionalDetails;
+            
+        document.getElementById('editCarModal').style.display = 'block';
+
+    } catch (error) {
+        console.error('Error fetching car data for edit:', error);
+    }
 }
 
 document.getElementById("addCarForm").addEventListener("submit", async function (e) {
@@ -319,7 +345,7 @@ document.getElementById("addCarForm").addEventListener("submit", async function 
         mileage: parseFloat(document.getElementById("addCarMileage").value),
         insurance: document.getElementById("addCarInsurance").value,
         imageUrl: "", 
-        additionalDetails: "",
+        additionalDetails: document.getElementById("addCarDesc").value,
         category: {
             categoryId: document.getElementById("addCarCategory").value
         },
@@ -345,7 +371,7 @@ document.getElementById("addCarForm").addEventListener("submit", async function 
         const result = await response.json();
         if (response.ok) {
             alert("Car added successfully! 🚗");
-            console.log(result);
+            location.reload();
             closeModal("addCarModal");
         } else {
             alert("Upload failed: " + result.error);
@@ -356,40 +382,58 @@ document.getElementById("addCarForm").addEventListener("submit", async function 
     }
 });
 
-async function openEditModal(carId) {
+document.getElementById("editCarForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const car = {
+        make: document.getElementById("editCarMake").value,
+        model: document.getElementById("editCarModel").value,
+        year: parseInt(document.getElementById("editCarYear").value),
+        licensePlate: document.getElementById("editCarLicensePlate").value,
+        dailyRate: parseFloat(document.getElementById("editCarDailyRate").value),
+        hourlyRate: parseFloat(document.getElementById("editCarHourlyRate").value),
+        fuelType: document.getElementById("editCarFuelType").value,
+        transmission: document.getElementById("editCarTransmission").value,
+        seats: parseInt(document.getElementById("editCarSeats").value),
+        luggage: parseInt(document.getElementById("editCarLuggage").value),
+        mileage: parseFloat(document.getElementById("editCarMileage").value),
+        insurance: document.getElementById("editCarInsurance").value,
+        imageUrl: document.getElementById("editCarImage").value,
+        additionalDetails: document.getElementById("editCarDesc").value,
+        category: {
+            categoryId: document.getElementById("editCarCategory").value
+        },
+        availableLocations: [
+            { locationId: 1 },
+            { locationId: 2 }
+        ]
+    };
+
+    const carId = document.getElementById("editCarId").value;
+
     try {
-        const response = await fetch(`/cars/${carId}`);
-        const car = await response.json();
+        const response = await fetch(`/cars/edit/${carId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(car)
+        });
 
-        // Basic Details
-        document.getElementById('editCarId').value = car.id || "";
-        document.getElementById('editCarModel').value = car.model || "";
-        document.getElementById('editCarHourlyRate').value = car.hourlyRate || "";
-        document.getElementById('editCarDailyRate').value = car.dailyRate || "";
-        document.getElementById('editCarCategory').value = car.category || "";
-        document.getElementById('editCarSeats').value = car.seats || "";
-        document.getElementById('editCarMileage').value = car.mileage || "";
-        document.getElementById('editCarTransmission').value = car.transmission || "";
-        document.getElementById('editCarImage').value = car.imageUrl || "";
-        document.getElementById('editCarFuelType').value = car.fuelType || "";
-
-        // License plate and year — update once you have correct field IDs
-        document.getElementById('editCarLicensePlate').value = car.licensePlate || "";
-        document.getElementById('editCarYear').value = car.year || "";
-
-        // Status
-        document.getElementById('editCarStatus').value = car.status || "";
-
-        // Luggage
-        document.getElementById('editCarLuggage').value = car.luggage || "";
-
-        // Show the modal
-        document.getElementById('editCarModal').style.display = 'block';
-
-    } catch (error) {
-        console.error('Error fetching car data for edit:', error);
+        const result = await response.json();
+        if (response.ok) {
+            alert("Car edited successfully! 🚗");
+            location.reload();
+            closeModal("editCarModal");
+        } else {
+            alert("Edit failed: " + result.error);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Something went wrong!");
     }
-}
+});
+
 
 const select = document.getElementById("addLocation");
 const option = document.getElementById("options");
