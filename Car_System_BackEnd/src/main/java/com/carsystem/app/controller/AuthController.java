@@ -1,49 +1,72 @@
-//package com.carsystem.app.controller;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.carsystem.app.dto.ApiResponse;
-//import com.carsystem.app.dto.LoginRequest;
-//import com.carsystem.app.dto.OtpRequest;
-//import com.carsystem.app.dto.RegisterRequest;
-//import com.carsystem.app.dto.ResetPasswordRequest;
-//import com.carsystem.app.service.AuthService;
-//
-//import jakarta.validation.Valid;
-//
-//@RestController
-//@RequestMapping("/api/auth")
-//public class AuthController {
-//
-//    @Autowired
-//    private AuthService authService;
-//
-//    @PostMapping("/login")
-//    public ApiResponse<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-//        return authService.login(loginRequest);
-//    }
-//
-//    @PostMapping("/register")
-//    public ApiResponse<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
-//        return authService.register(registerRequest);
-//    }
-//
-//    @PostMapping("/send-otp")
-//    public ApiResponse<?> sendOTP(@Valid @RequestBody OtpRequest otpRequest) {
-//        return authService.sendOTP(otpRequest);
-//    }
-//
-//    @PostMapping("/verify-otp")
-//    public ApiResponse<?> verifyOTP(@Valid @RequestBody OtpRequest otpRequest) {
-//        return authService.verifyOTP(otpRequest);
-//    }
-//
-//    @PostMapping("/reset-password")
-//    public ApiResponse<?> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
-//        return authService.resetPassword(resetPasswordRequest);
-//    }
-//}
+package com.carsystem.app.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.carsystem.app.model.User;
+import com.carsystem.app.model.Otp;
+import com.carsystem.app.service.AuthService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/api/auth")
+public class AuthController {
+
+    @Autowired
+    private AuthService authService;
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody User loginUser) {
+        String result = authService.login(loginUser);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", result);
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, String>> register(@Valid @RequestBody User newUser) {
+        authService.register(newUser);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User registered successfully");
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/send-otp")
+    public ResponseEntity<Map<String, String>> sendOTP(@RequestBody User user) {
+        authService.sendOTP(user.getEmail());
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "OTP sent successfully");
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<Map<String, String>> verifyOTP(@Valid @RequestBody Otp otp) {
+        authService.verifyOTP(otp);
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "OTP verified successfully");
+        
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String,String> body) {
+        authService.resetPassword(body.get("email"), body.get("newPassword"));
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Password reset successfully");
+        
+        return ResponseEntity.ok(response);
+    }
+}

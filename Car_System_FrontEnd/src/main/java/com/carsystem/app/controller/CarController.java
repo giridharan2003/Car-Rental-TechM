@@ -1,11 +1,14 @@
 package com.carsystem.app.controller;
 
+import com.carsystem.app.model.AdditionalService;
+import com.carsystem.app.model.Booking;
 import com.carsystem.app.model.Car;
 import com.carsystem.app.model.CarCategory;
 import com.carsystem.app.model.Location;
 import com.carsystem.app.service.CarService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,5 +54,17 @@ public class CarController {
     @ResponseBody
     public Location[] getlocations() {
         return carService.getAllLocation();
+    }
+
+    @GetMapping("/AdditionalService")
+    @ResponseBody
+    public AdditionalService[] getAllAdditionalService(){
+        return carService.getAllAdditionalService();
+    }
+
+    @PostMapping("/user/booking")
+    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
+        Booking createdBooking = carService.createBooking(booking);
+        return ResponseEntity.status(201).body(createdBooking);
     }
 }

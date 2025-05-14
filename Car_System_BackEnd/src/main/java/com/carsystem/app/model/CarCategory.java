@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "car_categories")
 public class CarCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

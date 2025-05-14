@@ -1,13 +1,19 @@
 package com.carsystem.app.service;
 
 import com.carsystem.app.exception.*;
+import com.carsystem.app.model.AdditionalService;
+import com.carsystem.app.model.Booking;
 import com.carsystem.app.model.Car;
 import com.carsystem.app.model.CarCategory;
 import com.carsystem.app.model.Location;
 import com.carsystem.app.model.enums.CarStatus;
+import com.carsystem.app.repository.AdditionalServiceRepository;
+import com.carsystem.app.repository.BookingRepository;
 import com.carsystem.app.repository.CarCategoryRepository;
 import com.carsystem.app.repository.CarRepository;
 import com.carsystem.app.repository.LocationRepository;
+import com.carsystem.app.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,13 +33,23 @@ public class CarService {
 
 	@Autowired
 	private CarCategoryRepository carCategoryRepository;
-
+	
+	@Autowired
+	private AdditionalServiceRepository additionalServiceRepository;
+	
+	@Autowired
+	private BookingRepository bookingRepository;
+	
+	@Autowired
+    private UserRepository userRepository;
+	
+	
 	public List<Car> getCars(){
 		return carRepository.findAll();
 	}
 
 	public Car getCarById(Long id) {
-		return carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
+		return carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car Not Found By this ID : " + id));
 	}
 
 	public Car addCar(Car car) {
@@ -65,7 +81,7 @@ public class CarService {
 	}
 
 	public Car updateCar(Long id, Car carDetails) {
-		Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
+		Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException("Car Not Found By this ID : " + id));
 
 		if (carDetails.getMake() != null && !carDetails.getMake().isEmpty()) {
 			car.setMake(carDetails.getMake());
@@ -176,12 +192,29 @@ public class CarService {
 		}
 	}
 	
-	
 	public List<CarCategory> getAllCategories() {
         return carCategoryRepository.findAll();
     }
     
     public List<Location> getAllLocations() {
         return locationRepository.findAll();
+    }
+    
+    public List<AdditionalService> getAllAdditionalService(){
+    	return additionalServiceRepository.findAll();
+    }
+    
+    public List<Booking> getAllBooking(){
+    	return bookingRepository.findAll();
+    }
+    
+    public int countBookingsByUserId(Long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new CarNotFoundException("User with ID " + userId + " not found"));
+        return bookingRepository.countByUserId_UserId(userId);
+    }
+    
+    public List<Booking> getBookingsByUserId(Long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new CarNotFoundException("User with ID " + userId + " not found"));
+        return bookingRepository.getBookingsByUserId_UserId(userId);
     }
 }

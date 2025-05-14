@@ -1,5 +1,6 @@
 package com.carsystem.app.controller;
 
+import com.carsystem.app.model.AdditionalService;
 import com.carsystem.app.model.Car;
 import com.carsystem.app.model.CarCategory;
 import com.carsystem.app.model.Location;
@@ -44,5 +45,10 @@ public class CarController {
     @GetMapping("/locations")
     public List<Location> getAllLocations() {
         return carService.getAllLocations();
+    }
+    
+    @GetMapping("/AdditionalService")
+    public List<AdditionalService> getAllAdditionalService() {
+    	return carService.getAllAdditionalService();
     }
 }

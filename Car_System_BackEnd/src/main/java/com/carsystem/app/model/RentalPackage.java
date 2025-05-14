@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "rental_packages")
+
 public class RentalPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

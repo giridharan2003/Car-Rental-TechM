@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luxora Car Rental - Booking Confirmation</title>
-    <!-- Razorpay Checkout Script -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link th:href="@{/css/conformation.css}" rel="stylesheet">
+    
 </head>
-
 <body>
     <div class="loading">
         <div class="loading-spinner"></div>
@@ -18,70 +17,48 @@
         <div class="booking-confirmation">
             <div class="confirmation-header">
                 <div class="success-icon">✓</div>
-                <h1>Booking Confirmed</h1>
+                <h1>Confirm Your Booking</h1>
                 <p>Your reservation is awaiting payment to be completed</p>
             </div>
-            
-            <div class="booking-details">
-                <div>
-                    <img src="/assests/cars/luxury/cclass.webp" alt="Mercedes-Benz E-Class" class="car-image" />
-                    
+
+            <!-- Car and Customer Details Side by Side -->
+            <div class="row">
+                <!-- Car Details (Left) -->
+                <div class="col-md-6">
                     <div class="detail-group">
-                        <h3>Vehicle Details</h3>
+                        <h3>Car Details</h3>
+                        <input type="hidden" id="carId" th:value="${car.carId}"/>
+                        <img th:src="@{${car.imageUrl}}" th:alt="${car.make + ' ' + car.model}" class="car-image" />
                         <div class="detail-item">
                             <span class="detail-label">Car:</span>
-                            <span>Mercedes-Benz E-Class</span>
+                            <span th:text="${car.make + ' ' + car.model + ' ' + car.year}">Car Name</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Category:</span>
-                            <span>Luxury Sedan</span>
+                            <span th:text="${car.category.name}">Category</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Seats:</span>
-                            <span>5</span>
+                            <span th:text="${car.seats}">Seats</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Transmission:</span>
-                            <span>Automatic</span>
+                            <span th:text="${car.transmission}">Transmission</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Features:</span>
-                            <span>GPS, Bluetooth, Leather Seats</span>
+                            <span class="detail-label">Fuel Type:</span>
+                            <span th:text="${car.fuelType}">Fuel</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Luggage Capacity:</span>
+                            <span th:text="${car.luggage} + ' bags'">Luggage</span>
                         </div>
                     </div>
                 </div>
-                
-                <div>
+                <!-- Customer Details (Right) -->
+                <div class="col-md-6">
                     <div class="detail-group">
-                        <h3>Reservation Details</h3>
-                        <div class="detail-item">
-                            <span class="detail-label">Booking ID:</span>
-                            <span>LUX-2025042-867</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Pick-up Date:</span>
-                            <span>April 5, 2025, 10:00 AM</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Return Date:</span>
-                            <span>April 8, 2025, 10:00 AM</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Duration:</span>
-                            <span>3 days</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Pick-up Location:</span>
-                            <span>Downtown Office, 123 Main St</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">Return Location:</span>
-                            <span>Downtown Office, 123 Main St</span>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-group">
-                        <h3>Customer Information</h3>
+                        <h3>Customer Details</h3>
                         <div class="detail-item">
                             <span class="detail-label">Name:</span>
                             <span>Gokul</span>
@@ -97,98 +74,95 @@
                     </div>
                 </div>
             </div>
-            <div class="additional-services">
+
+            <!-- Pickup and Drop-off Details (Time, Date, Location Left-Right) -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <!-- Time Row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pickupTime" class="form-label">Pick-Up Time:</label>
+                                <input type="time" id="pickupTime" name="pickupTime" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dropTime" class="form-label">Drop-Off Time:</label>
+                                <input type="time" id="dropTime" name="dropTime" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Date Row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pickupDate" class="form-label">Pick-Up Date:</label>
+                                <input type="date" id="pickupDate" name="pickupDate" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dropDate" class="form-label">Drop-Off Date:</label>
+                                <input type="date" id="dropDate" name="dropDate" class="form-input" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Row -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="pickupLocation" class="form-label">Pick-Up Location:</label>
+                                <select id="pickupLocation" name="pickupLocation" class="form-select" required>
+                                    <option value="">Select Location</option>
+                                    <!-- Dynamically populate options from car.availableLocations -->
+                       
+                                    <option th:each="location : ${car.availableLocations}" 
+                                            th:value="${location.locationId}" 
+                                            th:text="${location.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dropLocation" class="form-label">Drop-Off Location:</label>
+                                <select id="dropLocation" name="dropLocation" class="form-select" required>
+                                    <option value="">Select Location</option>
+                                    <!-- Dynamically populate options from car.availableLocations -->
+                                    <option th:each="location : ${car.availableLocations}" 
+                                            th:value="${location.locationId}" 
+                                            th:text="${location.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Services -->
+            <div class="additional-services mt-5">
                 <h3 style="margin-bottom: 15px; color: var(--accent);">Additional Services</h3>
                 <p style="margin-bottom: 20px;">Enhance your driving experience with our premium add-on services.</p>
                 
                 <div class="services-container">
-                    <!-- Individual Service Items -->
-                    <div class="service-item">
+                    <div th:each="service : ${services}" th:if="${service.isActive}" class="service-item">
                         <label class="service-checkbox">
-                            <input type="checkbox" name="insurance" id="insurance" data-price="7500" checked>
+                            <input type="checkbox" th:value="${service.serviceId}" th:id="${service.serviceId}" name="additionalServices[]" th:data-price="${service.price}" th:checked="${service.name == 'Premium Insurance' or service.name == 'GPS Navigation System' or service.name == 'Additional Driver'}">
                             <span class="checkmark"></span>
                             <div class="service-info">
-                                <span class="service-name">Premium Insurance</span>
-                                <span class="service-price">₹7,500.00</span>
-                                <span class="tooltip-icon" data-tooltip="Comprehensive coverage including zero liability, personal accident coverage, and coverage for all occupants. Includes roadside assistance and no security deposit.">ⓘ</span>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="service-item">
-                        <label class="service-checkbox">
-                            <input type="checkbox" name="gps" id="gps" data-price="2000" checked>
-                            <span class="checkmark"></span>
-                            <div class="service-info">
-                                <span class="service-name">GPS Navigation System</span>
-                                <span class="service-price">₹2,000.00</span>
-                                <span class="tooltip-icon" data-tooltip="High-precision GPS system with real-time traffic updates, voice guidance in multiple languages, and points of interest. Includes offline map functionality.">ⓘ</span>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="service-item">
-                        <label class="service-checkbox">
-                            <input type="checkbox" name="driver" id="driver" data-price="1800" checked>
-                            <span class="checkmark"></span>
-                            <div class="service-info">
-                                <span class="service-name">Additional Driver</span>
-                                <span class="service-price">₹1,800.00</span>
-                                <span class="tooltip-icon" data-tooltip="Register an additional driver for your rental. All registered drivers must be present at pickup with a valid driver's license. No extra paperwork needed during your trip.">ⓘ</span>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="service-item">
-                        <label class="service-checkbox">
-                            <input type="checkbox" name="childSeat" id="childSeat" data-price="1200">
-                            <span class="checkmark"></span>
-                            <div class="service-info">
-                                <span class="service-name">Child Safety Seat</span>
-                                <span class="service-price">₹1,200.00</span>
-                                <span class="tooltip-icon" data-tooltip="ISOFIX-compatible child safety seat suitable for children aged 9 months to 4 years (9-18 kg). Meets European safety standards with 5-point safety harness.">ⓘ</span>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="service-item">
-                        <label class="service-checkbox">
-                            <input type="checkbox" name="wifi" id="wifi" data-price="1500">
-                            <span class="checkmark"></span>
-                            <div class="service-info">
-                                <span class="service-name">5G WiFi Hotspot</span>
-                                <span class="service-price">₹1,500.00</span>
-                                <span class="tooltip-icon" data-tooltip="Portable WiFi device providing high-speed internet for up to 10 devices simultaneously. Includes 1.5GB data per day with pan-India coverage.">ⓘ</span>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="service-item">
-                        <label class="service-checkbox">
-                            <input type="checkbox" name="fuellService" id="fuelService" data-price="1000">
-                            <span class="checkmark"></span>
-                            <div class="service-info">
-                                <span class="service-name">Full Tank Fuel Service</span>
-                                <span class="service-price">₹1,000.00</span>
-                                <span class="tooltip-icon" data-tooltip="Pre-paid fuel service. Return the car with any fuel level - no need to refill before return. Saves time at drop-off and eliminates refueling charges.">ⓘ</span>
-                            </div>
-                        </label>
-                    </div>
-                    
-                    <div class="service-item">
-                        <label class="service-checkbox">
-                            <input type="checkbox" name="chauffeur" id="chauffeur" data-price="8500">
-                            <span class="checkmark"></span>
-                            <div class="service-info">
-                                <span class="service-name">Professional Chauffeur</span>
-                                <span class="service-price">₹8,500.00</span>
-                                <span class="tooltip-icon" data-tooltip="Experienced professional driver for the duration of your rental. All chauffeurs are professionally trained, background-verified, and fluent in English and Hindi. 10 hours duty per day included.">ⓘ</span>
+                                <span class="service-name" th:text="${service.name}">Service Name</span>
+                                <span class="service-price" th:text="${service.price}">₹0.00</span>
+                                <span class="tooltip-icon" th:attr="data-tooltip=${service.description}">ⓘ</span>
                             </div>
                         </label>
                     </div>
                 </div>
             </div>
-            <div class="price-summary">
+
+            <!-- Price Summary -->
+            <div class="price-summary mt-5">
                 <h3 style="margin-bottom: 15px;">Price Summary</h3>
                 <div class="price-row">
                     <span>Base Rate (3 days x ₹12,000)</span>
@@ -216,15 +190,18 @@
                 </div>
             </div>
             
-            <div class="payment-timer">
+            <!-- Payment Timer -->
+            <div class="payment-timer mt-4">
                 Please complete payment within <span id="countdown" class="timer-highlight">14:59</span> to secure your reservation
             </div>
             
-            <div class="actions">
+            <!-- Actions -->
+            <div class="actions mt-4">
                 <button class="btn btn-outline" onclick="window.location.href='#'">Modify Booking</button>
                 <button class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
             </div>
             
+            <!-- Success Checkmark -->
             <div class="success-checkmark">
                 <div class="check-icon">
                     <span class="icon-line line-tip"></span>
@@ -234,354 +211,15 @@
         </div>
     </div>
     
-    <footer>
+    <!-- Footer -->
+    <footer class="mt-5">
         <div class="container">
             <p>© 2025 Luxora Car Rental. All rights reserved.</p>
         </div>
     </footer>
     
-    <script>
-        // Additional Services Logic
-        document.addEventListener('DOMContentLoaded', function() {
-            // Setup event listeners for checkboxes
-            const checkboxes = document.querySelectorAll('.service-checkbox input');
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', updatePriceSummary);
-            });
-            
-            // Initialize price summary
-            updatePriceSummary();
-            
-            // Function to update price summary
-            function updatePriceSummary() {
-                // Base values
-                const baseRate = 36000;
-                const taxRate = 0.18; // 18% GST
-                
-                // Get selected additional services
-                let selectedServices = [];
-                let additionalTotal = 0;
-                
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        const price = parseInt(checkbox.dataset.price);
-                        const name = checkbox.parentElement.querySelector('.service-name').textContent;
-                        selectedServices.push({ name, price });
-                        additionalTotal += price;
-                    }
-                });
-                
-                // Calculate subtotal and taxes
-                const subtotal = baseRate + additionalTotal;
-                const taxes = subtotal * taxRate;
-                const total = subtotal + taxes;
-                
-                // Update price summary HTML
-                const priceSummaryHTML = `
-                    <h3 style="margin-bottom: 15px;">Price Summary</h3>
-                    <div class="price-row">
-                        <span>Base Rate (3 days x ₹12,000)</span>
-                        <span><span class="rupee">₹</span>${baseRate.toLocaleString('en-IN')}.00</span>
-                    </div>
-                    ${selectedServices.map(service => `
-                        <div class="price-row">
-                            <span>${service.name}</span>
-                            <span><span class="rupee">₹</span>${service.price.toLocaleString('en-IN')}.00</span>
-                        </div>
-                    `).join('')}
-                    <div class="price-row">
-                        <span>Taxes & Fees (18% GST)</span>
-                        <span><span class="rupee">₹</span>${Math.round(taxes).toLocaleString('en-IN')}.00</span>
-                    </div>
-                    <div class="price-row total">
-                        <span>Total</span>
-                        <span><span class="rupee">₹</span>${Math.round(total).toLocaleString('en-IN')}.00</span>
-                    </div>
-                `;
-                
-                document.querySelector('.price-summary').innerHTML = priceSummaryHTML;
-                
-                // Store the total in the payment button's data attribute
-                const paymentButton = document.getElementById('proceedToPayment');
-                if (paymentButton) {
-                    paymentButton.dataset.amount = Math.round(total);
-                }
-            }
-            
-            // Timer countdown functionality
-            let minutes = 14;
-            let seconds = 59;
-            
-            function updateCountdown() {
-                document.getElementById('countdown').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-                if (seconds === 0) {
-                    if (minutes === 0) {
-                        clearInterval(timerInterval);
-                        alert('Your reservation time has expired. Please start a new booking.');
-                        return;
-                    }
-                    minutes--;
-                    seconds = 59;
-                } else {
-                    seconds--;
-                }
-            }
-            
-            const timerInterval = setInterval(updateCountdown, 1000);
-            
-            // Razorpay Payment Integration
-            document.getElementById('proceedToPayment').addEventListener('click', function() {
-                // Show loading screen
-                document.querySelector('.loading').style.display = 'flex';
-                
-                // Get the current total from the button's data attribute
-                const currentTotal = parseInt(this.dataset.amount) || 55814; // Fallback to original amount
-                
-                // Initialize Razorpay
-                const options = {
-                    key: "rzp_test_1DP5mmOlF5G5ag", // Razorpay test key
-                    amount: currentTotal * 100, // Amount in paise
-                    currency: "INR",
-                    name: "Luxora Car Rental",
-                    description: "Mercedes-Benz E-Class Rental",
-                    image: "/api/placeholder/60/60", // Company logo
-                    order_id: "", // Should be generated from backend
-                    prefill: {
-                        name: "John Doe",
-                        email: "john.doe@example.com",
-                        contact: "9876543210"
-                    },
-                    theme: {
-                        color: "#d4af37" // Gold accent
-                    },
-                    modal: {
-                        ondismiss: function() {
-                            console.log("Payment cancelled");
-                            document.querySelector('.loading').style.display = 'none';
-                        }
-                    },
-                    handler: function(response) {
-                        // Show loading screen
-                        document.querySelector('.loading').style.display = 'flex';
-                        
-                        // Simulate payment verification
-                        setTimeout(() => {
-                            document.querySelector('.loading').style.display = 'none';
-                            paymentSuccess(response.razorpay_payment_id);
-                        }, 1500);
-                    }
-                };
-                
-                const razorpayObject = new Razorpay(options);
-                razorpayObject.on('payment.failed', function(response) {
-                    document.querySelector('.loading').style.display = 'none';
-                    alert("Payment Failed: " + response.error.description);
-                });
-                razorpayObject.open();
-                
-                // Hide loading after opening Razorpay
-                setTimeout(() => {
-                    document.querySelector('.loading').style.display = 'none';
-                }, 1000);
-            });
-            
-            // Payment success function
-            function paymentSuccess(paymentId) {
-                // Update UI
-                document.querySelector('.confirmation-header p').textContent = 'Your reservation is confirmed and paid';
-                document.querySelector('.payment-timer').style.display = 'none';
-                
-                // Show success animation
-                document.querySelector('.success-checkmark').style.display = 'block';
-                
-                // Update button
-                const paymentButton = document.getElementById('proceedToPayment');
-                paymentButton.textContent = 'View Receipt';
-                paymentButton.onclick = function() {
-                    generateReceipt(paymentId);
-                };
-                
-                // Confetti animation
-                createConfetti();
-            }
-            
-            // Create confetti animation
-            function createConfetti() {
-                const confettiCount = 200;
-                const container = document.querySelector('body');
-                
-                for (let i = 0; i < confettiCount; i++) {
-                    const confetti = document.createElement('div');
-                    confetti.style.position = 'fixed';
-                    confetti.style.zIndex = '1000';
-                    confetti.style.width = Math.random() * 15 + 5 + 'px';
-                    confetti.style.height = Math.random() * 8 + 5 + 'px';
-                    confetti.style.backgroundColor = getRandomColor();
-                    confetti.style.borderRadius = '50%';
-                    confetti.style.top = '-10px';
-                    confetti.style.left = Math.random() * window.innerWidth + 'px';
-                    confetti.style.opacity = Math.random();
-                    confetti.style.transform = 'scale(' + Math.random() + ')';
-                    confetti.style.animation = 'fall ' + (Math.random() * 3 + 3) + 's linear';
-                    
-                    container.appendChild(confetti);
-                    
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 6000);
-                }
-            }
-            
-            // Helper function to get random color
-            function getRandomColor() {
-                const colors = ['#d4af37', '#2c3e50', '#3498db', '#2ecc71', '#e67e22'];
-                return colors[Math.floor(Math.random() * colors.length)];
-            }
-            
-            // Generate receipt
-            function generateReceipt(paymentId) {
-                // Get selected services for receipt
-                let selectedServicesHTML = '';
-                let serviceTotal = 0;
-                
-                checkboxes.forEach(checkbox => {
-                    if (checkbox.checked) {
-                        const price = parseInt(checkbox.dataset.price);
-                        const name = checkbox.parentElement.querySelector('.service-name').textContent;
-                        selectedServicesHTML += `
-                            <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">${name}</td>
-                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹${price.toLocaleString('en-IN')}.00</td>
-                            </tr>
-                        `;
-                        serviceTotal += price;
-                    }
-                });
-                
-                // Calculate totals
-                const baseRate = 36000;
-                const subtotal = baseRate + serviceTotal;
-                const taxes = subtotal * 0.18;
-                const total = subtotal + taxes;
-                
-                // Create a receipt overlay
-                const overlay = document.createElement('div');
-                overlay.style.position = 'fixed';
-                overlay.style.top = '0';
-                overlay.style.left = '0';
-                overlay.style.width = '100%';
-                overlay.style.height = '100%';
-                overlay.style.backgroundColor = 'rgba(0,0,0,0.8)';
-                overlay.style.zIndex = '1000';
-                overlay.style.display = 'flex';
-                overlay.style.justifyContent = 'center';
-                overlay.style.alignItems = 'center';
-                
-                const receipt = document.createElement('div');
-                receipt.style.backgroundColor = 'white';
-                receipt.style.padding = '30px';
-                receipt.style.borderRadius = '8px';
-                receipt.style.width = '90%';
-                receipt.style.maxWidth = '600px';
-                receipt.style.position = 'relative';
-                receipt.style.maxHeight = '80vh';
-                receipt.style.overflow = 'auto';
-                
-                receipt.innerHTML = `
-                    <button id="closeReceipt" style="position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer;">×</button>
-                    
-                    <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #d4af37; padding-bottom: 15px;">
-                        <h2 style="color: #2c3e50; margin-bottom: 5px;">Payment Receipt</h2>
-                        <p style="color: #666;">Transaction ID: ${paymentId}</p>
-                    </div>
-                    
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                        <div>
-                            <p style="font-weight: bold; margin-bottom: 5px;">Luxora Car Rental</p>
-                            <p>123 Main Street</p>
-                            <p>New Delhi, India 110001</p>
-                            <p>GST: 07AABCU9603R1ZX</p>
-                        </div>
-                        <div style="text-align: right;">
-                            <p style="font-weight: bold; margin-bottom: 5px;">Invoice to:</p>
-                            <p>John Doe</p>
-                            <p>john.doe@example.com</p>
-                            <p>+91 98765 43210</p>
-                        </div>
-                    </div>
-                    
-                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="font-weight: bold;">Booking ID:</span>
-                            <span>LUX-2025042-867</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="font-weight: bold;">Payment Date:</span>
-                            <span>${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span style="font-weight: bold;">Payment Method:</span>
-                            <span>Razorpay</span>
-                        </div>
-                    </div>
-                    
-                    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                        <thead>
-                            <tr style="background-color: #f8f9fa;">
-                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Description</th>
-                                <th style="padding: 10px; text-align: right; border-bottom: 1px solid #ddd;">Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">Mercedes-Benz E-Class Rental (3 days)</td>
-                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹36,000.00</td>
-                            </tr>
-                            ${selectedServicesHTML}
-                            <tr>
-                                <td style="padding: 10px; border-bottom: 1px solid #eee;">Taxes & Fees (18% GST)</td>
-                                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹${Math.round(taxes).toLocaleString('en-IN')}.00</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr style="font-weight: bold;">
-                                <td style="padding: 10px;">Total</td>
-                                <td style="padding: 10px; text-align: right;">₹${Math.round(total).toLocaleString('en-IN')}.00</td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                    
-                    <div style="text-align: center; margin-top: 30px; color: #666;">
-                        <p>Thank you for choosing Luxora Car Rental!</p>
-                        <p style="margin-top: 10px; font-size: 12px;">This is a computer-generated receipt and does not require a signature.</p>
-                    </div>
-                `;
-                
-                overlay.appendChild(receipt);
-                document.body.appendChild(overlay);
-                
-                // Add event listener to close button
-                document.getElementById('closeReceipt').addEventListener('click', function() {
-                    document.body.removeChild(overlay);
-                });
-            }
-        });
-
-        // Add fall animation for confetti
-        const style = document.createElement('style');
-        style.innerHTML = `
-        @keyframes fall {
-            0% {
-                top: -10px;
-                transform: translateX(0) rotate(0deg);
-            }
-            100% {
-                top: 100vh;
-                transform: translateX(100px) rotate(360deg);
-            }
-        }`;
-        document.head.appendChild(style);
-    </script>
+    <script th:src="@{/js/conformation.js}"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </body>
 </html>

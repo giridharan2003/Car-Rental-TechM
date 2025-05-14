@@ -13,14 +13,12 @@ import com.carsystem.app.model.enums.PaymentStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "payments")
 public class Payment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long paymentId;
 
 	@ManyToOne
-	@JoinColumn(name = "booking_id", nullable = false)
 	private Booking booking;
 
 	private Double amount;

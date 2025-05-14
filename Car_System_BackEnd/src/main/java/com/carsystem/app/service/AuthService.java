@@ -7,10 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.carsystem.app.dto.OtpRequest;
-import com.carsystem.app.dto.RegisterRequest;
-import com.carsystem.app.dto.LoginRequest;
-import com.carsystem.app.dto.ResetPasswordRequest;
 import com.carsystem.app.exception.InvalidCredentialsException;
 import com.carsystem.app.exception.InvalidOtpException;
 import com.carsystem.app.exception.UserAlreadyExistsException;
@@ -44,8 +40,9 @@ public class AuthService {
         return String.format("%06d", otp);
     }
 
-    public void sendOTP(OtpRequest otpRequest) {
-        String email = otpRequest.getEmail();
+    public void sendOTP(String oldemail) {
+    	String email = oldemail.trim(); 
+
         String otp = generateOTP();
 
         StringBuilder htmlBody = new StringBuilder();
@@ -67,12 +64,13 @@ public class AuthService {
             otpRepository.save(otpEntity);
 
             emailService.sendEmail(email, "Your OTP Code", htmlBody);
+            
         } catch (Exception e) {
             throw new RuntimeException("Failed to send OTP: " + e.getMessage());
         }
     }
 
-    public void verifyOTP(OtpRequest otpRequest) {
+    public void verifyOTP(Otp otpRequest) {
         String email = otpRequest.getEmail();
         String enteredOtp = otpRequest.getOtp();
 
@@ -91,42 +89,35 @@ public class AuthService {
         otpRepository.delete(otpEntity);
     }
 
-    public void register(RegisterRequest request) {
-        if (userRepository.findByEmail(request.getEmail()) != null) {
+    public void register(User newUser) {
+        if (userRepository.findByEmail(newUser.getEmail()) != null) {
             throw new UserAlreadyExistsException("Email already exists");
         }
 
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setPhone(request.getPhone());
-        user.setAddress(request.getAddress());
-        user.setAdmin(false);
-        user.setCreatedAt(LocalDateTime.now());
-        user.setUpdatedAt(LocalDateTime.now());
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setAdmin(false);
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setUpdatedAt(LocalDateTime.now());
 
-        userRepository.save(user);
+        userRepository.save(newUser);
     }
 
-    public void login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail());
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+    public String login(User loginUser) {
+        User user = userRepository.findByEmail(loginUser.getEmail());
+        if (user == null || !passwordEncoder.matches(loginUser.getPassword(), user.getPassword())) {
             throw new InvalidCredentialsException("Invalid email or password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
-        // Token is created, but no return. You can store it in the session or elsewhere if needed.
+        return jwtUtil.generateToken(user.getEmail());
     }
 
-    public void resetPassword(ResetPasswordRequest request) {
-        User user = userRepository.findByEmail(request.getEmail());
+    public void resetPassword(String email, String newPassword) {
+        User user = userRepository.findByEmail(email);
         if (user == null) {
             throw new UserNotFoundException("User not found");
         }
 
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(newPassword));
         user.setUpdatedAt(LocalDateTime.now());
         userRepository.save(user);
     }

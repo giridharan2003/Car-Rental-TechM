@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "additional_services")
 public class AdditionalService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

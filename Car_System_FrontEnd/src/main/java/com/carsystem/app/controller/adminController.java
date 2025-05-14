@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.carsystem.app.model.CarCategory;
+import com.carsystem.app.model.User;
 import com.carsystem.app.service.CarService;
 
 @Controller
 @RequestMapping("/admin")
-public class adminController {
+public class AdminController {
 
     @Autowired
     private CarService carService;
@@ -29,12 +30,14 @@ public class adminController {
     }
 
     @GetMapping("/user-management")
-    public String UserManagement(){
+    public String UserManagement(Model model){
+        User[] users = carService.getAllUsers();
+        model.addAttribute("Users", users);
         return "admin-user-management";
-    } 
+    }
 
     @GetMapping("/transactions")
     public String transactions(){
         return "admin-transaction";
-    } 
+    }
 }

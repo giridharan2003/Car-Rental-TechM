@@ -8,6 +8,7 @@ public class AdditionalService {
     private String description;
     private Double price;
     private boolean isActive;
+    
     public Long getServiceId() {
         return serviceId;
     }

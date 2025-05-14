@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.carsystem.app.model.enums.BookingStatus;
 
@@ -13,19 +14,29 @@ import com.carsystem.app.model.enums.BookingStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "bookings")
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    private Integer userId;
-    private int carId;
-    private int pickupLocationId;
-    private int returnLocationId;
-    private int packageId;
-    private LocalDateTime startDatetime;
-    private LocalDateTime endDatetime;
+    @ManyToOne
+    private User userId;
+    
+    @ManyToOne
+    private Car carId;
+    
+    @ManyToOne
+    private Location pickupLocationId;
+    
+    @ManyToOne
+    private Location dropLocationId;
+    
+    private LocalDateTime pickUpDatetime;
+    private LocalDateTime dropDatetime;
+    
+    @ManyToMany
+    private List<AdditionalService> additionalService;
+    
     private Double totalPrice;
     
     @Enumerated(EnumType.STRING)

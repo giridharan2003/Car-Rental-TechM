@@ -14,7 +14,6 @@ import com.carsystem.app.model.enums.CarStatus;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "cars")
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

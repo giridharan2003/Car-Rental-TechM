@@ -1,72 +1,82 @@
 package com.carsystem.app.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.carsystem.app.model.enums.BookingStatus;
 
+
 public class Booking {
+    
     private Long bookingId;
 
-    private Integer userId;
-    private int carId;
-    private int pickupLocationId;
-    private int returnLocationId;
-    private int packageId;
-    private LocalDateTime startDatetime;
-    private LocalDateTime endDatetime;
+    private User userId;
+    
+    private Car carId;
+    
+    private Location pickupLocationId;
+    
+    private Location dropLocationId;
+    
+    private LocalDateTime pickUpDatetime;
+    private LocalDateTime dropDatetime;
+    
+    private List<AdditionalService> additionalService;
+    
     private Double totalPrice;
     
     private BookingStatus status;
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    
     public Long getBookingId() {
         return bookingId;
     }
     public void setBookingId(Long bookingId) {
         this.bookingId = bookingId;
     }
-    public Integer getUserId() {
+    public User getUserId() {
         return userId;
     }
-    public void setUserId(Integer userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
-    public int getCarId() {
+    public Car getCarId() {
         return carId;
     }
-    public void setCarId(int carId) {
+    public void setCarId(Car carId) {
         this.carId = carId;
     }
-    public int getPickupLocationId() {
+    public Location getPickupLocationId() {
         return pickupLocationId;
     }
-    public void setPickupLocationId(int pickupLocationId) {
+    public void setPickupLocationId(Location pickupLocationId) {
         this.pickupLocationId = pickupLocationId;
     }
-    public int getReturnLocationId() {
-        return returnLocationId;
+    public Location getDropLocationId() {
+        return dropLocationId;
     }
-    public void setReturnLocationId(int returnLocationId) {
-        this.returnLocationId = returnLocationId;
+    public void setDropLocationId(Location dropLocationId) {
+        this.dropLocationId = dropLocationId;
     }
-    public int getPackageId() {
-        return packageId;
+    public LocalDateTime getPickUpDatetime() {
+        return pickUpDatetime;
     }
-    public void setPackageId(int packageId) {
-        this.packageId = packageId;
+    public void setPickUpDatetime(LocalDateTime pickUpDatetime) {
+        this.pickUpDatetime = pickUpDatetime;
     }
-    public LocalDateTime getStartDatetime() {
-        return startDatetime;
+    public LocalDateTime getDropDatetime() {
+        return dropDatetime;
     }
-    public void setStartDatetime(LocalDateTime startDatetime) {
-        this.startDatetime = startDatetime;
+    public void setDropDatetime(LocalDateTime dropDatetime) {
+        this.dropDatetime = dropDatetime;
     }
-    public LocalDateTime getEndDatetime() {
-        return endDatetime;
+    public List<AdditionalService> getAdditionalService() {
+        return additionalService;
     }
-    public void setEndDatetime(LocalDateTime endDatetime) {
-        this.endDatetime = endDatetime;
+    public void setAdditionalService(List<AdditionalService> additionalService) {
+        this.additionalService = additionalService;
     }
     public Double getTotalPrice() {
         return totalPrice;

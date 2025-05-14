@@ -1,3 +1,4 @@
+// Notification display
 function showNotification(message) {
     let container = document.querySelector('.notification-container');
     
@@ -10,107 +11,76 @@ function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
-
     container.appendChild(notification);
 
-    // Remove after animation ends (3s)
     setTimeout(() => {
         notification.remove();
-        // Optional: remove the container if empty
         if (container.children.length === 0) {
             container.remove();
         }
     }, 3000);
 }
 
+// Element references
+const elements = {
+    loginForm: document.getElementById('loginForm'),
+    registrationForm: document.getElementById('registrationForm'),
+    forgotPasswordForm: document.getElementById('forgotPasswordForm'),
+    emailStep: document.getElementById('emailStep'),
+    otpStep: document.getElementById('otpStep'),
+    passwordResetStep: document.getElementById('passwordResetStep'),
+    sendOtpBtn: document.getElementById('sendOtpBtn'),
+    verifyOtpBtn: document.getElementById('verifyOtpBtn'),
+    resetPasswordBtn: document.getElementById('resetPasswordBtn'),
+    loginLink: document.getElementById('loginLink'),
+    registerLink: document.getElementById('registerLink'),
+    backToLoginLink: document.getElementById('backToLoginLink'),
+    forgotPasswordLink: document.getElementById('forgotPasswordLink'),
+    loginFormSubmit: document.getElementById('loginFormSubmit'),
+    registrationFormSubmit: document.getElementById('registrationFormSubmit')
+};
 
-
-// Get references to all necessary elements
-const loginForm = document.getElementById('loginForm');
-const registrationForm = document.getElementById('registrationForm');
-const forgotPasswordForm = document.getElementById('forgotPasswordForm');
-const emailStep = document.getElementById('emailStep');
-const otpStep = document.getElementById('otpStep');
-const passwordResetStep = document.getElementById('passwordResetStep');
-
-// Form elements
-const sendOtpBtn = document.getElementById('sendOtpBtn');
-const verifyOtpBtn = document.getElementById('verifyOtpBtn');
-const resetPasswordBtn = document.getElementById('resetPasswordBtn');
-const loginLink = document.getElementById('loginLink');
-const registerLink = document.getElementById('registerLink');
-const backToLoginLink = document.getElementById('backToLoginLink');
-
-// Show login form
+// Form visibility
 function showLoginForm() {
-    loginForm.style.display = 'block';
-    registrationForm.style.display = 'none';
-    forgotPasswordForm.style.display = 'none';
-    emailStep.style.display = 'block';
-    otpStep.style.display = 'none';
-    passwordResetStep.style.display = 'none';
+    elements.loginForm.style.display = 'block';
+    elements.registrationForm.style.display = 'none';
+    elements.forgotPasswordForm.style.display = 'none';
+    elements.emailStep.style.display = 'block';
+    elements.otpStep.style.display = 'none';
+    elements.passwordResetStep.style.display = 'none';
 }
 
-// Show registration form
 function showRegistrationForm() {
-    loginForm.style.display = 'none';
-    registrationForm.style.display = 'block';
-    forgotPasswordForm.style.display = 'none';
+    elements.loginForm.style.display = 'none';
+    elements.registrationForm.style.display = 'block';
+    elements.forgotPasswordForm.style.display = 'none';
 }
 
-// Show forgot password form
 function showForgotPasswordForm() {
-    loginForm.style.display = 'none';
-    registrationForm.style.display = 'none';
-    forgotPasswordForm.style.display = 'block';
-    emailStep.style.display = 'block';
-    otpStep.style.display = 'none';
-    passwordResetStep.style.display = 'none';
+    elements.loginForm.style.display = 'none';
+    elements.registrationForm.style.display = 'none';
+    elements.forgotPasswordForm.style.display = 'block';
+    elements.emailStep.style.display = 'block';
+    elements.otpStep.style.display = 'none';
+    elements.passwordResetStep.style.display = 'none';
 }
 
-// Show OTP verification step
 function showOtpStep() {
-    emailStep.style.display = 'none';
-    otpStep.style.display = 'block';
-    passwordResetStep.style.display = 'none';
-    
-    // Copy email to readonly field
+    elements.emailStep.style.display = 'none';
+    elements.otpStep.style.display = 'block';
+    elements.passwordResetStep.style.display = 'none';
     const email = document.getElementById('forgotEmail').value;
     document.getElementById('otpEmail').value = email;
 }
 
-// Show password reset step
 function showPasswordResetStep() {
-    passwordResetStep.style.display = 'block';
-    otpStep.style.display = 'none';
-    
-    // Copy email to readonly field
+    elements.passwordResetStep.style.display = 'block';
+    elements.otpStep.style.display = 'none';
     const email = document.getElementById('otpEmail').value;
     document.getElementById('resetEmail').value = email;
 }
 
-// Add event listeners to change forms
-loginLink.addEventListener('click', function(e) {
-    e.preventDefault();
-    showLoginForm();
-});
-
-registerLink.addEventListener('click', function(e) {
-    e.preventDefault();
-    showRegistrationForm();
-});
-
-backToLoginLink.addEventListener('click', function(e) {
-    e.preventDefault();
-    showLoginForm();
-});
-
-document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {
-    e.preventDefault();
-    showForgotPasswordForm();
-});
-
-// Form validation functions
+// Validation
 function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -133,44 +103,29 @@ function hideError(elementId) {
 }
 
 function setButtonLoading(button, isLoading) {
-    if (isLoading) {
-        button.classList.add('btn-loading');
-    } else {
-        button.classList.remove('btn-loading');
-    }
+    button.classList.toggle('btn-loading', isLoading);
 }
 
-// Event for sending OTP
-sendOtpBtn.addEventListener('click', async function(e) {
+// Event handlers
+async function handleSendOtp(e) {
     e.preventDefault();
-    
-    // Validate form
     const email = document.getElementById('forgotEmail').value;
-    let isValid = true;
     
-    if (!email || !validateEmail(email)) {
+    if (!validateEmail(email)) {
         showError('forgotEmailError', 'Please enter a valid email address');
-        isValid = false;
-    } else {
-        hideError('forgotEmailError');
+        return;
     }
+    hideError('forgotEmailError');
     
-    if (!isValid) return;
-    
-    // Show loading state
-    setButtonLoading(sendOtpBtn, true);
-
+    setButtonLoading(elements.sendOtpBtn, true);
     try {
         const response = await fetch('/send-otp', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
         });
-
         const data = await response.json();
-
+        
         if (response.ok) {
             showOtpStep();
         } else {
@@ -180,42 +135,29 @@ sendOtpBtn.addEventListener('click', async function(e) {
         console.error('Error:', error);
         showError('forgotEmailError', 'Network error. Please try again later.');
     } finally {
-        setButtonLoading(sendOtpBtn, false);
+        setButtonLoading(elements.sendOtpBtn, false);
     }
-});
+}
 
-// Event for verifying OTP
-verifyOtpBtn.addEventListener('click', async function(e) {
+async function handleVerifyOtp(e) {
     e.preventDefault();
-    
-    // Validate form
     const email = document.getElementById('otpEmail').value;
     const otp = document.getElementById('otpInput').value;
-    let isValid = true;
     
-    if (!otp || otp.trim() === '') {
+    if (!otp.trim()) {
         showError('otpError', 'Please enter the verification code');
-        isValid = false;
-    } else {
-        // hideError('otpError');
+        return;
     }
     
-    if (!isValid) return;
-    
-    // Show loading state
-    setButtonLoading(verifyOtpBtn, true);
-
+    setButtonLoading(elements.verifyOtpBtn, true);
     try {
         const response = await fetch('/verify-otp', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, otp })
         });
-
         const data = await response.json();
-
+        
         if (response.ok) {
             showPasswordResetStep();
         } else {
@@ -225,35 +167,26 @@ verifyOtpBtn.addEventListener('click', async function(e) {
         console.error('Error:', error);
         showError('otpError', 'Network error. Please try again later.');
     } finally {
-        setButtonLoading(verifyOtpBtn, false);
+        setButtonLoading(elements.verifyOtpBtn, false);
     }
-});
+}
 
-// Event for resetting password
-resetPasswordBtn.addEventListener('click', async function(e) {
+async function handleResetPassword(e) {
     e.preventDefault();
-    
-    // Validate form
     const email = document.getElementById('resetEmail').value;
     const newPassword = document.getElementById('newPassword').value;
     const confirmPassword = document.getElementById('confirmResetPassword').value;
-    let isValid = true;
     
-    if (!newPassword) {
-        showError('newPasswordError', 'Please enter a new password');
-        isValid = false;
-    } else if (!validatePassword(newPassword)) {
-        showError('newPasswordError', 'Password must be at least 8 characters');
+    let isValid = true;
+    if (!newPassword || !validatePassword(newPassword)) {
+        showError('newPasswordError', newPassword ? 'Password must be at least 8 characters' : 'Please enter a new password');
         isValid = false;
     } else {
         hideError('newPasswordError');
     }
     
-    if (!confirmPassword) {
-        showError('confirmResetPasswordError', 'Please confirm your password');
-        isValid = false;
-    } else if (newPassword !== confirmPassword) {
-        showError('confirmResetPasswordError', 'Passwords do not match');
+    if (!confirmPassword || newPassword !== confirmPassword) {
+        showError('confirmResetPasswordError', confirmPassword ? 'Passwords do not match' : 'Please confirm your password');
         isValid = false;
     } else {
         hideError('confirmResetPasswordError');
@@ -261,23 +194,17 @@ resetPasswordBtn.addEventListener('click', async function(e) {
     
     if (!isValid) return;
     
-    // Show loading state
-    setButtonLoading(resetPasswordBtn, true);
-
+    setButtonLoading(elements.resetPasswordBtn, true);
     try {
         const response = await fetch('/reset-password', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, newPassword })
         });
-
         const data = await response.json();
-
+        
         if (response.ok) {
             showNotification("Password reset successful! Please login with your new password.");
-
             showLoginForm();
         } else {
             showError('newPasswordError', "Invalid Password");
@@ -286,21 +213,17 @@ resetPasswordBtn.addEventListener('click', async function(e) {
         console.error('Error:', error);
         showError('newPasswordError', 'Network error. Please try again later.');
     } finally {
-        setButtonLoading(resetPasswordBtn, false);
+        setButtonLoading(elements.resetPasswordBtn, false);
     }
-});
+}
 
-// Login form submission handling
-const loginFormSubmit = document.getElementById('loginFormSubmit');
-loginFormSubmit.addEventListener('submit', async function(e) {
+async function handleLogin(e) {
     e.preventDefault();
-    
-    // Validate form
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    let isValid = true;
     
-    if (!email || !validateEmail(email)) {
+    let isValid = true;
+    if (!validateEmail(email)) {
         showError('loginEmailError', 'Please enter a valid email address');
         isValid = false;
     } else {
@@ -316,21 +239,16 @@ loginFormSubmit.addEventListener('submit', async function(e) {
     
     if (!isValid) return;
     
-    // Show loading state
-    const loginButton = loginFormSubmit.querySelector('button[type="submit"]');
+    const loginButton = elements.loginFormSubmit.querySelector('button[type="submit"]');
     setButtonLoading(loginButton, true);
-
     try {
         const response = await fetch('/login', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         });
-
         const data = await response.json();
-
+        
         if (response.ok) {
             window.location.href = "/home";
         } else {
@@ -342,73 +260,65 @@ loginFormSubmit.addEventListener('submit', async function(e) {
     } finally {
         setButtonLoading(loginButton, false);
     }
-});
+}
 
-// Registration form submission handling
-const registrationFormSubmit = document.getElementById('registrationFormSubmit');
-registrationFormSubmit.addEventListener('submit', async function(e) {
+async function handleRegistration(e) {
     e.preventDefault();
+    const fields = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        email: document.getElementById('registerEmail').value,
+        phoneNumber: document.getElementById('phoneNumber').value,
+        streetAddress: document.getElementById('streetAddress').value,
+        password: document.getElementById('registerPassword').value,
+        confirmPassword: document.getElementById('confirmPassword').value
+    };
     
-    // Validate form
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('registerEmail').value;
-    const phoneNumber = document.getElementById('phoneNumber').value;
-    const streetAddress = document.getElementById('streetAddress').value;
-    const password = document.getElementById('registerPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
     let isValid = true;
-    
-    if (!firstName) {
+    if (!fields.firstName) {
         showError('firstNameError', 'First name is required');
         isValid = false;
     } else {
         hideError('firstNameError');
     }
     
-    if (!lastName) {
+    if (!fields.lastName) {
         showError('lastNameError', 'Last name is required');
         isValid = false;
     } else {
         hideError('lastNameError');
     }
     
-    if (!email || !validateEmail(email)) {
+    if (!validateEmail(fields.email)) {
         showError('registerEmailError', 'Please enter a valid email address');
         isValid = false;
     } else {
         hideError('registerEmailError');
     }
     
-    if (!phoneNumber) {
+    if (!fields.phoneNumber) {
         showError('phoneNumberError', 'Phone number is required');
         isValid = false;
     } else {
         hideError('phoneNumberError');
     }
     
-    if (!streetAddress) {
+    if (!fields.streetAddress) {
         showError('streetAddressError', 'Street address is required');
         isValid = false;
     } else {
         hideError('streetAddressError');
     }
     
-    if (!password) {
-        showError('registerPasswordError', 'Please create a password');
-        isValid = false;
-    } else if (!validatePassword(password)) {
-        showError('registerPasswordError', 'Password must be at least 8 characters');
+    if (!fields.password || !validatePassword(fields.password)) {
+        showError('registerPasswordError', fields.password ? 'Password must be at least 8 characters' : 'Please create a password');
         isValid = false;
     } else {
         hideError('registerPasswordError');
     }
     
-    if (!confirmPassword) {
-        showError('confirmPasswordError', 'Please confirm your password');
-        isValid = false;
-    } else if (password !== confirmPassword) {
-        showError('confirmPasswordError', 'Passwords do not match');
+    if (!fields.confirmPassword || fields.password !== fields.confirmPassword) {
+        showError('confirmPasswordError', fields.confirmPassword ? 'Passwords do not match' : 'Please confirm your password');
         isValid = false;
     } else {
         hideError('confirmPasswordError');
@@ -416,31 +326,25 @@ registrationFormSubmit.addEventListener('submit', async function(e) {
     
     if (!isValid) return;
     
-    // Show loading state
-    const registerButton = registrationFormSubmit.querySelector('button[type="submit"]');
+    const registerButton = elements.registrationFormSubmit.querySelector('button[type="submit"]');
     setButtonLoading(registerButton, true);
-
     try {
         const response = await fetch('/register', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-                email, 
-                password ,
-                firstName, 
-                lastName, 
-                phone:phoneNumber, 
-                address:streetAddress
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email: fields.email,
+                password: fields.password,
+                firstName: fields.firstName,
+                lastName: fields.lastName,
+                phone: fields.phoneNumber,
+                address: fields.streetAddress
             })
         });
-
         const data = await response.json();
-
+        
         if (response.ok) {
             showNotification("Registration successful! Please login to continue.");
-
             showLoginForm();
         } else {
             showError('registerEmailError', data.message || 'Error during registration. Please try again.');
@@ -451,4 +355,31 @@ registrationFormSubmit.addEventListener('submit', async function(e) {
     } finally {
         setButtonLoading(registerButton, false);
     }
+}
+
+// Event listeners
+elements.loginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showLoginForm();
 });
+
+elements.registerLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showRegistrationForm();
+});
+
+elements.backToLoginLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showLoginForm();
+});
+
+elements.forgotPasswordLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    showForgotPasswordForm();
+});
+
+elements.sendOtpBtn.addEventListener('click', handleSendOtp);
+elements.verifyOtpBtn.addEventListener('click', handleVerifyOtp);
+elements.resetPasswordBtn.addEventListener('click', handleResetPassword);
+elements.loginFormSubmit.addEventListener('submit', handleLogin);
+elements.registrationFormSubmit.addEventListener('submit', handleRegistration);

@@ -124,60 +124,50 @@
 
                 <!-- Car Listings -->
                 <div class="car-listings" id="car-listings">
-                    <div class="car-card">
-                        <img src="/assests/cars/luxury/camry.webp" alt="Toyota Camry" class="car-image">
-                        <div class="car-details">
-                            <div class="car-name">Toyota Camry</div>
-                            <div class="car-category">Sedan</div>
-                            <div class="car-features">
-                                <div class="feature"><i class="fas fa-user"></i> 5 Seats</div>
-                                <div class="feature"><i class="fas fa-suitcase"></i> 4 Bags</div>
-                                <div class="feature"><i class="fas fa-gas-pump"></i> Gasoline</div>
-                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
-                            </div>
-                            <div class="car-price">₹3,735 <span>/ day</span></div>
-                            <div class="car-buttons">
-                                <button class="book-btn"><a href="confirmation.html" class="book-btn">Book
-                                        Now</a></button>
-                                <button class="details-btn" data-name="Honda CR-V" data-model="CR-V EX 2023"
-                                    data-category="SUV" data-fuel="Gasoline" data-transmission="Automatic"
-                                    data-seats="5" data-luggage="6" data-price="5395"
-                                    data-locations="Chennai, Coimbatore, Madurai, Trichy, Salem"
-                                    data-details="Spacious SUV with advanced safety features and excellent mileage.">
-                                    Details
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="car-card">
-                        <img src="/assests/cars/suv/hyryder.webp" alt="Honda CR-V" class="car-image">
-                        <div class="car-details">
-                            <div class="car-name">Honda CR-V</div>
-                            <div class="car-category">SUV</div>
-                            <div class="car-features">
-                                <div class="feature"><i class="fas fa-user"></i> 5 Seats</div>
-                                <div class="feature"><i class="fas fa-suitcase"></i> 6 Bags</div>
-                                <div class="feature"><i class="fas fa-gas-pump"></i> Gasoline</div>
-                                <div class="feature"><i class="fas fa-cog"></i> Automatic</div>
-                            </div>
-                            <div class="car-price">₹5,395 <span>/ day</span></div>
-                            <div class="car-buttons">
-                                <button class="book-btn"><a href="confirmation.html" class="book-btn">Book
-                                        Now</a></button>
-                                <button class="details-btn">Details</button>
+                    <th:block th:each="car : ${cars}">
+                        <div class="car-card">
+                            <img th:src="${car.imageUrl}" th:alt="${car.make + ' ' + car.model}" class="car-image">
+                            <div class="car-details">
+                                <div class="car-name" th:text="${car.make + ' ' + car.model + ' (' + car.year + ')'}"></div>
+                                <div class="car-category" th:text="${car.category.name}"></div>
+                                <div class="car-features">
+                                    <div class="feature"><i class="fas fa-user"></i> <span th:text="${car.seats}"></span> Seats</div>
+                                    <div class="feature"><i class="fas fa-suitcase"></i> <span th:text="${car.luggage}"></span> Bags</div>
+                                    <div class="feature"><i class="fas fa-road"></i> <span th:text="${car.mileage}"></span> km</div>
+                                    <div class="feature"><i class="fas fa-gas-pump"></i> <span th:text="${car.fuelType}"></span></div>
+                                    <div class="feature"><i class="fas fa-cog"></i> <span th:text="${car.transmission}"></span></div>
+                                </div>
+                                <span class="feature" th:if="${car.availableLocations != null}"><i class="fas fa-map-marker-alt"></i>
+                                        <span th:each="loc, iterStat : ${car.availableLocations}">
+                                            <span id="service" th:text="${loc.name}"></span><span th:if="${!iterStat.last}">, </span>
+                                        </span>
+                                </span> <br>
+                                <div class="car-price">₹ <span style="font-size: large;" th:text="${car.dailyRate}"></span> <span>/ day</span></div>
+                                <div class="car-buttons">
+                                    <a th:href="@{/conformation(carId=${car.carId})}" class="book-btn">Book Now</a>                          
+                                    <button class="details-btn"
+                                        th:attr="data-id=${car.carId},
+                                                data-make=${car.make},
+                                                data-model=${car.model},
+                                                data-year=${car.year},
+                                                data-category=${car.category.name},
+                                                data-fuel=${car.fuelType},
+                                                data-transmission=${car.transmission},
+                                                data-seats=${car.seats},
+                                                data-luggage=${car.luggage},
+                                                data-mileage=${car.mileage},
+                                                data-dailyRate=${car.dailyRate},
+                                                data-hourlyRate=${car.hourlyRate},
+                                                data-status=${car.status},
+                                                data-details=${car.additionalDetails}">
+                                        Details
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </th:block>
+                </div>                              
 
-
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination" id="pagination">
-                    <!-- Pagination items will be dynamically inserted here -->
-                </div>
             </div>
 
             <!-- Packages Tab Content -->

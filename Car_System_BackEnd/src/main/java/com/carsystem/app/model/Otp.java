@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "otps")
 public class Otp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
