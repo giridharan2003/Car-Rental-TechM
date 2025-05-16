@@ -14,7 +14,7 @@ public class AuthService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String backendUrl = "http://localhost:2004/api/auth";
 
-    public ResponseEntity<String> login(User user) {
+    public ResponseEntity<Map<String, Object>> login(User user) {
         Map<String, String> loginData = Map.of(
             "email", user.getEmail(), 
             "password", user.getPassword()
@@ -22,7 +22,7 @@ public class AuthService {
         return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/login", loginData);
     }
 
-    public ResponseEntity<String> register(User user) {
+    public ResponseEntity<Map<String, Object>> register(User user) {
         Map<String, String> registrationData = Map.of(
             "password", user.getPassword(),
             "email", user.getEmail(),
@@ -34,11 +34,11 @@ public class AuthService {
         return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/register", registrationData);
     }
 
-    public ResponseEntity<String> sendOTP(User user) {
+    public ResponseEntity<Map<String, Object>> sendOTP(User user) {
         return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/send-otp", user);
     }
 
-    public ResponseEntity<String> verifyOTP(String email, String otp) {
+    public ResponseEntity<Map<String, Object>> verifyOTP(String email, String otp) {
         Map<String, String> otpData = Map.of(
             "email", email,
             "otp", otp
@@ -46,11 +46,30 @@ public class AuthService {
         return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/verify-otp", otpData);
     }
 
-    public ResponseEntity<String> resetPassword(String email, String newPassword) {
+    public ResponseEntity<Map<String, Object>> resetPassword(String email, String newPassword) {
         Map<String, String> resetData = Map.of(
             "email", email,
             "newPassword", newPassword
         );
         return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/reset-password", resetData);
     }
+
+    public ResponseEntity<Map<String, Object>> adminLogin(User user) {
+        Map<String, String> loginData = Map.of(
+            "firstName", user.getFirstName(),
+            "password", user.getPassword()
+        );
+        return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/admin/login", loginData);
+    }
+
+    public ResponseEntity<Map<String, Object>> adminRegister(User user) {
+        Map<String, String> registrationData = Map.of(
+            "firstName", user.getFirstName(),
+            "password", user.getPassword(),
+            "userType", "ADMIN"
+        );
+        return RestUtil.postForEntityHandlingErrors(restTemplate, backendUrl + "/admin/register", registrationData);
+    }
+
+    
 }

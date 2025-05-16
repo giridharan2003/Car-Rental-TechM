@@ -10,6 +10,8 @@ public class Booking {
     
     private Long bookingId;
 
+    private String paymentId;
+
     private User userId;
     
     private Car carId;
@@ -29,7 +31,11 @@ public class Booking {
     
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
     
+    
+    public Booking() {
+    }
     public Long getBookingId() {
         return bookingId;
     }
@@ -102,6 +108,24 @@ public class Booking {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    
+    @Override
+    public String toString() {
+        return "Booking [bookingId=" + bookingId + ", userId=" + userId + ", carId=" + carId + ", pickupLocationId="
+                + pickupLocationId + ", dropLocationId=" + dropLocationId + ", pickUpDatetime=" + pickUpDatetime
+                + ", dropDatetime=" + dropDatetime + ", additionalService=" + additionalService + ", totalPrice="
+                + totalPrice + ", status=" + status + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+                + ", getBookingId()=" + getBookingId() + ", getUserId()=" + getUserId() + ", getCarId()=" + getCarId()
+                + ", getPickupLocationId()=" + getPickupLocationId() + ", getDropLocationId()=" + getDropLocationId()
+                + ", getClass()=" + getClass() + ", getPickUpDatetime()=" + getPickUpDatetime() + ", getDropDatetime()="
+                + getDropDatetime() + ", getAdditionalService()=" + getAdditionalService() + ", getTotalPrice()="
+                + getTotalPrice() + ", getStatus()=" + getStatus() + ", getCreatedAt()=" + getCreatedAt()
+                + ", getUpdatedAt()=" + getUpdatedAt() + ", hashCode()=" + hashCode() + ", toString()="
+                + super.toString() + "]";
+    }
+    public String getPaymentId() {
+        return paymentId;
+    }
+    public void setPaymentId(String paymentId) {
+        this.paymentId = paymentId;
+    }
 }

@@ -88,7 +88,6 @@ function populateLocationFilters() {
     });
 }
 
-// Switch between cars and packages tabs
 function switchTab(tab) {
     if (tab === 'cars') {
         document.getElementById('cars-section').classList.remove('hidden');
@@ -142,6 +141,7 @@ function renderCars(carsToRender) {
                 <div class="car-image-container">
                     <img src="${car.imageUrl}" alt="${car.model}" class="car-image">
                     <span class="car-type-badge bg-violet-600 text-white">${capitalizeFirstLetter(car.category.name)}</span>
+                    
                 </div>
                 <div class="p-4 flex flex-col flex-1">
                     <div class="flex justify-between items-start mb-2">
@@ -190,11 +190,12 @@ function renderCars(carsToRender) {
                             <i class="fas fa-edit mr-2"></i>
                             Edit
                         </button>
-                        <button class="${car.active ? 'hide-btn' : 'unhide-btn'} px-4 py-2 mt-4 text-white rounded-lg flex-1 flex items-center justify-center" 
-                                onclick="toggleCarVisibility(${car.carId})">
-                            <i class="fas ${car.active ? 'fa-eye' : 'fa-eye-slash'} mr-2"></i>
-                            ${car.active ? 'Hide' : 'Unide'}
+                        <button onclick="activeStatus(${car.carId}, ${car.active})"
+                                class="${!car.active ? 'hide-btn' : 'unhide-btn'} px-4 py-2 mt-4 text-white rounded-lg flex-1 flex items-center justify-center">
+                            <i class="fas ${!car.active ? 'fa-eye-slash' : 'fa-eye'} mr-2"></i>
+                            ${car.active ? 'Hide' : 'Unhide'}
                         </button>
+
                     </div>
                 </div>
             </div>
@@ -202,6 +203,34 @@ function renderCars(carsToRender) {
         container.appendChild(carCard);
     });
 }
+
+async function activeStatus(id, isActive) {
+
+    const status = isActive ? "inactive" : "active"; // simplified ternary
+    console.log(`Changing car ${id} to: ${status}`);
+
+    const confirmed = confirm("Are you sure you want " + status + " this Car...");
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`/admin/${id}/${status}`, {
+            method: "GET",
+        });
+
+        if (response.ok) {
+            location.reload(); // reload to reflect changes
+        } else {
+            const result = await response.json();
+            alert("Operation failed: " + (result.error || response.statusText));
+        }
+    } catch (err) {
+        console.error("Request error:", err);
+        alert("Something went wrong!");
+    }
+}
+
 
 // Render packages to the page
 function renderPackages(packagesToRender) {
@@ -287,7 +316,6 @@ function renderPackages(packagesToRender) {
 
 
 function openModal(modelId) {
-    console.log(modelId);
     document.getElementById(modelId).style.display = 'block';
 }
 

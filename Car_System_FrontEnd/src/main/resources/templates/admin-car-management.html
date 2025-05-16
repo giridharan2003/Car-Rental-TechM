@@ -54,8 +54,8 @@
             <div class="flex items-center">
                 <h1 class="text-2xl font-semibold dashboard-title mr-4">Car Management</h1>
                 <div class="tab-container">
-                    <div class="tab active" onclick="switchTab('cars')">Cars</div>
-                    <div class="tab" onclick="switchTab('packages')">Packages</div>
+                    <!-- <div class="tab active" onclick="switchTab('cars')">Cars</div> -->
+                    <!-- <div class="tab" onclick="switchTab('packages')">Packages</div> -->
                 </div>
             </div>
             <div class="flex space-x-2">
@@ -67,35 +67,40 @@
                     <i class="fas fa-map-marker-alt mr-2"></i>
                     Manage Locations
                 </button>
-                <button id="addPackageBtn" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all hidden">
+                <!-- <button id="addPackageBtn" class="px-4 py-2 text-white bg-purple-600 rounded-lg hover:bg-purple-700 transition-all hidden">
                     <i class="fas fa-plus mr-2"></i>
                     Add New Package
-                </button>
+                </button> -->
             </div>
         </div>
         
         <!-- Car Management Section -->
         <div id="cars-section">
             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Filter by Type (Category) -->
                 <div>
                     <label for="filter" class="block text-gray-600 filter-label">Filter by Type:</label>
                     <select id="filter" class="mt-2 mb-4 p-2 border rounded w-full filter-select" onchange="filterCars()">
                         <option value="all">All Types</option>
-                        <option value="sedan">Sedan</option>
-                        <option value="suv">SUV</option>
-                        <option value="hatchback">Hatchback</option>
-                        <option value="premium">Premium</option>
-                        <option value="luxury">Luxury</option>
-                        <option value="electric">Electric</option>
+                        <option th:each="category : ${categories}" 
+                                th:value="${category.categoryId}" 
+                                th:text="${category.name}">
+                        </option>
                     </select>
                 </div>
+
+                <!-- Filter by Location -->
                 <div>
                     <label for="locationFilter" class="block text-gray-600 filter-label">Filter by Location:</label>
                     <select id="locationFilter" class="mt-2 mb-4 p-2 border rounded w-full filter-select" onchange="filterCars()">
                         <option value="all">All Locations</option>
-                        <!-- Locations will be populated dynamically -->
+                        <option th:each="loc : ${locations}" 
+                                th:value="${loc.locationId}" 
+                                th:text="${loc.name}">
+                        </option>
                     </select>
                 </div>
+
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="cars-container">
                 <!-- Car cards will be dynamically inserted here -->
@@ -103,7 +108,7 @@
         </div>
         
         <!-- Package Management Section -->
-        <div id="packages-section" class="hidden">
+        <!-- <div id="packages-section" class="hidden">
             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="packageTypeFilter" class="block text-gray-600 filter-label">Filter by Package Type:</label>
@@ -125,9 +130,8 @@
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="packages-container">
-                <!-- Package cards will be dynamically inserted here -->
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

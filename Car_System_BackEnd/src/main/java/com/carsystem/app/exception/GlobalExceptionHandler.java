@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -66,11 +67,12 @@ public class GlobalExceptionHandler {
     }
 
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {
-        return ResponseEntity.status(status).body(Map.of(
-            "timestamp", LocalDateTime.now(),
-            "status", status.value(),
-            "error", status.getReasonPhrase(),
-            "message", message
-        ));
+        Map<String, Object> response = new HashMap<>();
+        response.put("timestamp", LocalDateTime.now().toString());
+        response.put("status", status.value());
+        response.put("error", status.getReasonPhrase());
+        response.put("message", message);
+        return ResponseEntity.status(status).body(response);
     }
+
 }

@@ -6,6 +6,7 @@ import com.carsystem.app.model.CarCategory;
 import com.carsystem.app.model.Location;
 import com.carsystem.app.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,41 +15,45 @@ import java.util.List;
 @RequestMapping("/api/cars")
 public class CarController {
 
-    @Autowired
-    private CarService carService;
+	@Autowired
+	private CarService carService;
 
-    @GetMapping
-    public List<Car> getCars() {
-        return carService.getCars();
-    }
+	// USER and ADMIN Methods
+	@GetMapping
+	public List<Car> getCars() {
+		return carService.getCars();
+	}
 
-    @GetMapping("/{id}")
-    public Car getCarById(@PathVariable Long id) {
-        return carService.getCarById(id);
-    }
+	@GetMapping("/{id}")
+	public Car getCarById(@PathVariable Long id) {
+		return carService.getCarById(id);
+	}
 
-    @PostMapping("/add")
-    public Car addCar(@RequestBody Car car) {
-        return carService.addCar(car);
-    }
+	@GetMapping("/categories")
+	public List<CarCategory> getAllCategories() {
+		return carService.getAllCategories();
+	}
 
-    @PutMapping("/{id}")
-    public Car updateCar(@PathVariable Long id, @RequestBody Car car) {
-        return carService.updateCar(id, car);
-    }
-    
-    @GetMapping("/categories")
-    public List<CarCategory> getAllCategories() {
-        return carService.getAllCategories();
-    }
+	@GetMapping("/locations")
+	public List<Location> getAllLocations() {
+		return carService.getAllLocations();
+	}
 
-    @GetMapping("/locations")
-    public List<Location> getAllLocations() {
-        return carService.getAllLocations();
-    }
-    
-    @GetMapping("/AdditionalService")
-    public List<AdditionalService> getAllAdditionalService() {
-    	return carService.getAllAdditionalService();
-    }
+	@GetMapping("/AdditionalService")
+	public List<AdditionalService> getAllAdditionalService() {
+		return carService.getAllAdditionalService();
+	}
+
+	// ADMIN Only Methods
+	@PreAuthorize("hasRole('ADMIN')")
+	@PostMapping("/add")
+	public Car addCar(@RequestBody Car car) {
+		return carService.addCar(car);
+	}
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@PutMapping("/{id}")
+	public Car updateCar(@PathVariable Long id, @RequestBody Car car) {
+		return carService.updateCar(id, car);
+	}
 }

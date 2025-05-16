@@ -42,19 +42,23 @@
             <i class="fas fa-times text-2xl"></i>
         </button>
         <div class="flex flex-col space-y-6 text-white">
-            <a href="#" class="text-xl hover:text-gold-500 transition-colors">Home</a>
-            <a href="#fleet" class="text-xl hover:text-gold-500 transition-colors">Cars</a>
+            <a onclick="navigateToBooking()" class="text-xl hover:text-gold-500 transition-colors cursor-pointer">Cars</a>
             <a href="#services" class="text-xl hover:text-gold-500 transition-colors">Services</a>
             <a href="#about" class="text-xl hover:text-gold-500 transition-colors">About</a>
             <a href="#contact" class="text-xl hover:text-gold-500 transition-colors">Contact</a>
         </div>
-        <div class="mt-12 flex flex-col space-y-4">
-            <a th:href="@{/}" class="text-white hover:text-gold-500 transition-colors flex items-center">
+
+
+        <div class="mt-12 flex flex-col space-y-4 auth-buttons">
+            <button id="loginBtnM" class="text-white hover:text-gold-500 transition-colors flex items-center">
                 <i class="fas fa-sign-in-alt mr-2"></i> Login
-            </a>
-            <a th:href="@{/}" class="gold-gradient text-white px-6 py-2 rounded-full text-center">
-                Sign Up
-            </a>
+            </button>
+            <button id="registerBtnM" class="gold-gradient text-white px-6 py-2 rounded-full text-center">Sign Up</button>
+            
+            <button id="userNameM" class="text-white hover:text-gold-500 transition-colors flex items-center">
+                <i class="fas fa-sign-in-alt mr-2"></i> Login
+            </button>
+            <button id="logoutBtnM" class="gold-gradient text-white px-6 py-2 rounded-full text-center">Log Out</button>
         </div>
     </div>
 
@@ -62,26 +66,27 @@
     <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-6">
-                <a href="#" class="text-3xl font-bold gold-text tracking-wider flex items-center">
+                <a class="text-3xl font-bold gold-text tracking-wider flex items-center">
                     <i class="fas fa-car-side mr-2 text-4xl"></i>
                     <span class="text-black">LUXORA</span>
                 </a>
                 <nav class="hidden md:flex space-x-6">
-                    <a href="booking.html" class="text-gray-800 hover:text-blue-600 transition-colors">Cars</a>
-                    <a href="booking.html" class="text-gray-800 hover:text-blue-600 transition-colors">Packages</a>
+                    <a onclick="navigateToBooking()" class="text-gray-800 hover:text-blue-600 transition-colors">Cars</a>
                     <a href="#services" class="text-gray-800 hover:text-blue-600 transition-colors">Services</a>
                     <a href="#about" class="text-gray-800 hover:text-blue-600 transition-colors">About</a>
                 </nav>
             </div>
-            <div class="flex items-center space-x-4">
-                <a th:href="@{/}" class="hidden md:block text-gray-800 hover:gold-text transition-colors">Login</a>
-                <a th:href="@{/}" class="hidden md:block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors">
-                    Sign Up
-                </a>
-                <button id="menuToggle" class="md:hidden text-gray-800">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
+
+            <div class="flex items-center space-x-4 auth-buttons">
+                <button id="loginBtn" class="hidden md:block text-gray-800 hover:gold-text transition-colors">Login</button>
+                <button id="registerBtn" class="hidden md:block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors">Sign Up</a>
+
+                <button id="userName" class="hidden md:block text-gray-800 hover:gold-text transition-colors"></button>
+                <button id="logoutBtn" class="hidden md:block bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition-colors">Log Out</button>
+
+                <button id="menuToggle" class="md:hidden text-gray-800"><i class="fas fa-bars text-2xl"></i></button>
             </div>
+            
         </div>
     </header>
 
@@ -106,7 +111,7 @@
                     From compact city cars to luxury SUVs, we have the perfect vehicle for every journey and budget.
                 </p>
                 <div class="flex space-x-4">
-                    <a th:href="@{/booking}" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity flex items-center">
+                    <a onclick="navigateToBooking()" class="gold-gradient text-white px-8 py-3 rounded-full hover:opacity-90 transition-opacity flex items-center">
                         <span>Browse Fleet</span>
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
@@ -791,6 +796,8 @@
             <i class="fas fa-arrow-up"></i>
         </a>
     
+        <script src="/js/auth-ui.js"></script>
+        <script th:src="@{/js/home.js}"></script>
         <!-- JavaScript -->
         <script>
             // Initialize AOS

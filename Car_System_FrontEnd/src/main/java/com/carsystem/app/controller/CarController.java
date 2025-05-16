@@ -22,7 +22,7 @@ public class CarController {
 
     @GetMapping("")
     @ResponseBody
-    public Car[] getAllCars() {
+    public Car[] getAllCars(String authHeader) {
         return carService.getAllCars();
     }
 
@@ -34,14 +34,14 @@ public class CarController {
 
     @PostMapping("/add")
     @ResponseBody
-    public Car addCar(@RequestPart("car") Car car, @RequestPart("image") MultipartFile imageFile) {
-        return carService.addCar(car, imageFile);
+    public Car addCar(@CookieValue("token") String token, @RequestPart("car") Car car, @RequestPart("image") MultipartFile imageFile) {
+        return carService.addCar(car, imageFile, token);
     }
 
     @PutMapping("/edit/{id}")
     @ResponseBody
-    public Car editCar(@PathVariable Long id, @RequestBody Car car) {
-        return carService.editCar(id, car);
+    public Car editCar(@CookieValue("token") String token, @PathVariable Long id, @RequestBody Car car) {
+        return carService.editCar(id, car, token);
     }
 
     @GetMapping("/categories")
@@ -62,9 +62,10 @@ public class CarController {
         return carService.getAllAdditionalService();
     }
 
-    @PostMapping("/user/booking")
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
-        Booking createdBooking = carService.createBooking(booking);
+    @PostMapping("/user/booking/{paymentId}")
+    public ResponseEntity<Booking> createBooking(@CookieValue("token") String token, @RequestBody Booking booking, @PathVariable String paymentId) {
+        booking.setPaymentId(paymentId);
+        Booking createdBooking = carService.createBooking(booking, token);
         return ResponseEntity.status(201).body(createdBooking);
     }
 }

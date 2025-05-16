@@ -6,7 +6,7 @@ import java.util.Set;
 import com.carsystem.app.model.enums.CarStatus;
 
 public class Car {
-   
+    
     private Long carId;
 
     private String make;

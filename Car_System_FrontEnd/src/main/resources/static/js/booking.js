@@ -1,8 +1,6 @@
-// MODAL DETAILS FROM HARD-CODED CAR CARDS
 document.addEventListener('DOMContentLoaded', () => {
 
     let service = document.getElementById('service');
-    console.log(service);
     document.querySelectorAll('.details-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const modal = document.getElementById('car-details-modal');
@@ -11,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Use full details based on your updated Thymeleaf data attributes
             modalHeader.textContent = `${btn.dataset.make} ${btn.dataset.model} (${btn.dataset.year}) Details`;
-            console.log(btn.dataset.locations);
 
             modalBody.innerHTML = `
                 <p><strong>Make:</strong> ${btn.dataset.make}</p>
@@ -118,4 +115,9 @@ if (pickupDateInput && returnDateInput) {
             returnDateInput.value = pickupDateInput.value;
         }
     });
+}
+
+
+function carBooking(carId){
+    window.location.href = '/conformation';
 }

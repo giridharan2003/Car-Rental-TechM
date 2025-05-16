@@ -28,6 +28,8 @@
                     <div class="detail-group">
                         <h3>Car Details</h3>
                         <input type="hidden" id="carId" th:value="${car.carId}"/>
+                        <input type="hidden" id="hourlyRate" th:value="${car.hourlyRate}"/>
+                        <input type="hidden" id="dailyRate" th:value="${car.dailyRate}"/>
                         <img th:src="@{${car.imageUrl}}" th:alt="${car.make + ' ' + car.model}" class="car-image" />
                         <div class="detail-item">
                             <span class="detail-label">Car:</span>
@@ -58,18 +60,22 @@
                 <!-- Customer Details (Right) -->
                 <div class="col-md-6">
                     <div class="detail-group">
-                        <h3>Customer Details</h3>
+                        <h3>User Details</h3>
+
+                        <!-- Hidden User ID -->
+                        <input type="hidden" id="userId" th:value="${user.userId}" />
+
                         <div class="detail-item">
                             <span class="detail-label">Name:</span>
-                            <span>Gokul</span>
+                            <span id="username" th:text="${user.firstName + ' ' + user.lastName}"></span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Email:</span>
-                            <span>gokul@gmail.com</span>
+                            <span id="email" th:text="${user.email}"></span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Phone:</span>
-                            <span>+91 98765 43210</span>
+                            <span id="phone" th:text="${user.phone}"></span>
                         </div>
                     </div>
                 </div>
@@ -163,31 +169,7 @@
 
             <!-- Price Summary -->
             <div class="price-summary mt-5">
-                <h3 style="margin-bottom: 15px;">Price Summary</h3>
-                <div class="price-row">
-                    <span>Base Rate (3 days x ₹12,000)</span>
-                    <span><span class="rupee">₹</span>36,000.00</span>
-                </div>
-                <div class="price-row">
-                    <span>Insurance (Premium)</span>
-                    <span><span class="rupee">₹</span>7,500.00</span>
-                </div>
-                <div class="price-row">
-                    <span>GPS Navigation</span>
-                    <span><span class="rupee">₹</span>2,000.00</span>
-                </div>
-                <div class="price-row">
-                    <span>Additional Driver</span>
-                    <span><span class="rupee">₹</span>1,800.00</span>
-                </div>
-                <div class="price-row">
-                    <span>Taxes & Fees (18% GST)</span>
-                    <span><span class="rupee">₹</span>8,514.00</span>
-                </div>
-                <div class="price-row total">
-                    <span>Total</span>
-                    <span><span class="rupee">₹</span>55,814.00</span>
-                </div>
+                <h3 style="margin-bottom: 15px;"></h3>
             </div>
             
             <!-- Payment Timer -->
@@ -198,7 +180,7 @@
             <!-- Actions -->
             <div class="actions mt-4">
                 <button class="btn btn-outline" onclick="window.location.href='#'">Modify Booking</button>
-                <button class="btn btn-primary" id="proceedToPayment">Proceed to Payment</button>
+                <button class="btn btn-primary" id="proceedToPayment" style="display: none;">Proceed to Payment</button>
             </div>
             
             <!-- Success Checkmark -->

@@ -17,16 +17,20 @@
             <div class="navbar">
                 <div class="logo" href="home.html">LUXORA</div>
                 <div class="nav-links">
-                    <a href="home.html">Home</a>
-                    <a href="#">Cars</a>
-                    <a href="#">Packages</a>
-                    <a href="#">About</a>
+                    <a th:href="@{/home}">Home</a>
+                    <a th:href="@{/profile}">Profile</a>
                     <a href="#">Contact</a>
                 </div>
                 <div class="auth-buttons">
-                    <button class="login-btn">Login</button>
-                    <button class="register-btn">Register</button>
+                    <!-- visible when NOT logged-in -->
+                    <button id="loginBtn"    class="login-btn">Login</button>
+                    <button id="registerBtn" class="register-btn">Register</button>
+
+                    <!-- visible when logged-in -->
+                    <span   id="userName"   class="login-btn" style="border: 0; padding: 10px;"></span>
+                    <button id="logoutBtn"  class="register-btn">Log Out</button>
                 </div>
+
             </div>
         </div>
     </header>
@@ -46,24 +50,16 @@
                 <div class="filter-section">
                     <h2 class="filter-title">Find Your Perfect Car</h2>
                     <form class="filter-form" id="filter-form" novalidate>
+
                         <!-- Pickup Location -->
                         <div class="form-group">
-                            <label for="location" class="form-label">Pickup Location <span
-                                    class="required">*</span></label>
-                            <select id="location" name="location" required aria-required="true">
+                            <label for="location" class="form-label">Pickup Location</label>
+                            <select id="location" name="location" aria-describedby="car-type-desc">
                                 <option value="">Select Location</option>
-                                <option value="chennai">Chennai</option>
-                                <option value="coimbatore">Coimbatore</option>
-                                <option value="madurai">Madurai</option>
-                                <option value="trichy">Tiruchirappalli (Trichy)</option>
-                                <option value="salem">Salem</option>
-                                <option value="erode">Erode</option>
-                                <option value="tirunelveli">Tirunelveli</option>
-                                <option value="vellore">Vellore</option>
-                                <option value="thoothukudi">Thoothukudi</option>
+                                <th:block th:each="location : ${locations}">
+                                    <option th:value="${location.locationId}" th:text="${location.name}"></option>
+                                </th:block>
                             </select>
-                            <span class="error-message" id="location-error" hidden>Please select a pickup
-                                location.</span>
                         </div>
 
                         <!-- Pickup Date -->
@@ -91,14 +87,10 @@
                             <label for="car-type" class="form-label">Car Type</label>
                             <select id="car-type" name="car-type" aria-describedby="car-type-desc">
                                 <option value="">All Types</option>
-                                <option value="sedan">Sedan</option>
-                                <option value="suv">SUV</option>
-                                <option value="luxury">Luxury</option>
-                                <option value="sports">Sports</option>
-                                <option value="electric">Electric</option>
+                                    <th:block th:each="category : ${categories}">
+                                <option th:value="${category.categoryId}" th:text="${category.name}"></option>
+                            </th:block>
                             </select>
-                            <small id="car-type-desc" class="form-hint">Optional: Select a car type to narrow your
-                                search.</small>
                         </div>
 
                         <!-- Price Range -->
@@ -144,7 +136,7 @@
                                 </span> <br>
                                 <div class="car-price">₹ <span style="font-size: large;" th:text="${car.dailyRate}"></span> <span>/ day</span></div>
                                 <div class="car-buttons">
-                                    <a th:href="@{/conformation(carId=${car.carId})}" class="book-btn">Book Now</a>                          
+                                    <a th:onclick="'carBooking('+${car.carId}+')'" class="book-btn">Book Now</a>                          
                                     <button class="details-btn"
                                         th:attr="data-id=${car.carId},
                                                 data-make=${car.make},
@@ -409,6 +401,7 @@
     </div>
 
     <script th:src="@{/js/booking.js}"></script>
+    <script src="/js/auth-ui.js"></script>
 
 </body>
 

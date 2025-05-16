@@ -20,16 +20,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // Disable CSRF
-            .cors(cors -> cors.configure(http)) // Enable CORS with default configuration
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configure(http))
             .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session management
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/send-otp","/user/**" ,"/admin/**",
-                                 "/api/auth/verify-otp", "/api/auth/reset-password","/api/cars/**").permitAll() // Public endpoints
-                .anyRequest().authenticated() // All other requests require authentication
+                .requestMatchers(
+                		
+                		"/api/auth/**",
+                		"/user/valid/token",
+                		"/user-info",
+                		"/api/cars",
+                		"/api/cars/{id}",
+                        "/api/cars/categories",
+                        "/api/cars/locations",
+                        "/api/cars/AdditionalService"
+                                      		                		
+                		).permitAll()
+                .anyRequest().authenticated()
             )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // Add custom JWT filter
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

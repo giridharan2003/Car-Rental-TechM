@@ -1,5 +1,7 @@
 const setupBooking = () => {
-    const RATE = 36000;
+    
+    const dailyRateElement = document.getElementById("dailyRate");
+    const hoursElement = document.getElementById("hourlyRate");
     const TAX = 0.18;
     const inputs = {
         startDate: document.querySelector('#pickupDate'),
@@ -12,16 +14,84 @@ const setupBooking = () => {
     const serviceChecks = document.querySelectorAll('.service-item input');
     const summaryBox = document.querySelector('.price-summary');
 
+    const calculateDurationAndRate = () => {
+        
+        const startDate = inputs.startDate.value;
+        const startTime = inputs.startTime.value;
+        const endDate = inputs.endDate.value;
+        const endTime = inputs.endTime.value;
+        const startLocation = inputs.startLocation.value;
+        const endLocation = inputs.endLocation.value;
+
+        if (!startDate || !startTime || !endDate || !endTime) {
+            return { error: 'Please fill all date and time fields' };
+        }
+
+        if ( !startLocation || !endLocation) {
+            return { error: 'Please Pick Location and Drop Location fields' };
+        }
+
+        const pickupDateTime = new Date(`${startDate}T${startTime}`);
+        const dropDateTime = new Date(`${endDate}T${endTime}`);
+
+        // Validate dates
+        if (isNaN(pickupDateTime) || isNaN(dropDateTime)) {
+            return { error: 'Invalid date or time format' };
+        }
+
+        // Check if pickup time is in the future
+        const currentTime = new Date();
+        if (pickupDateTime <= currentTime) {
+            return { error: 'Pickup time must be Valid' };
+        }
+
+        const diffMs = dropDateTime - pickupDateTime;
+
+        const diffHours = diffMs / (1000 * 60 * 60);
+
+        if (diffHours < 5) {
+            return { error: 'Booking duration must be at least 5 hours' };
+        }
+
+        const hourlyRate = parseFloat(hoursElement.value) || 500; 
+        const dailyRate = parseFloat(dailyRateElement.value) || 12000; 
+
+        const days = Math.floor(diffHours / 24);
+        const remainingHours = diffHours % 24;
+
+        const baseRate = (days * dailyRate) + (remainingHours * hourlyRate);
+
+        return {
+            baseRate: Math.round(baseRate),
+            days,
+            remainingHours
+        };
+    };
+
     const renderSummary = () => {
+        const rateInfo = calculateDurationAndRate();
+
+        // Check for errors
+        if (rateInfo.error) {
+            document.getElementById("proceedToPayment").style.display = "none";
+            summaryBox.innerHTML = `
+                <div style="color: red; padding: 20px;">
+                    ${rateInfo.error}
+                </div>
+            `;
+            return;
+        }
+        
+
         const selectedServices = Array.from(serviceChecks)
             .filter(input => input.checked)
             .map(input => ({
                 label: input.closest('.service-item').querySelector('.service-name').textContent,
                 cost: Number(input.dataset.price)
             }));
-        
+
         const servicesSum = selectedServices.reduce((total, service) => total + service.cost, 0);
-        const baseTotal = RATE;
+        const baseTotal = rateInfo.baseRate;
         const subtotal = baseTotal + servicesSum;
         const taxAmount = Math.round(subtotal * TAX);
         const finalTotal = subtotal + taxAmount;
@@ -30,7 +100,7 @@ const setupBooking = () => {
         summaryBox.innerHTML = `
             <h3>Cost Breakdown</h3>
             <div class="cost-item">
-                <span>Standard Rate (3 days × ₹12,000)</span>
+                <span>Base Rate (${rateInfo.days} day${rateInfo.days !== 1 ? 's' : ''}${rateInfo.remainingHours > 0 ? ` + ${Math.round(rateInfo.remainingHours)} hours` : ''})</span>
                 <span>₹${baseTotal.toLocaleString('en-IN')}.00</span>
             </div>
             <div class="services-list">
@@ -50,12 +120,20 @@ const setupBooking = () => {
                 <span>₹${finalTotal.toLocaleString('en-IN')}.00</span>
             </div>
         `;
+
+
+        document.getElementById("proceedToPayment").style.display = "block";
     };
 
     const addListeners = () => {
         serviceChecks.forEach(check => {
             check.addEventListener('change', renderSummary);
         });
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('change', renderSummary);
+        });
+        dailyRateElement.addEventListener('input', renderSummary);
+        hoursElement.addEventListener('input', renderSummary);
     };
 
     const applyStyles = () => {
@@ -165,6 +243,7 @@ const setupBooking = () => {
     applyStyles();
     addListeners();
     renderSummary();
+    
 };
 
 const collectFormData = () => {
@@ -178,7 +257,7 @@ const collectFormData = () => {
     };
 
     const serviceChecks = document.querySelectorAll('.service-item input[type="checkbox"]');
-    const userId = 1; // Hardcoded for demo; replace with dynamic userId
+    const userId = document.getElementById('userId').value;
     const carId = document.getElementById('carId').value;
     let totalPrice = localStorage.getItem('totalPrice') || null;
 
@@ -215,15 +294,19 @@ const collectFormData = () => {
     if (!formData.totalPrice) missingFields.push('totalPrice');
 
     if (missingFields.length > 0) {
-        console.warn(`Missing required fields: ${missingFields.join(', ')}`);
+        
         return null;
     }
 
-    localStorage.setItem('bookingFormData', JSON.stringify(formData));
     return formData;
 };
 
-const submitFormDataAndPay = () => {
+const submitFormDataAndPay = async () => {
+    
+    const email = document.getElementById("email").textContent;
+    const phone = document.getElementById("phone").textContent;
+    const name = document.getElementById("username").value;
+
     const formData = collectFormData();
 
     if (!formData) {
@@ -237,33 +320,20 @@ const submitFormDataAndPay = () => {
     document.body.appendChild(loadingDiv);
     loadingDiv.style.display = 'flex';
 
-    // Submit form data to server
-    fetch('/cars/user/booking', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to save booking data');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Booking saved:', data);
-        // Proceed to Razorpay payment
+    try {
         const totalPrice = parseInt(formData.totalPrice) || 36000;
+
         const options = {
-            key: "rzp_test_1DP5mmOlF5G5ag", // Razorpay test key
-            amount: totalPrice * 100, // Convert to paise
+            key: "rzp_test_1DP5mmOlF5G5ag",
+            amount: totalPrice * 100,
             currency: "INR",
             name: "Luxora Car Rental",
             description: "Car Rental Booking",
             image: "/api/placeholder/60/60",
             prefill: {
-                name: "John Doe",
-                email: "john.doe@example.com",
-                contact: "9876543210"
+                name: name,
+                email: email,
+                contact: phone
             },
             theme: {
                 color: "#d4af37"
@@ -272,18 +342,34 @@ const submitFormDataAndPay = () => {
                 ondismiss: () => {
                     loadingDiv.style.display = 'none';
                     document.body.removeChild(loadingDiv);
-                    console.log('Razorpay modal dismissed');
                 }
             },
-            handler: (response) => {
-                loadingDiv.style.display = 'flex';
-                // Simulate payment verification
-                setTimeout(() => {
+            handler: async (response) => {
+                try {
+                    const paymentId = response.razorpay_payment_id;
+
+                    // Send booking data with payment ID in the path
+                    const bookingResponse = await fetch(`/cars/user/booking/${paymentId}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+
+                    if (!bookingResponse.ok) {
+                        throw new Error('Failed to save booking after payment');
+                    }
+
+                    const bookingData = await bookingResponse.json();
+
                     loadingDiv.style.display = 'none';
                     document.body.removeChild(loadingDiv);
-                    console.log('Payment successful:', response);
-                    generateReceipt(response.razorpay_payment_id);
-                }, 1500);
+
+                    generateReceipt(bookingData);
+                } catch (bookingError) {
+                    loadingDiv.style.display = 'none';
+                    document.body.removeChild(loadingDiv);
+                    alert('Error saving booking after payment: ' + bookingError.message);
+                }
             }
         };
 
@@ -293,14 +379,16 @@ const submitFormDataAndPay = () => {
             document.body.removeChild(loadingDiv);
             alert('Payment Failed: ' + response.error.description);
         });
+
         razorpayObject.open();
-    })
-    .catch(error => {
+
+    } catch (error) {
         loadingDiv.style.display = 'none';
         document.body.removeChild(loadingDiv);
-        alert('Error saving booking: ' + error.message);
-    });
+        alert('Unexpected error: ' + error.message);
+    }
 };
+
 
 const createConfetti = () => {
     const confettiCount = 100; // Reduced for performance
@@ -325,31 +413,41 @@ const createConfetti = () => {
     }
 };
 
-const generateReceipt = (paymentId) => {
-    const formData = JSON.parse(localStorage.getItem('bookingFormData'));
-    const serviceChecks = document.querySelectorAll('.service-item input[type="checkbox"]');
-    let selectedServicesHTML = '';
-    let serviceTotal = 0;
+const generateReceipt = (bookingData) => {
+    // Extract relevant data from bookingData
+    const { userId, carId, bookingId, paymentId, pickupLocationId, dropLocationId, pickUpDatetime, dropDatetime, additionalService, totalPrice } = bookingData;
+    const formData = JSON.parse(localStorage.getItem('bookingFormData')) || {};
 
-    serviceChecks.forEach(checkbox => {
-        if (checkbox.checked) {
-            const price = parseInt(checkbox.dataset.price);
-            const name = checkbox.closest('.service-item').querySelector('.service-name').textContent;
-            selectedServicesHTML += `
-                <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${name}</td>
-                    <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹${price.toLocaleString('en-IN')}.00</td>
-                </tr>
-            `;
-            serviceTotal += price;
-        }
+    // Calculate duration in days
+    const pickupDate = new Date(pickUpDatetime);
+    const dropDate = new Date(dropDatetime);
+    const durationMs = dropDate - pickupDate;
+    const durationDays = Math.ceil(durationMs / (1000 * 60 * 60 * 24)) || 1;
+
+    // Base rate from car daily rate
+    const baseRate = carId.dailyRate * durationDays;
+    let serviceTotal = 0;
+    let selectedServicesHTML = '';
+
+    // Process additional services
+    additionalService.forEach(service => {
+        const price = service.price;
+        const name = service.name;
+        selectedServicesHTML += `
+            <tr>
+                <td style="padding: 10px; border-bottom: 1px solid #eee;">${name}</td>
+                <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹${price.toLocaleString('en-IN')}.00</td>
+            </tr>
+        `;
+        serviceTotal += price;
     });
 
-    const baseRate = 36000;
+    // Calculate totals
     const subtotal = baseRate + serviceTotal;
     const taxes = Math.round(subtotal * 0.18);
-    const total = subtotal + taxes;
+    const calculatedTotal = subtotal + taxes;
 
+    // Create overlay and receipt container
     const overlay = document.createElement('div');
     overlay.className = 'receipt-overlay';
     const receipt = document.createElement('div');
@@ -371,16 +469,12 @@ const generateReceipt = (paymentId) => {
             </div>
             <div style="text-align: right;">
                 <p style="font-weight: bold; margin-bottom: 5px;">Invoice to:</p>
-                <p>John Doe</p>
-                <p>john.doe@example.com</p>
-                <p>+91 98765 43210</p>
+                <p>${userId.firstName} ${userId.lastName}</p>
+                <p>${userId.email}</p>
+                <p>+91 ${userId.phone}</p>
             </div>
         </div>
         <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                <span style="font-weight: bold;">Booking ID:</span>
-                <span>LUX-2025042-867</span>
-            </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
                 <span style="font-weight: bold;">Payment Date:</span>
                 <span>${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
@@ -389,8 +483,24 @@ const generateReceipt = (paymentId) => {
                 <span style="font-weight: bold;">Payment Method:</span>
                 <span>Razorpay</span>
             </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-weight: bold;">Vehicle:</span>
+                <span>${carId.make} ${carId.model} (${carId.year})</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-weight: bold;">Pickup Location:</span>
+                <span>${pickupLocationId.name}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-weight: bold;">Drop-off Location:</span>
+                <span>${dropLocationId.name}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-weight: bold;">Rental Period:</span>
+                <span>${pickupDate.toLocaleDateString('en-IN')} - ${dropDate.toLocaleDateString('en-IN')}</span>
+            </div>
         </div>
-        <table style="width: 100%; border-collapse: collapse;荣耀-bottom: 20px;">
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
             <thead>
                 <tr style="background-color: #f8f9fa;">
                     <th style="padding: 10px; text-align: left; border-bottom: 1px solid #ddd;">Description</th>
@@ -399,8 +509,8 @@ const generateReceipt = (paymentId) => {
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border-bottom: 1px solid #eee;">Car Rental (3 days)</td>
-                    <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹36,000.00</td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">Car Rental (${durationDays} ${durationDays > 1 ? 'days' : 'day'})</td>
+                    <td style="padding: 10px; text-align: right; border-bottom: 1px solid #eee;">₹${baseRate.toLocaleString('en-IN')}.00</td>
                 </tr>
                 ${selectedServicesHTML}
                 <tr>
@@ -411,13 +521,13 @@ const generateReceipt = (paymentId) => {
             <tfoot>
                 <tr style="font-weight: bold;">
                     <td style="padding: 10px;">Total</td>
-                    <td style="padding: 10px; text-align: right;">₹${total.toLocaleString('en-IN')}.00</td>
+                    <td style="padding: 10px; text-align: right;">₹${calculatedTotal.toLocaleString('en-IN')}.00</td>
                 </tr>
             </tfoot>
         </table>
         <div style="text-align: center; margin-top: 30px; color: #666;">
             <p>Thank you for choosing Luxora Car Rental!</p>
-            <p style="margin Jonah: 12px;">This is a computer-generated receipt and does not require a signature.</p>
+            <p style="margin-top: 12px;">This is a computer-generated receipt and does not require a signature.</p>
         </div>
     `;
 
@@ -439,7 +549,6 @@ const generateReceipt = (paymentId) => {
             window.location.href = '/home';
         }
     });
-
 };
 
 document.addEventListener('DOMContentLoaded', () => {

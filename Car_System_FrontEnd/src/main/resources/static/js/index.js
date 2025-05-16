@@ -250,6 +250,9 @@ async function handleLogin(e) {
         const data = await response.json();
         
         if (response.ok) {
+            // localStorage.setItem("UserKey",data.token);
+            document.cookie = `token=${data.token}; path=/`;
+            
             window.location.href = "/home";
         } else {
             showError('loginEmailError', 'Invalid email or password');

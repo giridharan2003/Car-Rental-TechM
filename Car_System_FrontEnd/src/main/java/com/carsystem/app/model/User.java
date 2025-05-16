@@ -2,6 +2,8 @@ package com.carsystem.app.model;
 
 import java.time.LocalDateTime;
 
+import com.carsystem.app.model.enums.Roles;
+
 public class User {
     private Long userId;
     
@@ -11,7 +13,9 @@ public class User {
     private String lastName;
     private String phone;
     private String address;
-    private boolean isAdmin;
+    
+    private Roles userType;
+
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     
@@ -57,11 +61,11 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
-    public boolean isAdmin() {
-        return isAdmin;
+    public Roles getUserType() {
+        return userType;
     }
-    public void setAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setUserType(Roles userType) {
+        this.userType = userType;
     }
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -75,6 +79,7 @@ public class User {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
+    
+    
     
 }

@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+import com.carsystem.app.model.enums.Roles;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,7 +25,10 @@ public class User {
     private String lastName;
     private String phone;
     private String address;
-    private boolean isAdmin;
+    
+    @Enumerated(EnumType.STRING)
+    private Roles userType;
+    
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

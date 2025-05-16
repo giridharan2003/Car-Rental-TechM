@@ -18,6 +18,8 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
+    
+    private String paymentId;
 
     @ManyToOne
     private User userId;
