@@ -129,6 +129,7 @@ public class AuthService {
 	public String login(User loginUser) {
 
 	    User user;
+	    
 	    if ((loginUser.getEmail() == null || loginUser.getEmail().isEmpty()) &&
 	        (loginUser.getFirstName() == null || loginUser.getFirstName().isEmpty())) {
 	        throw new InvalidCredentialsException("Email or First Name must be provided");

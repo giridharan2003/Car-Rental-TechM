@@ -96,5 +96,6 @@ INSERT INTO additional_service (name, description, price, is_active) VALUES
 ('Wi-Fi Hotspot', 'Portable Wi-Fi with unlimited internet access.', 399.00, TRUE),
 ('Collision Damage Waiver', 'Covers repair costs in case of collision or accident.', 1199.00, TRUE);
 
-INSERT INTO user (password, email, first_name, last_name, phone, address, user_type, created_at, updated_at) VALUES
-('admin', NULL, 'admin', NULL, NULL, NULL, 'ADMIN', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+-- POSTMEN -- 
+-- http://localhost:2003/admin/register --
+-- {"firstName": "admin123","password": "admin123", "userType": "ADMIN"} --- 

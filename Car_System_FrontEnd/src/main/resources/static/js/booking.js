@@ -119,5 +119,6 @@ if (pickupDateInput && returnDateInput) {
 
 
 function carBooking(carId){
+    document.cookie = `carId=${carId}; path=/`;
     window.location.href = '/conformation';
 }
