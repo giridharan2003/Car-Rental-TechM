@@ -196,3 +196,9 @@ body {
 .cursor-pointer{
     cursor: pointer;
 }
+
+.nav-btn a:hover{
+    color: var(--gold-primary);
+    cursor: pointer;
+    font-size: 15px;
+}

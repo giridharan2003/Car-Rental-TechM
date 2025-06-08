@@ -19,16 +19,18 @@
                 <div class="nav-links">
                     <a th:href="@{/home}">Home</a>
                     <a th:href="@{/profile}">Profile</a>
-                    <a href="#">Contact</a>
+                    <a th:href="@{'home#services'}">Services</a>
+                    <a th:href="@{'home#contact'}">Contact</a>
+
                 </div>
                 <div class="auth-buttons">
                     <!-- visible when NOT logged-in -->
-                    <button id="loginBtn"    class="login-btn">Login</button>
+                    <button id="loginBtn" class="login-btn">Login</button>
                     <button id="registerBtn" class="register-btn">Register</button>
 
                     <!-- visible when logged-in -->
-                    <span   id="userName"   class="login-btn" style="border: 0; padding: 10px;"></span>
-                    <button id="logoutBtn"  class="register-btn">Log Out</button>
+                    <span id="userName" class="login-btn" style="border: 0; padding: 10px;"></span>
+                    <button id="logoutBtn" class="register-btn">Log Out</button>
                 </div>
 
             </div>
@@ -39,106 +41,120 @@
     <main class="container">
         <!-- Tab Slider -->
         <div class="tab-slider">
-            <div class="tab-header">
+            <!-- <div class="tab-header">
                 <button class="tab-btn active" data-tab="cars">Cars</button>
                 <button class="tab-btn" data-tab="packages">Rental Packages</button>
-            </div>
+            </div> -->
 
-            <!-- Cars Tab Content (Default View) -->
             <div class="tab-content active" id="cars-tab">
+
                 <!-- Filter Section -->
                 <div class="filter-section">
-                    <h2 class="filter-title">Find Your Perfect Car</h2>
                     <form class="filter-form" id="filter-form" novalidate>
-
-                        <!-- Pickup Location -->
-                        <div class="form-group">
-                            <label for="location" class="form-label">Pickup Location</label>
-                            <select id="location" name="location" aria-describedby="car-type-desc">
-                                <option value="">Select Location</option>
-                                <th:block th:each="location : ${locations}">
-                                    <option th:value="${location.locationId}" th:text="${location.name}"></option>
-                                </th:block>
-                            </select>
-                        </div>
-
-                        <!-- Pickup Date -->
-                        <div class="form-group">
-                            <label for="pickup-date" class="form-label">Pickup Date <span
-                                    class="required">*</span></label>
-                            <input type="date" id="pickup-date" name="pickup-date" required aria-required="true"
-                                min="2025-04-15">
-                            <span class="error-message" id="pickup-date-error" hidden>Please select a valid pickup
-                                date.</span>
-                        </div>
-
-                        <!-- Return Date -->
-                        <div class="form-group">
-                            <label for="return-date" class="form-label">Return Date <span
-                                    class="required">*</span></label>
-                            <input type="date" id="return-date" name="return-date" required aria-required="true"
-                                min="2025-04-16">
-                            <span class="error-message" id="return-date-error" hidden>Please select a valid return date
-                                after the pickup date.</span>
-                        </div>
-
-                        <!-- Car Type -->
-                        <div class="form-group">
-                            <label for="car-type" class="form-label">Car Type</label>
-                            <select id="car-type" name="car-type" aria-describedby="car-type-desc">
-                                <option value="">All Types</option>
-                                    <th:block th:each="category : ${categories}">
-                                <option th:value="${category.categoryId}" th:text="${category.name}"></option>
-                            </th:block>
-                            </select>
-                        </div>
-
-                        <!-- Price Range -->
-                        <div class="form-group price-range-group">
-                            <label for="price-min" class="form-label">Price Range (₹)</label>
-                            <div class="price-range">
-                                <input type="number" id="price-min" name="price-min" placeholder="Min" min="0"
-                                    step="100" aria-describedby="price-range-error">
-                                <span class="range-divider">–</span>
-                                <input type="number" id="price-max" name="price-max" placeholder="Max" min="0"
-                                    step="100" aria-describedby="price-range-error">
+                        <!-- First Row -->
+                        <div class="form-row">
+                            <!-- Pickup Location -->
+                            <div class="form-group">
+                                <label for="location" class="form-label">Pickup Location</label>
+                                <select id="location" name="location" aria-describedby="car-type-desc">
+                                    <option value="">Select Location</option>
+                                    <th:block th:each="location : ${locations}">
+                                        <option th:value="${location.locationId}" th:text="${location.name}"></option>
+                                    </th:block>
+                                </select>
                             </div>
-                            <span class="error-message" id="price-range-error" hidden>Maximum price must be greater than
-                                minimum price.</span>
+
+                            <!-- Pickup Date -->
+                            <div class="form-group">
+                                <label for="pickup-date" class="form-label">Pickup Date <span
+                                        class="required">*</span></label>
+                                <input type="date" id="pickup-date" name="pickup-date" required aria-required="true"
+                                    min="2025-04-15">
+                                <span class="error-message" id="pickup-date-error" hidden>Please select a valid pickup
+                                    date.</span>
+                            </div>
+
+                            <!-- Return Date -->
+                            <div class="form-group">
+                                <label for="return-date" class="form-label">Return Date <span
+                                        class="required">*</span></label>
+                                <input type="date" id="return-date" name="return-date" required aria-required="true"
+                                    min="2025-04-16">
+                                <span class="error-message" id="return-date-error" hidden>Please select a valid return
+                                    date after the pickup date.</span>
+                            </div>
                         </div>
 
-                        <!-- Submit Button -->
-                        <button type="submit" class="book-btn" aria-label="Search for cars">
-                            <span class="book-btn">🔍Search Cars</span>
-                        </button>
+                        <!-- Second Row -->
+                        <div class="form-row">
+                            <!-- Car Type -->
+                            <div class="form-group">
+                                <label for="car-type" class="form-label">Car Type</label>
+                                <select id="car-type" name="car-type" aria-describedby="car-type-desc">
+                                    <option value="">All Types</option>
+                                    <th:block th:each="category : ${categories}">
+                                        <option th:value="${category.categoryId}" th:text="${category.name}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <!-- Price Range -->
+                            <div class="form-group price-range-group">
+                                <label for="price-min" class="form-label">Price Range (₹)</label>
+                                <div class="price-range">
+                                    <input type="number" id="price-min" name="price-min" placeholder="Min" min="0"
+                                        step="100" aria-describedby="price-range-error">
+                                    <span class="range-divider">–</span>
+                                    <input type="number" id="price-max" name="price-max" placeholder="Max" min="0"
+                                        step="100" aria-describedby="price-range-error">
+                                </div>
+                                <span class="error-message" id="price-range-error" hidden>Maximum price must be greater
+                                    than minimum price.</span>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="form-group submit-group">
+                                <button type="submit" class="filter-btn" aria-label="Search for cars">
+                                    <span class="book-btn-text">🔍 Search Cars</span>
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
-
+                <hr class="filter-sep">
                 <!-- Car Listings -->
                 <div class="car-listings" id="car-listings">
                     <th:block th:each="car : ${cars}">
                         <div class="car-card">
                             <img th:src="${car.imageUrl}" th:alt="${car.make + ' ' + car.model}" class="car-image">
                             <div class="car-details">
-                                <div class="car-name" th:text="${car.make + ' ' + car.model + ' (' + car.year + ')'}"></div>
+                                <div class="car-name" th:text="${car.make + ' ' + car.model + ' (' + car.year + ')'}">
+                                </div>
                                 <div class="car-category" th:text="${car.category.name}"></div>
                                 <div class="car-features">
-                                    <div class="feature"><i class="fas fa-user"></i> <span th:text="${car.seats}"></span> Seats</div>
-                                    <div class="feature"><i class="fas fa-suitcase"></i> <span th:text="${car.luggage}"></span> Bags</div>
-                                    <div class="feature"><i class="fas fa-road"></i> <span th:text="${car.mileage}"></span> km</div>
-                                    <div class="feature"><i class="fas fa-gas-pump"></i> <span th:text="${car.fuelType}"></span></div>
-                                    <div class="feature"><i class="fas fa-cog"></i> <span th:text="${car.transmission}"></span></div>
+                                    <div class="feature"><i class="fas fa-user"></i> <span
+                                            th:text="${car.seats}"></span> Seats</div>
+                                    <div class="feature"><i class="fas fa-suitcase"></i> <span
+                                            th:text="${car.luggage}"></span> Bags</div>
+                                    <div class="feature"><i class="fas fa-road"></i> <span
+                                            th:text="${car.mileage}"></span> km</div>
+                                    <div class="feature"><i class="fas fa-gas-pump"></i> <span
+                                            th:text="${car.fuelType}"></span></div>
+                                    <div class="feature"><i class="fas fa-cog"></i> <span
+                                            th:text="${car.transmission}"></span></div>
                                 </div>
-                                <span class="feature" th:if="${car.availableLocations != null}"><i class="fas fa-map-marker-alt"></i>
-                                        <span th:each="loc, iterStat : ${car.availableLocations}">
-                                            <span id="service" th:text="${loc.name}"></span><span th:if="${!iterStat.last}">, </span>
-                                        </span>
+                                <span class="feature" th:if="${car.availableLocations != null}"><i
+                                        class="fas fa-map-marker-alt"></i>
+                                    <span th:each="loc, iterStat : ${car.availableLocations}">
+                                        <span id="service" th:text="${loc.name}"></span><span
+                                            th:if="${!iterStat.last}">, </span>
+                                    </span>
                                 </span> <br>
-                                <div class="car-price">₹ <span style="font-size: large;" th:text="${car.dailyRate}"></span> <span>/ day</span></div>
+                                <div class="car-price">₹ <span style="font-size: large;"
+                                        th:text="${car.dailyRate}"></span> <span>/ day</span></div>
                                 <div class="car-buttons">
-                                    <a th:onclick="'carBooking('+${car.carId}+')'" class="book-btn">Book Now</a>                          
-                                    <button class="details-btn"
-                                        th:attr="data-id=${car.carId},
+                                    <a th:onclick="'carBooking('+${car.carId}+')'" class="book-btn">Book Now</a>
+                                    <button class="details-btn" th:attr="data-id=${car.carId},
                                                 data-make=${car.make},
                                                 data-model=${car.model},
                                                 data-year=${car.year},
@@ -158,14 +174,13 @@
                             </div>
                         </div>
                     </th:block>
-                </div>                              
+                </div>
 
             </div>
 
             <!-- Packages Tab Content -->
-            <div class="tab-content" id="packages-tab">
+            <!-- <div class="tab-content" id="packages-tab">
                 <div class="packages-container">
-                    <!-- Adventure Package -->
                     <div class="package-card">
                         <div class="package-badge">POPULAR</div>
                         <div class="package-icon">
@@ -195,7 +210,6 @@
                         <button class="package-btn">Book Package</button>
                     </div>
 
-                    <!-- Family Package -->
                     <div class="package-card">
                         <div class="package-icon">
                             <i class="fas fa-users"></i>
@@ -224,7 +238,6 @@
                         <button class="package-btn">Book Package</button>
                     </div>
 
-                    <!-- Business Package -->
                     <div class="package-card">
                         <div class="package-icon">
                             <i class="fas fa-briefcase"></i>
@@ -252,7 +265,6 @@
                         <button class="package-btn">Book Package</button>
                     </div>
 
-                    <!-- Luxury Package -->
                     <div class="package-card">
                         <div class="package-badge">PREMIUM</div>
                         <div class="package-icon">
@@ -281,7 +293,6 @@
                         <button class="package-btn">Book Package</button>
                     </div>
 
-                    <!-- Weekend Package -->
                     <div class="package-card">
                         <div class="package-icon">
                             <i class="fas fa-calendar-week"></i>
@@ -310,7 +321,7 @@
                     </div>
                 </div>
 
-                <!-- Scroll Controls for Packages -->
+                
                 <div class="scroll-controls">
                     <div class="scroll-btn scroll-left">
                         <i class="fas fa-chevron-left"></i>
@@ -319,7 +330,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </main>
 

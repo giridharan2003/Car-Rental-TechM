@@ -38,7 +38,7 @@ public class CarController {
 	public List<Location> getAllLocations() {
 		return carService.getAllLocations();
 	}
-
+	
 	@GetMapping("/AdditionalService")
 	public List<AdditionalService> getAllAdditionalService() {
 		return carService.getAllAdditionalService();

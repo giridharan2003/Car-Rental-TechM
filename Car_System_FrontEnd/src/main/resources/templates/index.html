@@ -10,36 +10,48 @@
 	<link th:href="@{/css/index.css}" rel="stylesheet">
 </head>
 <style>
-	/* Notification styles */
-.notification-container {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+	.notification-container {
+		position: fixed;
+		top: 20px;
+		left: 20px;
+		z-index: 9999;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
 
-.notification {
-    background-color: #d4af37; /* Golden */
-    color: #fff;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    font-weight: 500;
-    animation: fadeInOut 3s ease-in-out forwards;
-    min-width: 200px;
-}
+	.notification {
+		background-color: #d4af37;
+		color: #fff;
+		padding: 12px 20px;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+		font-weight: 500;
+		animation: fadeInOut 3s ease-in-out forwards;
+		min-width: 200px;
+	}
 
-/* Optional: fade effect */
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translateY(-10px); }
-    10% { opacity: 1; transform: translateY(0); }
-    90% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-10px); }
-}
+	@keyframes fadeInOut {
+		0% {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
 
+		10% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		90% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		100% {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+	}
 </style>
 
 <body>
@@ -98,11 +110,11 @@
 							</div>
 							<div class="d-flex justify-content-between align-items-center mb-4">
 								<div class="form-check">
-									<input type="checkbox" class="form-check-input" id="rememberMe">
+									<!-- <input type="checkbox" class="form-check-input" id="rememberMe">
 									<label class="form-check-label" for="rememberMe"
-										style="color: var(--grey-medium);">Remember me</label>
+										style="color: var(--grey-medium);">Remember me</label> -->
 								</div>
-								<a href="#" id="forgotPasswordLink" style="font-size: 0.9rem;">Forgot
+								<a id="forgotPasswordLink" style="font-size: 0.9rem;">Forgot
 									Password?</a>
 							</div>
 							<button type="submit" class="btn btn-custom w-100 py-3">Sign
@@ -154,8 +166,8 @@
 							</div>
 
 							<div class="icon-input">
-								<input type="text" id="streetAddress" class="form-control" placeholder="City"
-									required> <i class="fas fa-map-marker-alt"></i>
+								<input type="text" id="streetAddress" class="form-control" placeholder="City" required>
+								<i class="fas fa-map-marker-alt"></i>
 								<div id="streetAddressError" class="error-text">
 									address is required</div>
 							</div>

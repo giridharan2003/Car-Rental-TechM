@@ -299,6 +299,16 @@ h1, h2, h3, h4, h5, h6 {
     z-index: 1;
 }
 
+#forgotPasswordLink{
+    color: var(--gold-primary);
+    text-decoration: underline;
+    font-weight: 500;
+    transition: color 0.3s, transform 0.3s;
+    display: inline-block;
+    margin: 0 8px;
+
+}
+
 .btn-custom::before {
     content: '';
     position: absolute;

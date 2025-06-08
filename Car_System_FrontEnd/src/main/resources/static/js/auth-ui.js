@@ -58,7 +58,7 @@ function setupLogoutHandler() {
     const logoutBtnEl = getElement('logoutBtn', 'logoutBtnM');
     logoutBtnEl.onclick = () => {
         document.cookie = 'token=; path=/';
-        location.reload();
+        window.location.href = '/home';
     };
 }
 

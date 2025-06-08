@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ui.Model;
 
 import com.carsystem.app.model.AdditionalService;
+import com.carsystem.app.model.Booking;
 import com.carsystem.app.model.Car;
 import com.carsystem.app.model.CarCategory;
 import com.carsystem.app.model.Location;
@@ -27,7 +29,11 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String userProfile() {
+    public String userProfile(@CookieValue("token") String token, Model model) {
+        User user = carService.userByToken(token);
+        Booking[] bookings = carService.getBookingsByUserId(user.getUserId(), token);
+        model.addAttribute("user", user);
+        model.addAttribute("bookings", bookings);
         return "UserProfile";
     }
 

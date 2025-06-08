@@ -60,7 +60,7 @@ public class AdminController {
 		return bookings;
 	}
 
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER', 'ADMIN')")
 	@GetMapping("/user/{id}/bookings")
 	public List<Booking> getUserBookings(@PathVariable("id") Long userId) {
 		return carService.getBookingsByUserId(userId);
